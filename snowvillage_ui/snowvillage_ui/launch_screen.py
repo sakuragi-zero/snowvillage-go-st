@@ -1,316 +1,150 @@
-"""Snow Village UI - ログイン/登録画面モジュール"""
+"""
+Snow Village - メインアプリケーション
+ログイン画面を表示し、成功後に他のページへ遷移します。
+"""
 
 import streamlit as st
+import os
+import base64
+import time
 
+def handle_submit(intent: str):
+    """
+    ボタンがクリックされたときに呼び出されるコールバック関数。
+    入力された名前を検証し、結果をセッションに保存します。
+    """
+    name = st.session_state.get("user_name_input", "")
+    if name and name.strip():
+        # 検証成功。結果を'result'キーで保存。
+        st.session_state.result = {
+            "name": name.strip(),
+            "intent": intent
+        }
+        # エラーメッセージが残っていれば削除
+        if 'error_message' in st.session_state:
+            del st.session_state.error_message
+    else:
+        # 検証失敗。エラーメッセージを保存。
+        st.session_state.error_message = "名前を入力してください"
 
 def launch_screen():
-    """Snow Village のログイン/登録画面を表示"""
+    """
+    ログイン画面のUIを構築・表示し、ログイン成功時にユーザーデータを返します。
+    """
+    if 'result' in st.session_state and st.session_state.result:
+        result = st.session_state.result
+        del st.session_state.result
+        return result
+
+    # --- 1. 画像とスタイルの設定 ---
+    def get_base64_img(path):
+        if os.path.exists(path):
+            with open(path, "rb") as img_file:
+                return base64.b64encode(img_file.read()).decode()
+        return ""
+
+    base_dir = os.path.dirname(__file__)
+    logo_path = os.path.join(base_dir, "..", "snowvillage_ui", "frontend", "public", "SnowVillageLogo.png")
+    bg_path = os.path.join(base_dir, "..", "snowvillage_ui", "frontend", "public", "bg-villag-go.png")
     
-    # 名前の状態管理
-    if 'user_name' not in st.session_state:
-        st.session_state.user_name = ""
-    
-    # 画像をbase64エンコード
-    import os
-    import base64
-    
-    # ロゴ画像
-    logo_base64 = ""
-    logo_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "public", "SnowVillageLogo.png")
-    
-    if os.path.exists(logo_path):
-        with open(logo_path, "rb") as img_file:
-            logo_base64 = base64.b64encode(img_file.read()).decode()
-    
-    # 背景画像
-    bg_base64 = ""
-    bg_path = os.path.join(os.path.dirname(__file__), "..", "frontend", "public", "bg-villag-go.png")
-    
-    if os.path.exists(bg_path):
-        with open(bg_path, "rb") as img_file:
-            bg_base64 = base64.b64encode(img_file.read()).decode()
-    
-    # ロゴ部分のHTML
-    if logo_base64:
-        logo_html = f"""
-        <div style="margin-bottom: 1.5rem;">
-            <img src="data:image/png;base64,{logo_base64}" 
-                 class="logo"
-                 style="width: 80px; height: 80px; margin: 0 auto; display: block;" 
-                 alt="SnowVillage Logo">
-        </div>
-        """
-    else:
-        logo_html = """
-        <div style="margin-bottom: 1.5rem;">
-            <div style="
-                width: 80px;
-                height: 80px;
-                margin: 0 auto;
-                background: #60a5fa;
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 2.5rem;
-                color: white;
-            ">❄️</div>
-        </div>
-        """
-    
-    # JavaScriptで統合されたコンポーネントを作成
-    component_html = f"""
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    logo_base64 = get_base64_img(logo_path)
+    bg_base64 = get_base64_img(bg_path)
+
+    bg_style = f"background: url(data:image/png;base64,{bg_base64}) no-repeat center center fixed; background-size: cover;" if bg_base64 else "background: linear-gradient(135deg, #1e2a78, #3730a3, #4338ca);"
+    st.markdown(f"""
     <style>
-        @media (max-width: 768px) {{
-            .container {{
-                padding: 1rem !important;
-                min-height: 100vh !important;
-            }}
-            .card {{
-                padding: 2rem 1.5rem !important;
-                margin: 1rem auto !important;
-                max-width: 90% !important;
-            }}
-            .title {{
-                font-size: 2.5rem !important;
-            }}
-            .subtitle {{
-                font-size: 1rem !important;
-            }}
-            .features {{
-                font-size: 0.9rem !important;
-                margin-bottom: 1.5rem !important;
-            }}
-            .input, .button {{
-                font-size: 1rem !important;
-                padding: 0.8rem !important;
-            }}
-        }}
-        @media (max-width: 480px) {{
-            .container {{
-                padding: 0.5rem !important;
-            }}
-            .card {{
-                padding: 1.5rem 1rem !important;
-                margin: 0.5rem auto !important;
-                max-width: 95% !important;
-                border-radius: 12px !important;
-            }}
-            .title {{
-                font-size: 2rem !important;
-                margin-bottom: 0.3rem !important;
-            }}
-            .subtitle {{
-                font-size: 0.9rem !important;
-                margin-bottom: 1.5rem !important;
-            }}
-            .logo {{
-                width: 60px !important;
-                height: 60px !important;
-            }}
-        }}
-    </style>
-    <div class="container" style="
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 80vh;
-        padding: 2rem;
-    ">
-        <div class="card" style="
+        .stApp {{ {bg_style} }}
+        .card {{
             background: rgba(30, 41, 59, 0.9);
             border: 1px solid rgba(148, 163, 184, 0.3);
             border-radius: 16px;
-            padding: 3rem 2.5rem;
+            padding: 2.5rem;
             text-align: center;
             max-width: 450px;
-            width: 100%;
+            margin: 1rem auto;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        ">
-            <!-- ロゴ -->
-            {logo_html}
-            
-            <!-- タイトル -->
-            <h1 class="title" style="
-                color: white;
-                font-size: 3rem;
-                font-weight: 700;
-                margin-bottom: 0.5rem;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            ">SnowVillage GO</h1>
-            
-            <!-- サブタイトル -->
-            <p class="subtitle" style="
-                color: #cbd5e1;
-                font-size: 1.2rem;
-                margin-bottom: 2rem;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            ">Snowflake World Tour Tokyo 2025</p>
-            
-            <!-- 機能リスト -->
-            <div class="features" style="
-                color: #94a3b8;
-                font-size: 1rem;
-                margin-bottom: 2rem;
-            ">
-                <div style="margin: 0.5rem 0;">✓ Snowflakeを知る</div>
-                <div style="margin: 0.5rem 0;">✓ クエストとチャレンジ</div>
-                <div style="margin: 0.5rem 0;">✓ ランキングと景品</div>
-            </div>
-            
-            <!-- 入力フィールド -->
-            <input 
-                type="text" 
-                id="userName"
-                class="input"
-                placeholder="名前を入力してください"
-                style="
-                    background: white;
-                    border: 2px solid #e2e8f0;
-                    border-radius: 12px;
-                    padding: 1rem;
-                    font-size: 1.1rem;
-                    margin-bottom: 1rem;
-                    width: 100%;
-                    box-sizing: border-box;
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
-                    appearance: none;
-                "
-                value="{st.session_state.user_name}"
-                onchange="window.parent.postMessage({{type: 'nameChange', value: this.value}}, '*')"
-            />
-            
-            <!-- 遊びに行くボタン -->
-            <button 
-                onclick="submitForm('play')"
-                class="button"
-                style="
-                    background: white;
-                    color: #3730a3;
-                    border: none;
-                    border-radius: 12px;
-                    padding: 1rem 2rem;
-                    font-size: 1.1rem;
-                    font-weight: 600;
-                    width: 100%;
-                    height: 60px;
-                    margin-bottom: 1rem;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
-                    appearance: none;
-                    touch-action: manipulation;
-                "
-                onmouseover="this.style.background='#f8fafc'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.15)'"
-                onmouseout="this.style.background='white'; this.style.transform='translateY(0)'; this.style.boxShadow='none'"
-            >遊びに行く！</button>
-            
-            <!-- 登録済みボタン -->
-            <button 
-                onclick="submitForm('login')"
-                class="button"
-                style="
-                    background: transparent;
-                    color: white;
-                    border: 2px solid rgba(255, 255, 255, 0.3);
-                    border-radius: 12px;
-                    padding: 1rem 2rem;
-                    font-size: 1.1rem;
-                    font-weight: 600;
-                    width: 100%;
-                    height: 60px;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
-                    appearance: none;
-                    touch-action: manipulation;
-                "
-                onmouseover="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.borderColor='rgba(255, 255, 255, 0.5)'"
-                onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(255, 255, 255, 0.3)'"
-            >登録済みの方はこちら</button>
-        </div>
-    </div>
-    
-    <script>
-        function submitForm(intent) {{
-            const userName = document.getElementById('userName').value;
-            if (!userName.trim()) {{
-                alert('名前を入力してください');
-                return;
-            }}
-            window.parent.postMessage({{
-                type: 'submit',
-                name: userName.trim(),
-                intent: intent
-            }}, '*');
         }}
-        
-        // 名前の変更を監視
-        window.addEventListener('message', function(event) {{
-            if (event.data.type === 'updateName') {{
-                document.getElementById('userName').value = event.data.value;
-            }}
-        }});
-    </script>
-    """
-    
-    # カスタムCSS
-    if bg_base64:
-        bg_style = f"background: url(data:image/png;base64,{bg_base64}) no-repeat center center fixed; background-size: cover;"
-    else:
-        bg_style = """background: linear-gradient(
-            135deg,
-            #1e2a78 0%,
-            #3730a3 50%,
-            #4338ca 100%
-        );"""
-    
-    st.markdown(f"""
-    <style>
-    .stApp {{
-        {bg_style}
-        min-height: 100vh;
-    }}
+        .stButton button {{
+            border-radius: 12px !important;
+            height: 50px;
+            font-weight: 600;
+        }}
+        .stTextInput input {{
+            border-radius: 12px !important;
+            padding: 1rem !important;
+            height: 50px;
+            border: 2px solid #e2e8f0 !important;
+            background: white !important;
+        }}
     </style>
     """, unsafe_allow_html=True)
-    
-    # HTMLコンポーネントを表示
-    st.components.v1.html(component_html, height=700)
+
+    # --- 2. UI要素の配置 ---
+    _left_gap, center_col, _right_gap = st.columns([1, 2, 1])
+    with center_col:
+        # --- 上の黒い部分 (カード) ---
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        
+        if logo_base64:
+            st.image(f"data:image/png;base64,{logo_base64}", width=60)
+        else:
+            st.markdown("<div style='font-size: 40px;'>❄️</div>", unsafe_allow_html=True)
+
+        # テキストコンテンツを一つのmarkdownにまとめる
+        card_content_html = """
+        <h1 style="color: white; font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem;">SnowVillage GO</h1>
+        <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 1.5rem;">Snowflake World Tour Tokyo 2025</p>
+        <div style="color: #94a3b8; font-size: 1rem; text-align: left; max-width: 200px; margin-left: auto; margin-right: auto; margin-bottom: 1.5rem;">
+            <div style="margin: 0.5rem 0;">✓ Snowflakeを知る</div>
+            <div style="margin: 0.5rem 0;">✓ クエストとチャレンジ</div>
+            <div style="margin: 0.5rem 0;">✓ ランキングと景品</div>
+        </div>
+        """
+        st.markdown(card_content_html, unsafe_allow_html=True)
+
+        st.text_input(
+            "名前",
+            placeholder="名前を入力してください",
+            key="user_name_input",
+            label_visibility="collapsed"
+        )
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # --- 下のボタン部分 ---
+        if 'error_message' in st.session_state and st.session_state.error_message:
+            st.error(st.session_state.error_message, icon="⚠️")
+            del st.session_state.error_message
+
+        btn_col1, btn_col2 = st.columns(2)
+        with btn_col1:
+            st.button("遊びに行く！", use_container_width=True, on_click=handle_submit, args=('play',))
+        with btn_col2:
+            st.button("登録済みの方はこちら", use_container_width=True, on_click=handle_submit, args=('login',))
     
     return None
 
+# ==================================================================
+# --- アプリケーションのメイン実行ブロック ---
+# ==================================================================
+st.set_page_config(
+    page_title="ようこそ Snow Villageへ",
+    page_icon="❄️",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
 
-if __name__ == "__main__":
-    st.set_page_config(
-        page_title="Snow Village - プログラミング学習",
-        page_icon="❄️",
-        layout="wide",
-        initial_sidebar_state="collapsed"
-    )
-    
-    # サイドバーを非表示
-    st.markdown("""
-    <style>
-    [data-testid="stSidebar"] {
-        display: none;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    result = launch_screen()
-    
-    if result:
-        st.balloons()
-        st.success(f"🎉 ようこそ {result['name']} さん！")
-        
-        if result['intent'] == 'play':
-            st.info("SnowVillage GOの世界へ！Snowflakeを学びながら楽しみましょう！")
-        elif result['intent'] == 'login':
-            st.info("おかえりなさい！続きから始めましょう！")
-        
-        with st.expander("デバッグ情報"):
-            st.json(result)
+st.markdown("<style>[data-testid='stSidebar'] { display: none; }</style>", unsafe_allow_html=True)
+
+if "user_info" not in st.session_state:
+    st.session_state.user_info = None
+
+login_result = launch_screen()
+
+if login_result:
+    st.session_state.user_info = login_result
+    st.balloons()
+    st.success(f"🎉 ようこそ {st.session_state.user_info['name']} さん！")
+    st.info("チャレンジページへ移動します...")
+    time.sleep(2)
+    st.switch_page("pages/challenge_page.py")
