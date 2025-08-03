@@ -24,7 +24,7 @@ def problem_list_page():
     if "user_info" not in st.session_state or not st.session_state.user_info:
         st.error("ログインが必要です")
         if st.button("ログイン画面に戻る"):
-            st.switch_page("launch_screen.py")
+            st.switch_page("main.py")
         return
     
     user_name = st.session_state.user_info.get("name", "ゲスト")
@@ -123,7 +123,7 @@ def problem_list_page():
     with col1:
         if st.button("ログアウト"):
             del st.session_state.user_info
-            st.switch_page("launch_screen.py")
+            st.switch_page("main.py")
     with col2:
         st.markdown(f"**総スコア**: 0 pt")
 

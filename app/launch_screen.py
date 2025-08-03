@@ -115,19 +115,27 @@ def launch_screen():
     # --- UI Layout ---
     _left_gap, center_col, _right_gap = st.columns([1, 2, 1])
     with center_col:
-        # Snowflake logo or icon (centered)
+        # Snowflake logo or icon (centered for mobile)
         if logo_base64:
-            col1, col2, col3 = st.columns([1, 1, 1])
-            with col2:
-                st.image(f"data:image/png;base64,{logo_base64}", width=60)
+            st.markdown(
+                f'<div style="display: flex; justify-content: center; align-items: center; width: 100%;"><img src="data:image/png;base64,{logo_base64}" width="60" style="margin: 0 auto;"></div>',
+                unsafe_allow_html=True
+            )
         else:
-            st.markdown("<div style='font-size: 40px; color: #4FC3F7; text-align: center;'>❄️</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size: 40px; color: #4FC3F7; text-align: center; display: flex; justify-content: center; width: 100%;'>❄️</div>", unsafe_allow_html=True)
 
         # Text content
         st.markdown("""
         <h1 style="color: #4FC3F7; font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; text-align: center;">SnowVillage GO</h1>
         <p style="color: #E0E0E0; font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center;">Snowflake World Tour Tokyo 2025</p>
-        <div style="color: #B0BEC5; font-size: 0.9rem; margin-bottom: 1.5rem; text-align: center;">アカウント登録またはログイン</div>
+        <div style="color: #B0BEC5; font-size: 0.9rem; margin-bottom: 1rem; text-align: center;">アカウント登録またはログイン</div>
+        <div style="color: #E0E0E0; font-size: 0.9rem; margin-bottom: 1rem; text-align: center;">Snowflakeのイベントを楽しむ。</div>
+        <div style="color: #94a3b8; font-size: 0.8rem; text-align: center; line-height: 1.4; margin-bottom: 1rem;">
+            ✓ クエストとチャレンジ<br>
+            ✓ ランキング<br>
+            ✓ 景品
+        </div>
+        <div style="color: #94a3b8; font-size: 0.7rem; text-align: center; margin-bottom: 1.5rem;">※メールアドレスと電話番号は不要です</div>
         """, unsafe_allow_html=True)
 
         st.text_input(
@@ -147,7 +155,7 @@ def launch_screen():
             if st.session_state.popup_type == "new_user":
                 st.success(st.session_state.popup_message, icon="🎉")
             elif st.session_state.popup_type == "existing_user":
-                st.info(st.session_state.popup_message, icon="ℹ️")
+                st.info(st.session_state.popup_message)
             # Clear popup after display
             del st.session_state.popup_message
             del st.session_state.popup_type
