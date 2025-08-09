@@ -9,7 +9,7 @@
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
-  "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
+  "postCreateCommand": "npm install -g @anthropic-ai/claude-code && cd app && uv sync && uv add streamlit",
   "forwardPorts": [5173, 3000, 8080, 8501, 5432],
   "portsAttributes": {
     "5173": {
