@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(export:*)",
+      "Bash(uv run streamlit run:*)",
+      "Bash(find:*)",
+      "Bash(cp:*)",
+      "Bash(git rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(uv add:*)",
+      "Bash(uv run:*)",
+      "Bash(rm:*)",
+      "Bash(sqlite3:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker compose:*)"
+    ],
+    "deny": []
+  }
+}

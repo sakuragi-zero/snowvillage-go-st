@@ -54,7 +54,7 @@ def handle_submit(intent: str):
                 del st.session_state.error_message
     else:
         # Validation failed
-        st.session_state.error_message = "アカウント識別子を入力してください"
+        st.session_state.error_message = "名前を入力してください"
 
 def launch_screen():
     """
@@ -128,7 +128,7 @@ def launch_screen():
         st.markdown("""
         <h1 style="color: #4FC3F7; font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; text-align: center;">SnowVillage GO</h1>
         <p style="color: #E0E0E0; font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center;">Snowflake World Tour Tokyo 2025</p>
-        <div style="color: #B0BEC5; font-size: 0.9rem; margin-bottom: 1rem; text-align: center;">アカウント登録またはログイン</div>
+        <div style="color: #B0BEC5; font-size: 0.9rem; margin-bottom: 1rem; text-align: center;">名前の登録またはログイン</div>
         <div style="color: #E0E0E0; font-size: 0.9rem; margin-bottom: 1rem; text-align: center;">Snowflakeのイベントを楽しむ。</div>
         <div style="color: #94a3b8; font-size: 0.8rem; text-align: center; line-height: 1.4; margin-bottom: 1rem;">
             ✓ クエストとチャレンジ<br>
@@ -139,8 +139,8 @@ def launch_screen():
         """, unsafe_allow_html=True)
 
         st.text_input(
-            "アカウント識別子",
-            placeholder="アカウント識別子",
+            "名前",
+            placeholder="名前の登録",
             key="user_name_input",
             label_visibility="collapsed"
         )

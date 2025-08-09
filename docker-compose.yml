@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: snowvillage-postgres
+    environment:
+      POSTGRES_DB: snowvillage
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+  app:
+    build: 
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: snowvillage-app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DB_HOST=db
+      - DB_NAME=snowvillage
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_PORT=5432
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./app:/app
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

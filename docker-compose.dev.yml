@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # 開発用PostgreSQLデータベース
+  postgres-dev:
+    image: postgres:15
+    container_name: snowvillage-postgres-dev
+    environment:
+      POSTGRES_DB: snowvillage
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: devpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      # 開発用の初期化スクリプト（必要に応じて）
+      # - ./init-dev-db.sql:/docker-entrypoint-initdb.d/init-dev-db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # 開発用コンテナ（devcontainer）
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/python:3.12
+    container_name: snowvillage-devcontainer
+    depends_on:
+      postgres-dev:
+        condition: service_healthy
+    environment:
+      - DB_HOST=postgres-dev
+      - DB_NAME=snowvillage
+      - DB_USER=postgres
+      - DB_PASSWORD=devpassword
+      - DB_PORT=5432
+    volumes:
+      - ../..:/workspaces:cached
+    command: sleep infinity
+    networks:
+      - default
+
+volumes:
+  postgres_dev_data:
