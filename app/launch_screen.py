@@ -10,6 +10,7 @@ import time
 import sys
 sys.path.append(os.path.dirname(__file__))
 from database_manager import DatabaseManager
+from application.services.user_service import UserService
 
 def handle_submit(intent: str):
     """
@@ -17,33 +18,45 @@ def handle_submit(intent: str):
     """
     name = st.session_state.get("user_name_input", "")
     if name and name.strip():
-        db = DatabaseManager()
+        user_service = UserService()
         name = name.strip()
         
         if intent == 'play':  # New user registration
-            if db.check_user_exists(name):
-                # Existing user
-                st.session_state.popup_message = f"登録済みユーザーです。{name}さん、続きをプレイできます！"
-                st.session_state.popup_type = "existing_user"
+            legacy_db = DatabaseManager()
+            if legacy_db.check_user_exists(name):
+                # Existing user - proceed to login
+                success, message, user = user_service.login_user(name)
+                if success and user:
+                    st.session_state.popup_message = f"登録済みユーザーです。{name}さん、続きをプレイできます！"
+                    st.session_state.popup_type = "existing_user"
+                    st.session_state.result = {
+                        "name": name,
+                        "intent": "existing_user",
+                        "user": user
+                    }
+                else:
+                    st.session_state.error_message = message
             else:
-                # New user
-                success, message = db.register_user(name)
-                if success:
+                # New user registration
+                success, message, user = user_service.register_new_user(name)
+                if success and user:
                     st.session_state.popup_message = f"登録完了！{name}さん、ようこそSnowVillageへ！"
                     st.session_state.popup_type = "new_user"
                     st.session_state.result = {
                         "name": name,
-                        "intent": "new_user"
+                        "intent": "new_user",
+                        "user": user
                     }
                 else:
                     st.session_state.error_message = message
         
         elif intent == 'login':  # Existing user login
-            success, message = db.login_user(name)
-            if success:
+            success, message, user = user_service.login_user(name)
+            if success and user:
                 st.session_state.result = {
                     "name": name,
-                    "intent": "existing_user"
+                    "intent": "existing_user",
+                    "user": user
                 }
             else:
                 st.session_state.error_message = "ユーザーが見つかりません。新規登録してください。"
@@ -189,18 +202,20 @@ def main():
 
     if login_result:
         st.session_state.user_info = login_result
+        st.session_state.authenticated_user = login_result.get('user')
+        
         if login_result['intent'] == 'new_user':
             st.balloons()
             st.success(f"🎉 ようこそ {st.session_state.user_info['name']} さん！")
-            st.info("問題一覧ページへ移動します...")
+            st.info("ダッシュボードへ移動します...")
             time.sleep(2)
-            st.switch_page("pages/problem_list.py")
+            st.switch_page("pages/dashboard.py")
         elif login_result['intent'] == 'existing_user':
             st.balloons()
             st.success(f"🎉 おかえりなさい {st.session_state.user_info['name']} さん！")
-            st.info("問題一覧ページへ移動します...")
+            st.info("ダッシュボードへ移動します...")
             time.sleep(2)
-            st.switch_page("pages/problem_list.py")
+            st.switch_page("pages/dashboard.py")
 
 if __name__ == "__main__":
     main()
