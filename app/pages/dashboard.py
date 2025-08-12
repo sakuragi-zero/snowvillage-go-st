@@ -153,7 +153,7 @@ class DashboardPage:
     
     def render_progress_tab(self, user: User):
         """進捗タブを描画"""
-        st.markdown("## 学習進捗")
+        st.markdown("## 進捗")
         
         # 進捗データ取得
         user_progress = self.run_async_function(self.progress_use_case.get_user_progress(user.id))

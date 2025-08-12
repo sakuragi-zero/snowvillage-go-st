@@ -35,7 +35,7 @@ def display_mission_card(
     elif is_locked:
         status_text = "ロック中 🔒"
     else:
-        status_text = f"{completed_lessons}/{mission.lessons} レッスン"
+        status_text = f"{completed_lessons}/{mission.lessons} タスク数"
     
     # カードHTML
     card_html = f"""
