@@ -58,7 +58,7 @@ def display_mission_card(
     
     # ボタン
     if not is_locked and not is_completed:
-        if st.button(f"学習する", key=f"learn_{mission.id}"):
+        if st.button(f"挑戦する", key=f"learn_{mission.id}"):
             if on_lesson_click:
                 on_lesson_click(mission.id)
     elif is_completed:

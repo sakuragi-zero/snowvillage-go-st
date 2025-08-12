@@ -119,7 +119,7 @@ class DashboardPage:
     
     def render_learning_tab(self, user: User):
         """学習タブを描画"""
-        st.markdown("## 学習パス")
+        st.markdown("## ロードマップ")
         
         # 完了済みミッション取得
         completed_missions = set(self.run_async_function(
