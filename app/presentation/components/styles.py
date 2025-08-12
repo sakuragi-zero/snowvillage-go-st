@@ -5,7 +5,7 @@ import base64
 def get_dashboard_background_image() -> str:
     """背景画像をBase64エンコードして取得"""
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-    bg_path = os.path.join(base_dir, "frontend", "public", "bg-villag-go.png")
+    bg_path = os.path.join(base_dir, "frontend", "public", "dashboard.png")
     
     if os.path.exists(bg_path):
         with open(bg_path, "rb") as img_file:
