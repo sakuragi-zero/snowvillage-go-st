@@ -58,7 +58,7 @@ class DatabaseManager:
         try:
             with psycopg2.connect(**self.connection_params) as conn:
                 with conn.cursor() as cursor:
-                    cursor.execute('SELECT COUNT(*) FROM users WHERE username = %s', (username,))
+                    cursor.execute('SELECT COUNT(*) FROM users WHERE username = %s', [username])
                     count = cursor.fetchone()[0]
                     return count > 0
         except psycopg2.Error as e:
@@ -72,7 +72,7 @@ class DatabaseManager:
                 with conn.cursor() as cursor:
                     cursor.execute(
                         'INSERT INTO users (username, email) VALUES (%s, %s)', 
-                        (username, f"{username}@snowvillage.example")
+                        [username, f"{username}@snowvillage.example"]
                     )
                     conn.commit()
                     return True, "登録が完了しました！"
@@ -90,7 +90,7 @@ class DatabaseManager:
                     with conn.cursor() as cursor:
                         cursor.execute(
                             'UPDATE users SET last_login = CURRENT_DATE WHERE username = %s',
-                            (username,)
+                            [username]
                         )
                         conn.commit()
                 return True, "ログインしました！"

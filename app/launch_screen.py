@@ -12,33 +12,59 @@ sys.path.append(os.path.dirname(__file__))
 from database_manager import DatabaseManager
 from application.services.user_service import UserService
 
+@st.fragment
+def handle_user_validation(name: str):
+    """
+    Handle user existence check with fragment for better performance
+    """
+    legacy_db = DatabaseManager()
+    
+    with st.spinner("ユーザー情報を確認中..."):
+        user_exists = legacy_db.check_user_exists(name)
+    
+    return user_exists
+
+def display_messages():
+    """
+    Display error and popup messages
+    """
+    # Error messages
+    if 'error_message' in st.session_state and st.session_state.error_message:
+        st.error(st.session_state.error_message, icon="⚠️")
+        del st.session_state.error_message
+
+    # Popup messages
+    if 'popup_message' in st.session_state and st.session_state.popup_message:
+        if st.session_state.popup_type == "new_user":
+            st.success(st.session_state.popup_message, icon="🎉")
+        elif st.session_state.popup_type == "existing_user":
+            st.info(st.session_state.popup_message)
+        # Clear popup after display
+        del st.session_state.popup_message
+        del st.session_state.popup_type
+
 def handle_submit(intent: str):
     """
     Handle button clicks for registration and login
     """
     name = st.session_state.get("user_name_input", "")
     if name and name.strip():
-        user_service = UserService()
         name = name.strip()
         
+        # Use fragment for user validation
+        user_exists = handle_user_validation(name)
+        
+        user_service = UserService()
+        
         if intent == 'play':  # New user registration
-            legacy_db = DatabaseManager()
-            if legacy_db.check_user_exists(name):
-                # Existing user - proceed to login
-                success, message, user = user_service.login_user(name)
-                if success and user:
-                    st.session_state.popup_message = f"登録済みユーザーです。{name}さん、続きをプレイできます！"
-                    st.session_state.popup_type = "existing_user"
-                    st.session_state.result = {
-                        "name": name,
-                        "intent": "existing_user",
-                        "user": user
-                    }
-                else:
-                    st.session_state.error_message = message
+            if user_exists:
+                # Existing user - show popup message and prompt to use login button
+                st.session_state.popup_message = f"⚠️ 「{name}」は既に登録済みです。登録済みの方は下の「登録済みの方はこちら」ボタンからログインしてください。"
+                st.session_state.popup_type = "existing_user"
             else:
                 # New user registration
-                success, message, user = user_service.register_new_user(name)
+                with st.spinner("新規登録中..."):
+                    success, message, user = user_service.register_new_user(name)
                 if success and user:
                     st.session_state.popup_message = f"登録完了！{name}さん、ようこそSnowVillageへ！"
                     st.session_state.popup_type = "new_user"
@@ -51,15 +77,19 @@ def handle_submit(intent: str):
                     st.session_state.error_message = message
         
         elif intent == 'login':  # Existing user login
-            success, message, user = user_service.login_user(name)
-            if success and user:
-                st.session_state.result = {
-                    "name": name,
-                    "intent": "existing_user",
-                    "user": user
-                }
+            if not user_exists:
+                st.session_state.error_message = f"「{name}」は登録されていません。新規登録してください。"
             else:
-                st.session_state.error_message = "ユーザーが見つかりません。新規登録してください。"
+                with st.spinner("ログイン中..."):
+                    success, message, user = user_service.login_user(name)
+                if success and user:
+                    st.session_state.result = {
+                        "name": name,
+                        "intent": "existing_user",
+                        "user": user
+                    }
+                else:
+                    st.session_state.error_message = f"「{name}」は登録済みですが、ログインに失敗しました。管理者にお問い合わせください。"
         
         # Clear error messages if not login intent
         if 'error_message' in st.session_state and intent != 'login':
@@ -126,7 +156,7 @@ def launch_screen():
     """, unsafe_allow_html=True)
 
     # --- UI Layout ---
-    _left_gap, center_col, _right_gap = st.columns([1, 2, 1])
+    _, center_col, _ = st.columns([1, 2, 1])
     with center_col:
         # Snowflake logo or icon (centered for mobile)
         if logo_base64:
@@ -158,20 +188,8 @@ def launch_screen():
             label_visibility="collapsed"
         )
 
-        # Error messages
-        if 'error_message' in st.session_state and st.session_state.error_message:
-            st.error(st.session_state.error_message, icon="⚠️")
-            del st.session_state.error_message
-
-        # Popup messages
-        if 'popup_message' in st.session_state and st.session_state.popup_message:
-            if st.session_state.popup_type == "new_user":
-                st.success(st.session_state.popup_message, icon="🎉")
-            elif st.session_state.popup_type == "existing_user":
-                st.info(st.session_state.popup_message)
-            # Clear popup after display
-            del st.session_state.popup_message
-            del st.session_state.popup_type
+        # Display messages using fragment
+        display_messages()
         
         st.button("遊びに行く！", use_container_width=True, on_click=handle_submit, args=('play',))
         st.button("登録済みの方はこちら", use_container_width=True, on_click=handle_submit, args=('login',))
