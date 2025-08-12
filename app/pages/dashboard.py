@@ -42,14 +42,8 @@ st.set_page_config(
 st.markdown(get_main_styles(), unsafe_allow_html=True)
 
 
-# ミッションデータ（本来はデータベースから取得）
-MISSIONS = [
-    Mission(1, '基本の挨拶', '👋', '基本的な挨拶を学びましょう', 5, 50, 10, 0),
-    Mission(2, '自己紹介', '🙋', '自己紹介の方法を学びましょう', 7, 70, 15, 1),
-    Mission(3, '家族について', '👨‍👩‍👧‍👦', '家族に関する表現を学びましょう', 6, 60, 12, 2),
-    Mission(4, '食べ物と飲み物', '🍽️', '食事に関する表現を学びましょう', 8, 80, 20, 3),
-    Mission(5, '時間と日付', '⏰', '時間の表現を学びましょう', 6, 65, 15, 4)
-]
+# ミッション読み込みサービス
+from infrastructure.services.mission_loader_service import get_missions
 
 
 class DashboardPage:
@@ -71,6 +65,9 @@ class DashboardPage:
         
         # データベース初期化
         db.create_tables()
+        
+        # ミッション読み込み
+        self.missions = get_missions()
         
     def initialize_session_state(self):
         """セッション状態の初期化"""
@@ -104,7 +101,7 @@ class DashboardPage:
     
     def handle_lesson_completion(self, mission_id: int):
         """レッスン完了処理"""
-        mission = next(m for m in MISSIONS if m.id == mission_id)
+        mission = next(m for m in self.missions if m.id == mission_id)
         result = self.run_async_function(
             self.progress_use_case.complete_lesson(self.current_user_id, mission)
         )
@@ -127,14 +124,14 @@ class DashboardPage:
         ))
         
         # 進捗パス表示
-        display_progress_path(MISSIONS, completed_missions)
+        display_progress_path(self.missions, completed_missions)
         
         st.markdown("---")
         st.markdown("## 現在のミッション")
         
         # ミッションカード表示
         cols = st.columns(3)
-        for i, mission in enumerate(MISSIONS):
+        for i, mission in enumerate(self.missions):
             col = cols[i % 3]
             
             with col:
@@ -144,7 +141,7 @@ class DashboardPage:
                 )
                 
                 # ロック判定
-                is_locked = i > 0 and MISSIONS[i-1].id not in completed_missions
+                is_locked = i > 0 and self.missions[i-1].id not in completed_missions
                 
                 # ミッションカード表示
                 display_mission_card(
@@ -164,7 +161,7 @@ class DashboardPage:
         
         # 進捗データの準備
         progress_data = []
-        for mission in MISSIONS:
+        for mission in self.missions:
             progress = progress_dict.get(mission.id)
             completed_lessons = progress.completed_lessons if progress else 0
             is_completed = progress.is_completed if progress else False
@@ -185,10 +182,10 @@ class DashboardPage:
         col1, col2 = st.columns(2)
         completed_count = len([p for p in user_progress if p.is_completed])
         total_lessons_completed = sum(p.completed_lessons for p in user_progress)
-        total_lessons = sum(m.lessons for m in MISSIONS)
+        total_lessons = sum(m.lessons for m in self.missions)
         
         with col1:
-            st.metric("完了ミッション数", f"{completed_count}/{len(MISSIONS)}")
+            st.metric("完了ミッション数", f"{completed_count}/{len(self.missions)}")
         with col2:
             st.metric("総レッスン進捗", f"{total_lessons_completed}/{total_lessons}")
     
@@ -200,7 +197,7 @@ class DashboardPage:
             self.progress_use_case.get_completed_missions(user.id)
         ))
         
-        achievements = get_achievements(user, completed_count, len(MISSIONS))
+        achievements = get_achievements(user, completed_count, len(self.missions))
         display_achievements(achievements)
     
     def render_debug_section(self, user: User):

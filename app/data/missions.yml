@@ -1,0 +1,54 @@
+missions:
+  - id: 1
+    title: "基本の挨拶"
+    icon: "👋"
+    description: "挨拶をしよう"
+    lessons: 5
+    xp_reward: 50
+    gem_reward: 10
+    order_index: 0
+    
+  - id: 2
+    title: "自己紹介"
+    icon: "🙋"
+    description: "自己紹介の方法を学びましょう"
+    lessons: 7
+    xp_reward: 70
+    gem_reward: 15
+    order_index: 1
+    
+  - id: 3
+    title: "家族について"
+    icon: "👨‍👩‍👧‍👦"
+    description: "家族に関する表現を学びましょう"
+    lessons: 6
+    xp_reward: 60
+    gem_reward: 12
+    order_index: 2
+    
+  - id: 4
+    title: "食べ物と飲み物"
+    icon: "🍽️"
+    description: "食事に関する表現を学びましょう"
+    lessons: 8
+    xp_reward: 80
+    gem_reward: 20
+    order_index: 3
+    
+  - id: 5
+    title: "時間と日付"
+    icon: "⏰"
+    description: "時間の表現を学びましょう"
+    lessons: 6
+    xp_reward: 65
+    gem_reward: 15
+    order_index: 4
+    
+  - id: 6
+    title: "買い物"
+    icon: "🛒"
+    description: "ショッピングで使える表現を学びましょう"
+    lessons: 7
+    xp_reward: 75
+    gem_reward: 18
+    order_index: 5
