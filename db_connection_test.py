@@ -90,18 +90,17 @@ def test_database_connection():
                     count = cursor.fetchone()
                     print(f"   ✓ 登録ユーザー数: {count['count']}")
                     
-                    # 最新の登録ユーザー確認（レコードがある場合）
+                    # 全ユーザー名取得（レコードがある場合）
                     if count['count'] > 0:
                         cursor.execute("""
-                            SELECT name, created_at, last_login 
+                            SELECT username 
                             FROM users 
-                            ORDER BY created_at DESC 
-                            LIMIT 5;
+                            ORDER BY username;
                         """)
-                        recent_users = cursor.fetchall()
-                        print("   最新の登録ユーザー（最大5件）:")
-                        for user in recent_users:
-                            print(f"   - {user['name']} (登録: {user['created_at']}, 最終ログイン: {user['last_login']})")
+                        all_users = cursor.fetchall()
+                        print("   全ユーザー名:")
+                        for user in all_users:
+                            print(f"   {user['username']}")
                     print()
                 
                 print("4. データベース統計情報...")
