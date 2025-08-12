@@ -42,10 +42,9 @@ def display_progress_path(missions: List[Mission], completed_mission_ids: Set[in
             line_color = "#58cc02" if is_completed else "#e0e0e0"
             path_html += f'<div style="width: 4px; height: 40px; background: {line_color}; margin: 0 auto;"></div>'
     
-    # パス全体をコンテナで囲む
+    # パス全体をコンテナで囲む（背景を透明に）
     container_html = f"""
-    <div style="background: white; border-radius: 15px; padding: 30px; 
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1); color: #000000;">
+    <div style="background: transparent; border-radius: 15px; padding: 30px; color: #000000;">
         {path_html}
     </div>
     """
