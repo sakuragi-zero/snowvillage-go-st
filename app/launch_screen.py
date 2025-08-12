@@ -161,24 +161,39 @@ def launch_screen():
         # Snowflake logo or icon (centered for mobile)
         if logo_base64:
             st.markdown(
-                f'<div style="display: flex; justify-content: center; align-items: center; width: 100%;"><img src="data:image/png;base64,{logo_base64}" width="60" style="margin: 0 auto;"></div>',
+                f'<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;"><img src="data:image/png;base64,{logo_base64}" width="60" style="margin: 0 auto;"></div>',
                 unsafe_allow_html=True
             )
         else:
-            st.markdown("<div style='font-size: 40px; color: #4FC3F7; text-align: center; display: flex; justify-content: center; width: 100%;'>❄️</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size: 40px; color: #4FC3F7; text-align: center; display: flex; justify-content: center; width: 100%; margin-bottom: 1rem;'>❄️</div>", unsafe_allow_html=True)
 
         # Text content
         st.markdown("""
-        <h1 style="color: #4FC3F7; font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; text-align: center;">SnowVillage GO</h1>
-        <p style="color: #E0E0E0; font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center;">Snowflake World Tour Tokyo 2025</p>
-        <div style="color: #B0BEC5; font-size: 0.9rem; margin-bottom: 1rem; text-align: center;">名前の登録またはログイン</div>
-        <div style="color: #E0E0E0; font-size: 0.9rem; margin-bottom: 1rem; text-align: center;">Snowflakeのイベントを楽しむ。</div>
-        <div style="color: #94a3b8; font-size: 0.8rem; text-align: center; line-height: 1.4; margin-bottom: 1rem;">
-            ✓ クエストとチャレンジ<br>
-            ✓ ランキング<br>
-            ✓ 景品
+        <style>
+        .mobile-title {
+            font-size: 3rem;
+        }
+        @media (max-width: 768px) {
+            .mobile-title {
+                font-size: 2.2rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .mobile-title {
+                font-size: 1.8rem;
+            }
+        }
+        </style>
+        <div style="text-align: center; width: 100%;">
+            <h1 class="mobile-title" style="color: #4FC3F7; font-weight: 700; margin: 0; padding: 0; line-height: 1; text-align: center; display: block;">SnowVillage GO</h1>
+            <p style="color: #E0E0E0; font-size: 1.1rem; margin: 0 auto 1.2rem auto; padding: 0; line-height: 1.2; text-align: center; display: block; font-weight: 600;">Snowflake World Tour Tokyo 2025</p>
+            <div style="color: #94a3b8; font-size: 0.8rem; text-align: center; line-height: 1.4; margin: 0 auto 1rem auto; display: block;">
+                ✓ クエストとチャレンジ<br>
+                ✓ ランキング<br>
+                ✓ 景品
+            </div>
+            <div style="color: #94a3b8; font-size: 0.7rem; text-align: center; margin: 0 auto 1.5rem auto; display: block;">※メールアドレスと電話番号は不要です</div>
         </div>
-        <div style="color: #94a3b8; font-size: 0.7rem; text-align: center; margin-bottom: 1.5rem;">※メールアドレスと電話番号は不要です</div>
         """, unsafe_allow_html=True)
 
         st.text_input(
