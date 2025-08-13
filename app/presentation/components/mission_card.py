@@ -18,7 +18,7 @@ def display_mission_card(
     # 進捗情報を計算
     completed_lessons = progress.completed_lessons if progress else 0
     is_completed = progress.is_completed if progress else False
-    progress_percent = (completed_lessons / mission.lessons) * 100 if mission.lessons > 0 else 0
+    progress_percent = (completed_lessons / mission.lessons * 100) if mission.lessons > 0 else 0
     
     # カードのクラス決定
     card_class = ""

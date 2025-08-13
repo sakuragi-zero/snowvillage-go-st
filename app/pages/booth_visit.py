@@ -10,6 +10,12 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from infrastructure.services.task_loader_service import get_task_by_id
 from domain.entities.task import TaskType
 from presentation.components.styles import get_main_styles
+from infrastructure.repositories.task_progress_repository_impl import TaskProgressRepositoryImpl
+from infrastructure.repositories.user_repository_impl import UserRepositoryImpl
+from infrastructure.repositories.progress_repository_impl import ProgressRepositoryImpl
+from application.use_cases.task_progress_use_case import TaskProgressUseCase
+import asyncio
+from datetime import datetime
 
 # ページ設定
 st.set_page_config(
@@ -87,9 +93,47 @@ def render_booth_visit(task):
     
     if completed:
         if st.button("タスク完了", type="primary", use_container_width=True):
-            # TODO: 進捗を保存する処理をここに追加
-            st.balloons()
-            st.success("🎉 タスクが完了しました！ご参加ありがとうございます！")
+            # 進捗を保存
+            try:
+                # ユーザー情報を取得
+                current_user = st.session_state.authenticated_user
+                
+                # タスク進捗ユースケースを初期化
+                task_progress_repo = TaskProgressRepositoryImpl()
+                user_repo = UserRepositoryImpl()
+                progress_repo = ProgressRepositoryImpl()
+                task_progress_use_case = TaskProgressUseCase(task_progress_repo, user_repo, progress_repo)
+                
+                # 回答データを準備
+                answer_data = {
+                    "booth_visited": task.booth_name,
+                    "twitter_posted": True,
+                    "completed_at": str(datetime.now())
+                }
+                
+                # 非同期関数を実行
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                result = loop.run_until_complete(
+                    task_progress_use_case.complete_task(
+                        user_id=current_user.id,
+                        task_id=task.id,
+                        mission_id=task.mission_id,
+                        answer_data=answer_data
+                    )
+                )
+                loop.close()
+                
+                if result['success']:
+                    st.balloons()
+                    st.success("🎉 タスクが完了しました！ご参加ありがとうございます！")
+                    if result.get('mission_completed'):
+                        st.success("🏆 ミッションも完了しました！")
+                else:
+                    st.warning(result['message'])
+                
+            except Exception as e:
+                st.error(f"進捗保存エラー: {e}")
             
             # タスク一覧に戻る
             st.switch_page("pages/tasks.py")

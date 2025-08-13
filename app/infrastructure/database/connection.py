@@ -75,7 +75,7 @@ class DatabaseConnection:
                 )
             """)
             
-            # 進捗テーブル
+            # ミッション進捗テーブル
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS progress (
                     id SERIAL PRIMARY KEY,
@@ -87,6 +87,22 @@ class DatabaseConnection:
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     UNIQUE(user_id, mission_id)
+                )
+            """)
+            
+            # タスク進捗テーブル
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS task_progress (
+                    id SERIAL PRIMARY KEY,
+                    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+                    task_id INTEGER NOT NULL,
+                    mission_id INTEGER NOT NULL,
+                    is_completed BOOLEAN DEFAULT FALSE,
+                    completed_at TIMESTAMP,
+                    answer_data TEXT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    UNIQUE(user_id, task_id)
                 )
             """)
             
@@ -105,6 +121,14 @@ class DatabaseConnection:
                 DROP TRIGGER IF EXISTS update_progress_updated_at ON progress;
                 CREATE TRIGGER update_progress_updated_at
                     BEFORE UPDATE ON progress
+                    FOR EACH ROW
+                    EXECUTE FUNCTION update_updated_at_column();
+            """)
+            
+            cursor.execute("""
+                DROP TRIGGER IF EXISTS update_task_progress_updated_at ON task_progress;
+                CREATE TRIGGER update_task_progress_updated_at
+                    BEFORE UPDATE ON task_progress
                     FOR EACH ROW
                     EXECUTE FUNCTION update_updated_at_column();
             """)

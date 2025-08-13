@@ -44,6 +44,7 @@ st.markdown(get_main_styles(), unsafe_allow_html=True)
 
 # ミッション読み込みサービス
 from infrastructure.services.mission_loader_service import get_missions
+from infrastructure.services.task_loader_service import get_tasks_by_mission_id
 
 
 class DashboardPage:
@@ -140,6 +141,27 @@ class DashboardPage:
                     self.progress_use_case.get_mission_progress(user.id, mission.id)
                 )
                 
+                # YMLベースでタスク数を取得して進捗を更新
+                mission_tasks = get_tasks_by_mission_id(mission.id)
+                total_tasks = len(mission_tasks)
+                
+                # 進捗が存在しない場合は初期化
+                if progress is None:
+                    from domain.entities.progress import Progress
+                    progress = Progress(
+                        id=None,
+                        user_id=user.id,
+                        mission_id=mission.id,
+                        completed_lessons=0,
+                        is_completed=False,
+                        completed_at=None,
+                        created_at=None,
+                        updated_at=None
+                    )
+                
+                # lessonsをYMLベースのタスク数で更新
+                mission.lessons = total_tasks
+                
                 # ロック判定
                 is_locked = i > 0 and self.missions[i-1].id not in completed_missions
                 
@@ -165,10 +187,17 @@ class DashboardPage:
             completed_lessons = progress.completed_lessons if progress else 0
             is_completed = progress.is_completed if progress else False
             
+            # YMLベースでタスク数を取得
+            mission_tasks = get_tasks_by_mission_id(mission.id)
+            total_tasks = len(mission_tasks)
+            
+            # ゼロ除算を防ぐ
+            completion_rate = 0 if total_tasks == 0 else (completed_lessons / total_tasks * 100)
+            
             progress_data.append({
                 'ミッション': mission.title,
-                '進捗': f"{completed_lessons}/{mission.lessons}",
-                '完了率': f"{(completed_lessons / mission.lessons * 100):.0f}%",
+                '進捗': f"{completed_lessons}/{total_tasks}",
+                '完了率': f"{completion_rate:.0f}%",
                 'ステータス': '✅ 完了' if is_completed else '📚 学習中' if completed_lessons > 0 else '🔒 未開始',
                 'XP報酬': mission.xp_reward,
                 'ジェム報酬': mission.gem_reward
@@ -181,12 +210,17 @@ class DashboardPage:
         col1, col2 = st.columns(2)
         completed_count = len([p for p in user_progress if p.is_completed])
         total_lessons_completed = sum(p.completed_lessons for p in user_progress)
-        total_lessons = sum(m.lessons for m in self.missions)
+        
+        # YMLベースで総タスク数を計算
+        total_tasks = 0
+        for mission in self.missions:
+            mission_tasks = get_tasks_by_mission_id(mission.id)
+            total_tasks += len(mission_tasks)
         
         with col1:
             st.metric("完了ミッション数", f"{completed_count}/{len(self.missions)}")
         with col2:
-            st.metric("総レッスン進捗", f"{total_lessons_completed}/{total_lessons}")
+            st.metric("総タスク進捗", f"{total_lessons_completed}/{total_tasks}")
     
     def render_achievements_tab(self, user: User):
         """実績タブを描画"""
