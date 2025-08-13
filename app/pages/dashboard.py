@@ -147,8 +147,7 @@ class DashboardPage:
                 display_mission_card(
                     mission=mission,
                     progress=progress,
-                    is_locked=is_locked,
-                    on_lesson_click=self.handle_lesson_completion
+                    is_locked=is_locked
                 )
     
     def render_progress_tab(self, user: User):

@@ -11,8 +11,7 @@ from domain.entities.progress import Progress
 def display_mission_card(
     mission: Mission, 
     progress: Optional[Progress] = None,
-    is_locked: bool = False,
-    on_lesson_click=None
+    is_locked: bool = False
 ):
     """ミッションカードを表示"""
     
@@ -59,8 +58,9 @@ def display_mission_card(
     # ボタン
     if not is_locked and not is_completed:
         if st.button(f"挑戦する", key=f"learn_{mission.id}"):
-            if on_lesson_click:
-                on_lesson_click(mission.id)
+            # タスク画面に遷移
+            st.session_state.current_mission_id = mission.id
+            st.switch_page("pages/tasks.py")
     elif is_completed:
         st.button("完了済み ✓", key=f"completed_{mission.id}", disabled=True)
     else:
