@@ -9,8 +9,7 @@
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
-  "postCreateCommand": "npm install -g @anthropic-ai/claude-code && curl -LsSf https://astral.sh/uv/install.sh | sh && export PATH=\"/home/vscode/.local/bin:$PATH\" && cd app && uv sync && uv add streamlit",
-  "forwardPorts": [5173, 3000, 8080, 8501, 5432],
+  "postCreateCommand": "npm install -g @anthropic-ai/claude-code && pip install uv && cd app && uv sync && uv add streamlit",
   "portsAttributes": {
     "5173": {
       "label": "Vite Dev Server",
@@ -42,7 +41,6 @@
     "DB_NAME": "snowvillage",
     "DB_USER": "postgres",
     "DB_PASSWORD": "devpassword",
-    "DB_PORT": "5432",
-    "PATH": "/home/vscode/.local/bin:${PATH}"
+    "DB_PORT": "5432"
   }
 }
