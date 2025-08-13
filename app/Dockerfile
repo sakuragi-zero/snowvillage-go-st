@@ -28,4 +28,4 @@ ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0
 EXPOSE 8501
 
 # アプリケーションを起動
-CMD ["uv", "run", "streamlit", "run", "launch_screen.py"]
+CMD ["uv", "run", "streamlit", "run", "main.py"]
