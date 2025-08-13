@@ -16,7 +16,11 @@
       "Bash(docker compose:*)",
       "Bash(PYTHONPATH=/workspaces/snowvillage_go_pj/snowvillage-go-st uv run python app/initialize_data.py)",
       "Bash(uv sync:*)",
-      "Bash(PYTHONPATH=/workspaces/snowvillage_go_pj/snowvillage-go-st/app uv run python initialize_data.py)"
+      "Bash(PYTHONPATH=/workspaces/snowvillage_go_pj/snowvillage-go-st/app uv run python initialize_data.py)",
+      "Bash(touch:*)",
+      "Bash(true)",
+      "Bash(PYTHONPATH=/workspaces/snowvillage_go_pj/snowvillage-go-st/app uv run python -c \"from database import db; print(''Database connection test:'', ''OK'')\")",
+      "Bash(PYTHONPATH=/workspaces/snowvillage_go_pj/snowvillage-go-st/app uv run python -c \"from database import db; print(''Database connection test:'', ''OK'')\")"
     ],
     "deny": []
   }

@@ -7,20 +7,18 @@ import streamlit as st
 import os
 import base64
 import time
-import sys
-sys.path.append(os.path.dirname(__file__))
-from database_manager import DatabaseManager
-from application.services.user_service import UserService
+from user import UserService
 
 @st.fragment
 def handle_user_validation(name: str):
     """
     Handle user existence check with fragment for better performance
     """
-    legacy_db = DatabaseManager()
+    user_service = UserService()
     
     with st.spinner("ユーザー情報を確認中..."):
-        user_exists = legacy_db.check_user_exists(name)
+        success, message, user = user_service.login_user(name)
+        user_exists = user is not None
     
     return user_exists
 
@@ -64,7 +62,7 @@ def handle_submit(intent: str):
             else:
                 # New user registration
                 with st.spinner("新規登録中..."):
-                    success, message, user = user_service.register_new_user(name)
+                    success, message, user = user_service.register_user(name)
                 if success and user:
                     st.session_state.popup_message = f"登録完了！{name}さん、ようこそSnowVillageへ！"
                     st.session_state.popup_type = "new_user"
