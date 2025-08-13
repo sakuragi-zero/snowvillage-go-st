@@ -37,7 +37,7 @@ def main():
     
     # 背景設定
     base_dir = os.path.dirname(os.path.dirname(__file__))
-    bg_path = os.path.join(base_dir, "frontend", "public", "bg-villag-go.png")
+    bg_path = os.path.join(base_dir, "frontend", "public", "dashboard.png")
     bg_base64 = get_base64_img(bg_path)
     
     bg_style = "background: linear-gradient(135deg, #1a237e, #283593, #3949ab, #42a5f5);"
@@ -46,7 +46,26 @@ def main():
     
     st.markdown(f"""
     <style>
-        .stApp {{ {bg_style} }}
+        /* 背景設定 */
+        .stApp {{ 
+            {bg_style} 
+        }}
+        
+        /* Streamlitのデフォルト白い枠・余白を除去 */
+        .main .block-container {{
+            padding-top: 0rem;
+            padding-bottom: 0rem;
+            padding-left: 0rem;
+            padding-right: 0rem;
+            max-width: 100%;
+        }}
+        
+        /* ヘッダー除去 */
+        header[data-testid="stHeader"] {{
+            display: none;
+        }}
+        
+        /* メインコンテナ */
         .main-container {{
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -55,27 +74,40 @@ def main():
             max-width: 800px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }}
+        
         .welcome-header {{
             text-align: center;
             color: #1a237e;
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }}
+        
         .user-info {{
             background: #f8f9fa;
             border-radius: 10px;
             padding: 1rem;
             margin: 1rem 0;
         }}
+        
         .logout-btn {{
             margin-top: 2rem;
             text-align: center;
         }}
+        
+        /* ボタンスタイル調整 */
+        .stButton > button {{
+            background: #1a237e;
+            color: white;
+            border-radius: 10px;
+            border: none;
+            padding: 0.5rem 1rem;
+        }}
+        
+        .stButton > button:hover {{
+            background: #283593;
+        }}
     </style>
     """, unsafe_allow_html=True)
-    
-    # メインコンテンツ
-    st.markdown('<div class="main-container">', unsafe_allow_html=True)
     
     # ヘッダー
     st.markdown('<h1 class="welcome-header">❄️ Snow Village Dashboard</h1>', unsafe_allow_html=True)
@@ -100,8 +132,6 @@ def main():
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
-    
     st.markdown('</div>', unsafe_allow_html=True)
 
 
