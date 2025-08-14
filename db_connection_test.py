@@ -12,12 +12,12 @@ from datetime import datetime
 def get_db_connection_params():
     """環境変数またはデフォルト値からDB接続パラメータを取得"""
     return {
-        'host': os.getenv('DB_HOST', 'localhost'),
-        'database': os.getenv('DB_NAME', 'snowvillage'),
-        'user': os.getenv('DB_USER', 'postgres'),
-        'password': os.getenv('DB_PASSWORD', 'password'),
-        'port': os.getenv('DB_PORT', '5432')
-    }
+            'host': os.getenv('DB_HOST', 'postgres-dev'),
+            'database': os.getenv('DB_NAME', 'snowvillage'),
+            'user': os.getenv('DB_USER', 'postgres'),
+            'password': os.getenv('DB_PASSWORD', 'devpassword'),
+            'port': int(os.getenv('DB_PORT', '5432'))
+        }
 
 def test_database_connection():
     """データベース接続テスト"""
@@ -66,41 +66,37 @@ def test_database_connection():
                     print("   ⚠ テーブルが見つかりませんでした")
                 print()
                 
-                # usersテーブルが存在する場合の詳細確認
-                if any(table['table_name'] == 'users' for table in tables):
-                    print("3. usersテーブル詳細確認...")
-                    
-                    # テーブル構造確認
-                    cursor.execute("""
-                        SELECT column_name, data_type, is_nullable, column_default
-                        FROM information_schema.columns 
-                        WHERE table_name = 'users' 
-                        ORDER BY ordinal_position;
-                    """)
-                    columns = cursor.fetchall()
-                    
-                    print("   テーブル構造:")
-                    for col in columns:
-                        nullable = "NULL" if col['is_nullable'] == 'YES' else "NOT NULL"
-                        default = f" DEFAULT {col['column_default']}" if col['column_default'] else ""
-                        print(f"   - {col['column_name']}: {col['data_type']} {nullable}{default}")
-                    
-                    # レコード数確認
-                    cursor.execute("SELECT COUNT(*) as count FROM users;")
-                    count = cursor.fetchone()
-                    print(f"   ✓ 登録ユーザー数: {count['count']}")
-                    
-                    # 全ユーザー名取得（レコードがある場合）
-                    if count['count'] > 0:
+                # 全テーブルのカラム情報を取得
+                if tables:
+                    print("3. 各テーブルのカラム一覧...")
+                    for table in tables:
+                        table_name = table['table_name']
+                        print(f"\n■ {table_name}テーブル:")
+                        
+                        # テーブル構造確認
                         cursor.execute("""
-                            SELECT username 
-                            FROM users 
-                            ORDER BY username;
-                        """)
-                        all_users = cursor.fetchall()
-                        print("   全ユーザー名:")
-                        for user in all_users:
-                            print(f"   {user['username']}")
+                            SELECT column_name, data_type, is_nullable, column_default
+                            FROM information_schema.columns 
+                            WHERE table_name = %s 
+                            ORDER BY ordinal_position;
+                        """, (table_name,))
+                        columns = cursor.fetchall()
+                        
+                        if columns:
+                            for col in columns:
+                                nullable = "NULL" if col['is_nullable'] == 'YES' else "NOT NULL"
+                                default = f" DEFAULT {col['column_default']}" if col['column_default'] else ""
+                                print(f"{col['column_name']}: {col['data_type']} {nullable}{default}")
+                        else:
+                            print("カラム情報が取得できませんでした")
+                        
+                        # レコード数確認
+                        try:
+                            cursor.execute(f"SELECT COUNT(*) as count FROM {table_name};")
+                            count = cursor.fetchone()
+                            print(f"レコード数: {count['count']}")
+                        except Exception as e:
+                            print(f"レコード数取得エラー: {e}")
                     print()
                 
                 print("4. データベース統計情報...")
