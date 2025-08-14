@@ -1,0 +1,9 @@
+tasks:
+  - id: 1
+    title: "データ取得"
+  - id: 2
+    title: "データ前処理"
+  - id: 3
+    title: "モデル学習"
+  - id: 4
+    title: "結果可視化"
