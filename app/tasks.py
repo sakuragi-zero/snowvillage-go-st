@@ -11,4 +11,10 @@ def sync_yaml_to_db(yaml_path: str):
     task_service = TaskService()
     tasks = load_tasks_from_yaml(yaml_path)
     for task in tasks:
-        task_service.insert_task_if_not_exists(task["id"], task["title"])
+        task_service.insert_task_if_not_exists(
+            task["id"], 
+            task["title"],
+            task.get("type", "basic"),
+            task.get("description"),
+            task.get("content")
+        )

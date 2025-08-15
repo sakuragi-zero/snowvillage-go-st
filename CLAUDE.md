@@ -54,9 +54,51 @@ self.connection_params = {
    );
    ```
 
+### タスクタイプシステム（v2.0）
+- **2種類のミッション**: 技術クイズ系（quiz）とSNS投稿系（sns）
+- **拡張されたデータベーススキーマ**: 
+  - `task_type`: タスクの種類（quiz/sns/basic）
+  - `description`: タスクの説明
+  - `content`: クイズ問題やSNS投稿要件（JSONB形式）
+
+### 折りたたみ式UI
+- **ページ階層なし**: 全てのタスクをダッシュボード内で完結
+- **クイズ機能**: 4択問題、即座のフィードバック、正解時に自動完了
+- **SNS投稿機能**: ブース訪問要件、投稿プロンプト、完了ボタン
+- **ボタン反応性**: ユニークキー設定、session_state管理で安定動作
+
 ### YAMLファイルからのタスク同期
 - `tasks.yml`ファイルからタスクを自動読み込み
+- 拡張フォーマット対応（type, description, content）
 - アプリケーション起動時に`sync_yaml_to_db()`でデータベースに同期
+
+**クイズタスクフォーマット例:**
+```yaml
+- id: 1
+  title: "データ取得技術"
+  type: "quiz"
+  description: "データベースからのデータ取得に関する技術クイズです"
+  content:
+    question: "SQLでテーブルの全てのレコードを取得するコマンドは？"
+    options:
+      - "SELECT * FROM table_name"
+      - "GET ALL FROM table_name"
+    correct_answer: 0
+```
+
+**SNSタスクフォーマット例:**
+```yaml
+- id: 2
+  title: "AI・MLブースを訪問"
+  type: "sns"
+  description: "AI・MLブースを訪問してSNSに投稿しよう！"
+  content:
+    booth_name: "AI・MLテクノロジーブース"
+    sns_prompt: "AI・MLブースで最新技術を体験中！ #SnowVillage"
+    requirements:
+      - "ブーススタッフと写真を撮る"
+      - "ハッシュタグ #SnowVillage を含める"
+```
 
 ## よくあるトラブル
 

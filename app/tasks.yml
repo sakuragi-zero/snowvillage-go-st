@@ -1,9 +1,59 @@
 tasks:
   - id: 1
-    title: "データ取得"
+    title: "データ取得技術"
+    type: "quiz"
+    description: "データベースからのデータ取得に関する技術クイズです"
+    content:
+      question: "SQLでテーブルの全てのレコードを取得するコマンドは？"
+      options:
+        - "SELECT * FROM table_name"
+        - "GET ALL FROM table_name"
+        - "FETCH * FROM table_name"
+        - "RETRIEVE ALL table_name"
+      correct_answer: 0
   - id: 2
-    title: "データ前処理"
+    title: "AI・MLブースを訪問"
+    type: "sns"
+    description: "AI・MLブースを訪問してSNSに投稿しよう！"
+    content:
+      booth_name: "AI・MLテクノロジーブース"
+      sns_prompt: "AI・MLブースで最新技術を体験中！ #SnowVillage #AI #ML"
+      requirements:
+        - "ブーススタッフと写真を撮る"
+        - "体験した技術についてコメント"
+        - "ハッシュタグ #SnowVillage を含める"
   - id: 3
-    title: "モデル学習"
+    title: "機械学習アルゴリズム"
+    type: "quiz"
+    description: "機械学習の基礎知識に関するクイズです"
+    content:
+      question: "教師あり学習の例として正しいものは？"
+      options:
+        - "クラスタリング"
+        - "線形回帰"
+        - "主成分分析"
+        - "K-means"
+      correct_answer: 1
   - id: 4
-    title: "結果可視化"
+    title: "データ可視化ブースを訪問"
+    type: "sns"
+    description: "データ可視化ブースでインタラクティブな体験をしよう！"
+    content:
+      booth_name: "データ可視化・分析ブース"
+      sns_prompt: "データの美しい可視化を体験中！ #SnowVillage #DataViz #Analytics"
+      requirements:
+        - "インタラクティブなダッシュボードを体験"
+        - "作成したグラフを撮影"
+        - "体験の感想をコメント"
+  - id: 5
+    title: "プログラミング基礎"
+    type: "quiz"
+    description: "プログラミングの基礎的な概念に関するクイズです"
+    content:
+      question: "for文の実行回数を決める要素は？"
+      options:
+        - "条件式の真偽"
+        - "反復可能オブジェクトの要素数"
+        - "変数の初期値"
+        - "関数の戻り値"
+      correct_answer: 1
