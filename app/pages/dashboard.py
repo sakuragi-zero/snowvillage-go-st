@@ -139,6 +139,17 @@ def main():
         st.markdown(f"**ユーザー名:** {user.username}")
         st.markdown(f"**登録日時:** {user.created_at.strftime('%Y年%m月%d日 %H:%M')}")
         st.markdown('</div>', unsafe_allow_html=True)
+        
+        st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
+        st.markdown("**メニュー**")
+        
+        if st.button("📊 ダッシュボード", use_container_width=True, disabled=True):
+            pass  # 現在のページ
+        
+        if st.button("🏆 ランキング", use_container_width=True):
+            st.switch_page("pages/ranking.py")
+            
+        st.markdown('</div>', unsafe_allow_html=True)
     
     # ヘッダー
     st.markdown('<h1 class="welcome-header">❄️ Snow Village Dashboard</h1>', unsafe_allow_html=True)
@@ -185,8 +196,13 @@ def display_tasks():
     from task_db import TaskService
     import json
     
+    # ユーザー情報を取得
+    user_info = st.session_state.user_info
+    user = user_info.get('user')
+    user_id = user.id
+    
     task_service = TaskService()
-    tasks = task_service.get_tasks_with_progress()
+    tasks = task_service.get_tasks_with_progress(user_id)
     
     if not tasks:
         st.info("現在、利用可能なミッションはありません。")
@@ -197,13 +213,13 @@ def display_tasks():
     sns_tasks = [task for task in tasks if task.get("task_type") == "sns"]
     
     st.markdown("### 🧠 技術クイズミッション")
-    display_quiz_tasks(quiz_tasks, task_service)
+    display_quiz_tasks(quiz_tasks, task_service, user_id)
     
     st.markdown("### 📱 SNS投稿ミッション")
-    display_sns_tasks(sns_tasks, task_service)
+    display_sns_tasks(sns_tasks, task_service, user_id)
 
 
-def display_quiz_tasks(tasks, task_service):
+def display_quiz_tasks(tasks, task_service, user_id):
     """クイズタスクの表示"""
     import json
     
@@ -233,12 +249,12 @@ def display_quiz_tasks(tasks, task_service):
         # 折りたたみ式クイズ表示
         if not is_completed and st.session_state.get(f"challenge_quiz_{task_id}", False):
             with st.expander(f"📚 {task['title']} - クイズ", expanded=True):
-                display_quiz_content(task, task_service)
+                display_quiz_content(task, task_service, user_id)
         
         st.divider()
 
 
-def display_sns_tasks(tasks, task_service):
+def display_sns_tasks(tasks, task_service, user_id):
     """SNSタスクの表示"""
     import json
     
@@ -268,12 +284,12 @@ def display_sns_tasks(tasks, task_service):
         # 折りたたみ式SNS投稿表示
         if not is_completed and st.session_state.get(f"challenge_sns_{task_id}", False):
             with st.expander(f"📱 {task['title']} - SNS投稿", expanded=True):
-                display_sns_content(task, task_service)
+                display_sns_content(task, task_service, user_id)
         
         st.divider()
 
 
-def display_quiz_content(task, task_service):
+def display_quiz_content(task, task_service, user_id):
     """クイズコンテンツの表示"""
     import json
     
@@ -308,7 +324,7 @@ def display_quiz_content(task, task_service):
             selected_index = options.index(selected_answer)
             if selected_index == correct_answer:
                 st.success("🎉 正解です！ミッション完了！")
-                task_service.mark_task_complete(task_id)
+                task_service.mark_task_complete(task_id, user_id)
                 st.session_state[f"challenge_quiz_{task_id}"] = False
                 st.rerun()
             else:
@@ -320,7 +336,7 @@ def display_quiz_content(task, task_service):
             st.rerun()
 
 
-def display_sns_content(task, task_service):
+def display_sns_content(task, task_service, user_id):
     """SNSコンテンツの表示"""
     import json
     
@@ -353,7 +369,7 @@ def display_sns_content(task, task_service):
     with col1:
         if st.button("完了", key=f"complete_sns_{task_id}"):
             st.success("🎉 SNS投稿ミッション完了！")
-            task_service.mark_task_complete(task_id)
+            task_service.mark_task_complete(task_id, user_id)
             st.session_state[f"challenge_sns_{task_id}"] = False
             st.rerun()
     

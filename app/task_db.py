@@ -30,9 +30,12 @@ class TaskService:
                 """)
                 cursor.execute("""
                 CREATE TABLE IF NOT EXISTS progress (
-                    task_id INT PRIMARY KEY,
-                    completed_at TIMESTAMP,
-                    FOREIGN KEY (task_id) REFERENCES tasks(id)
+                    id SERIAL PRIMARY KEY,
+                    user_id INT NOT NULL,
+                    task_id INT NOT NULL,
+                    completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (task_id) REFERENCES tasks(id),
+                    UNIQUE(user_id, task_id)
                 )
                 """)
             conn.commit()
@@ -51,19 +54,19 @@ class TaskService:
                     """, (task_id, title, task_type, description, content_json))
             conn.commit()
 
-    def mark_task_complete(self, task_id: int):
+    def mark_task_complete(self, task_id: int, user_id: int):
         """タスクを完了にマーク"""
         with psycopg2.connect(**self.connection_params) as conn:
             with conn.cursor() as cur:
                 cur.execute("""
-                    INSERT INTO progress (task_id, completed_at)
-                    VALUES (%s, %s)
-                    ON CONFLICT (task_id)
+                    INSERT INTO progress (user_id, task_id, completed_at)
+                    VALUES (%s, %s, %s)
+                    ON CONFLICT (user_id, task_id)
                     DO UPDATE SET completed_at = EXCLUDED.completed_at
-                """, (task_id, datetime.now()))
+                """, (user_id, task_id, datetime.now()))
             conn.commit()
 
-    def get_tasks_with_progress(self):
+    def get_tasks_with_progress(self, user_id: int):
         """タスクと進捗を取得"""
         with psycopg2.connect(**self.connection_params) as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
@@ -71,7 +74,23 @@ class TaskService:
                     SELECT t.id, t.title, t.task_type, t.description, t.content,
                         CASE WHEN p.task_id IS NOT NULL THEN TRUE ELSE FALSE END AS completed
                     FROM tasks t
-                    LEFT JOIN progress p ON t.id = p.task_id
+                    LEFT JOIN progress p ON t.id = p.task_id AND p.user_id = %s
                     ORDER BY t.id
+                """, (user_id,))
+                return cur.fetchall()
+
+    def get_user_ranking(self):
+        """ユーザーのタスク完了数ランキングを取得（上位10位）"""
+        with psycopg2.connect(**self.connection_params) as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                cur.execute("""
+                    SELECT u.username, 
+                           COUNT(p.task_id) as completed_tasks,
+                           MIN(p.completed_at) as first_completion
+                    FROM users u
+                    LEFT JOIN progress p ON u.id = p.user_id
+                    GROUP BY u.id, u.username
+                    ORDER BY completed_tasks DESC, first_completion ASC NULLS LAST
+                    LIMIT 10
                 """)
                 return cur.fetchall()
