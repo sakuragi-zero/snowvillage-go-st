@@ -445,6 +445,82 @@ def main():
             background: #ffffff !important;
         }}
         
+        /* ミッションクリアポップアップ */
+        .mission-clear-popup {{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 3rem 4rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            text-align: center;
+            animation: popupAnimation 0.5s ease-out;
+        }}
+        
+        .mission-clear-popup h1 {{
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }}
+        
+        .mission-clear-popup p {{
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }}
+        
+        .popup-overlay {{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            animation: fadeIn 0.3s ease-out;
+        }}
+        
+        @keyframes popupAnimation {{
+            0% {{
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }}
+            100% {{
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }}
+        }}
+        
+        @keyframes fadeIn {{
+            0% {{
+                opacity: 0;
+            }}
+            100% {{
+                opacity: 1;
+            }}
+        }}
+        
+        .popup-close-btn {{
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }}
+        
+        .popup-close-btn:hover {{
+            background: white;
+            color: #059669;
+        }}
+        
         /* レスポンシブ */
         @media (max-width: 768px) {{
             .main-container {{
@@ -655,8 +731,14 @@ def main():
     # タスク進捗状況セクション
     display_progress_overview()
     
+    # フィルター切り替えボタン
+    display_task_filter_toggle()
+    
     # タスクの表示と管理
     display_tasks()
+    
+    # ミッションクリアポップアップの表示
+    display_mission_clear_popup()
     
     # ログアウトボタン
     if st.button("ログアウト", use_container_width=True, type="primary", key="logout_btn"):
@@ -737,6 +819,52 @@ def display_progress_overview():
     ''', unsafe_allow_html=True)
 
 
+def display_task_filter_toggle():
+    """タスクフィルターの切り替えボタンを表示"""
+    
+    # 現在のフィルター状態を取得
+    show_only_incomplete = st.session_state.get("show_only_incomplete", False)
+    
+    # フィルターToggle
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if show_only_incomplete:
+            if st.button("📋 すべてのミッションを表示", key="show_all_tasks", type="secondary", use_container_width=True):
+                st.session_state["show_only_incomplete"] = False
+                st.rerun()
+        else:
+            if st.button("🎯 未完了のみ表示", key="show_incomplete_only", type="secondary", use_container_width=True):
+                st.session_state["show_only_incomplete"] = True
+                st.rerun()
+
+
+def display_mission_clear_popup():
+    """ミッションクリアポップアップの表示"""
+    
+    # ミッションクリア状態をチェック
+    if st.session_state.get("mission_cleared", False):
+        task_title = st.session_state.get("cleared_task_title", "ミッション")
+        
+        # ポップアップHTML
+        st.markdown(f'''
+        <div class="popup-overlay"></div>
+        <div class="mission-clear-popup">
+            <h1>🎉 ミッションクリア！</h1>
+            <p><strong>{task_title}</strong></p>
+            <p>おめでとうございます！<br>ミッションを完了しました！</p>
+        </div>
+        ''', unsafe_allow_html=True)
+        
+        # 中央に戻るボタンを配置
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            if st.button("ミッション一覧に戻る", key="return_to_missions", type="primary", use_container_width=True):
+                # クリアフラグをリセットし、フィルター表示モードを有効に
+                st.session_state["mission_cleared"] = False
+                st.session_state["show_only_incomplete"] = True
+                st.rerun()
+
+
 def display_tasks():
     """タスクの表示と管理"""
     from task_db import TaskService
@@ -786,9 +914,16 @@ def display_enhanced_quiz_tasks(tasks, task_service, user_id):
     """改善されたクイズタスクの表示"""
     import json
     
+    # フィルタリング機能: 未完了のみ表示するかチェック
+    show_only_incomplete = st.session_state.get("show_only_incomplete", False)
+    
     for task in tasks:
         task_id = task['id']
         is_completed = task['completed']
+        
+        # フィルタリング: 完了済みタスクを非表示にする場合はスキップ
+        if show_only_incomplete and is_completed:
+            continue
         
         # タスクカードHTML（ボタンなし）
         completed_class = "completed" if is_completed else ""
@@ -836,9 +971,16 @@ def display_enhanced_sns_tasks(tasks, task_service, user_id):
     """改善されたSNSタスクの表示"""
     import json
     
+    # フィルタリング機能: 未完了のみ表示するかチェック
+    show_only_incomplete = st.session_state.get("show_only_incomplete", False)
+    
     for task in tasks:
         task_id = task['id']
         is_completed = task['completed']
+        
+        # フィルタリング: 完了済みタスクを非表示にする場合はスキップ
+        if show_only_incomplete and is_completed:
+            continue
         
         # タスクカードHTML（ボタンなし）
         completed_class = "completed" if is_completed else ""
@@ -918,8 +1060,13 @@ def display_quiz_content(task, task_service, user_id):
         if st.button("回答する", key=f"submit_quiz_{task_id}"):
             selected_index = options.index(selected_answer)
             if selected_index == correct_answer:
-                st.success("🎉 正解です！ミッション完了！")
+                # ミッションクリア処理
                 task_service.mark_task_complete(task_id, user_id)
+                # クリア状態とタスク情報をセッションに保存
+                st.session_state["mission_cleared"] = True
+                st.session_state["cleared_task_title"] = task['title']
+                st.session_state["cleared_task_id"] = task_id
+                # クイズ表示を非表示にして画面更新
                 st.session_state[f"show_quiz_{task_id}"] = False
                 st.rerun()
             else:
@@ -963,8 +1110,13 @@ def display_sns_content(task, task_service, user_id):
     
     with col1:
         if st.button("完了", key=f"complete_sns_{task_id}"):
-            st.success("🎉 SNS投稿ミッション完了！")
+            # ミッションクリア処理
             task_service.mark_task_complete(task_id, user_id)
+            # クリア状態とタスク情報をセッションに保存
+            st.session_state["mission_cleared"] = True
+            st.session_state["cleared_task_title"] = task['title']
+            st.session_state["cleared_task_id"] = task_id
+            # SNS表示を非表示にして画面更新
             st.session_state[f"show_sns_{task_id}"] = False
             st.rerun()
     
