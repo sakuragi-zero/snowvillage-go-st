@@ -377,6 +377,110 @@ def main():
         .stButton > button:disabled:hover {{
             color: #9ca3af !important;
         }}
+        
+        /* 進捗状況カード */
+        .progress-overview-card {{
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+        }}
+        
+        .progress-stats {{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }}
+        
+        .stat-item {{
+            text-align: center;
+        }}
+        
+        .stat-number {{
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            line-height: 1;
+        }}
+        
+        .stat-label {{
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }}
+        
+        .stat-divider {{
+            font-size: 2rem;
+            color: #d1d5db;
+            font-weight: 300;
+        }}
+        
+        .completion-rate {{
+            text-align: center;
+            margin-left: 2rem;
+            padding-left: 2rem;
+            border-left: 2px solid #e5e7eb;
+        }}
+        
+        .rate-number {{
+            font-size: 3rem;
+            font-weight: 800;
+            color: #10b981;
+            line-height: 1;
+        }}
+        
+        .rate-label {{
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }}
+        
+        .progress-bar-container {{
+            width: 100%;
+        }}
+        
+        .progress-bar {{
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+        }}
+        
+        .progress-fill {{
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            border-radius: 6px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }}
+        
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {{
+            .progress-stats {{
+                flex-direction: column;
+                gap: 1rem;
+            }}
+            
+            .completion-rate {{
+                margin-left: 0;
+                padding-left: 0;
+                border-left: none;
+                border-top: 2px solid #e5e7eb;
+                padding-top: 1rem;
+            }}
+            
+            .stat-number {{
+                font-size: 2rem;
+            }}
+            
+            .rate-number {{
+                font-size: 2.5rem;
+            }}
+        }}
     </style>
     """, unsafe_allow_html=True)
     
@@ -412,16 +516,11 @@ def main():
     </h1>
     ''', unsafe_allow_html=True)
     
-    # タスク管理セクション
-    st.markdown('''
-    <div class="section-header">
-        <span class="material-icons section-icon">assignment</span>
-        ミッション進捗管理
-    </div>
-    ''', unsafe_allow_html=True)
-    
     # タスクシステムの初期化と同期
     init_task_system()
+    
+    # タスク進捗状況セクション
+    display_progress_overview()
     
     # タスクの表示と管理
     display_tasks()
@@ -449,6 +548,62 @@ def init_task_system():
         sync_yaml_to_db(yaml_path)
 
 
+def display_progress_overview():
+    """進捗状況の概要を表示"""
+    from task_db import TaskService
+    
+    # ユーザー情報を取得
+    user_info = st.session_state.user_info
+    user = user_info.get('user')
+    user_id = user.id
+    
+    task_service = TaskService()
+    tasks = task_service.get_tasks_with_progress(user_id)
+    
+    if not tasks:
+        st.info("現在、利用可能なミッションはありません。")
+        return
+    
+    # 進捗状況の計算
+    total_tasks = len(tasks)
+    completed_tasks = len([task for task in tasks if task['completed']])
+    completion_rate = (completed_tasks / total_tasks) * 100 if total_tasks > 0 else 0
+    
+    # 進捗状況ヘッダー
+    st.markdown('''
+    <div class="section-header">
+        <span class="material-icons section-icon">analytics</span>
+        進捗状況
+    </div>
+    ''', unsafe_allow_html=True)
+    
+    # 進捗表示カード
+    st.markdown(f'''
+    <div class="progress-overview-card">
+        <div class="progress-stats">
+            <div class="stat-item">
+                <div class="stat-number">{completed_tasks}</div>
+                <div class="stat-label">完了済み</div>
+            </div>
+            <div class="stat-divider">/</div>
+            <div class="stat-item">
+                <div class="stat-number">{total_tasks}</div>
+                <div class="stat-label">総ミッション数</div>
+            </div>
+            <div class="completion-rate">
+                <div class="rate-number">{completion_rate:.1f}%</div>
+                <div class="rate-label">完了率</div>
+            </div>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {completion_rate}%"></div>
+            </div>
+        </div>
+    </div>
+    ''', unsafe_allow_html=True)
+
+
 def display_tasks():
     """タスクの表示と管理"""
     from task_db import TaskService
@@ -463,7 +618,6 @@ def display_tasks():
     tasks = task_service.get_tasks_with_progress(user_id)
     
     if not tasks:
-        st.info("現在、利用可能なミッションはありません。")
         return
     
     # タスクタイプ別に分類
