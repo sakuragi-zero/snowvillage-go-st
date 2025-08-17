@@ -201,26 +201,20 @@ def main():
         if st.button("匿名投稿", use_container_width=True, disabled=True, key="nav_post"):
             pass  # 現在のページ
     
-    # メインコンテンツ
-    st.markdown('<div class="main-container">', unsafe_allow_html=True)
-    
     # ヘッダー
-    st.markdown('<h1 class="post-header">📝 匿名投稿</h1>', unsafe_allow_html=True)
+    st.markdown('''
+    <h1 class="post-header">
+        <span class="material-icons" style="font-size: 3rem; vertical-align: middle; margin-right: 0.5rem; color: #1a237e;">edit</span>
+        匿名投稿
+    </h1>
+    ''', unsafe_allow_html=True)
     
     # 投稿フォーム表示
-    st.markdown('<div class="form-container">', unsafe_allow_html=True)
-    
     display_post_form(user)
     
-    st.markdown('</div>', unsafe_allow_html=True)
-    
     # 戻るボタン
-    st.markdown('<div class="back-btn">', unsafe_allow_html=True)
-    if st.button("📊 ダッシュボードに戻る", use_container_width=True, type="primary"):
+    if st.button("ダッシュボードに戻る", use_container_width=True, type="primary"):
         st.switch_page("pages/dashboard.py")
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
 
 
 def display_post_form(user):

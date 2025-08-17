@@ -195,26 +195,20 @@ def main():
         if st.button("匿名投稿", use_container_width=True, key="nav_post"):
             st.switch_page("pages/post.py")
     
-    # メインコンテンツ
-    st.markdown('<div class="main-container">', unsafe_allow_html=True)
-    
     # ヘッダー
-    st.markdown('<h1 class="ranking-header">🏆 ユーザーランキング</h1>', unsafe_allow_html=True)
+    st.markdown('''
+    <h1 class="ranking-header">
+        <span class="material-icons" style="font-size: 3rem; vertical-align: middle; margin-right: 0.5rem; color: #1a237e;">leaderboard</span>
+        ユーザーランキング
+    </h1>
+    ''', unsafe_allow_html=True)
     
     # ランキング表示
-    st.markdown('<div class="ranking-container">', unsafe_allow_html=True)
-    
     display_ranking()
     
-    st.markdown('</div>', unsafe_allow_html=True)
-    
     # 戻るボタン
-    st.markdown('<div class="back-btn">', unsafe_allow_html=True)
-    if st.button("📊 ダッシュボードに戻る", use_container_width=True, type="primary"):
+    if st.button("ダッシュボードに戻る", use_container_width=True, type="primary"):
         st.switch_page("pages/dashboard.py")
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
 
 
 def display_ranking():
@@ -228,7 +222,12 @@ def display_ranking():
         st.info("まだランキングデータがありません。")
         return
     
-    st.markdown("### 📈 タスク完了数ランキング（上位10位）")
+    st.markdown('''
+    <h3 style="color: #1a237e; display: flex; align-items: center; margin-bottom: 1rem;">
+        <span class="material-icons" style="font-size: 1.5rem; margin-right: 0.5rem;">trending_up</span>
+        タスク完了数ランキング（上位10位）
+    </h3>
+    ''', unsafe_allow_html=True)
     st.caption("同じタスク数の場合は、最初に到達したユーザーが上位になります")
     
     for i, rank_data in enumerate(ranking_data, 1):
@@ -238,18 +237,18 @@ def display_ranking():
         
         # ランク別スタイル
         rank_class = ""
-        rank_emoji = ""
+        rank_display = ""
         if i == 1:
             rank_class = "rank-1"
-            rank_emoji = "🥇"
+            rank_display = '<span class="material-icons" style="font-size: 1.5rem; color: #1a1a1a; text-shadow: 0 0 3px #FFD700;">workspace_premium</span>'
         elif i == 2:
             rank_class = "rank-2"
-            rank_emoji = "🥈"
+            rank_display = '<span class="material-icons" style="font-size: 1.5rem; color: #1a1a1a; text-shadow: 0 0 3px #C0C0C0;">workspace_premium</span>'
         elif i == 3:
             rank_class = "rank-3"
-            rank_emoji = "🥉"
+            rank_display = '<span class="material-icons" style="font-size: 1.5rem; color: #1a1a1a; text-shadow: 0 0 3px #CD7F32;">workspace_premium</span>'
         else:
-            rank_emoji = f"{i}位"
+            rank_display = f'<span style="font-weight: bold; color: #1a1a1a;">{i}位</span>'
         
         # 完了日時の表示
         completion_text = ""
@@ -260,7 +259,7 @@ def display_ranking():
         
         st.markdown(f"""
         <div class="rank-item {rank_class}">
-            <div class="rank-number">{rank_emoji}</div>
+            <div class="rank-number">{rank_display}</div>
             <div class="user-info">
                 <div class="username">{username}</div>
                 <div class="task-count">完了タスク数: {completed_tasks}個</div>
