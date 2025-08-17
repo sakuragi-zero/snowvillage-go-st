@@ -149,6 +149,9 @@ def main():
         if st.button("🏆 ランキング", use_container_width=True):
             st.switch_page("pages/ranking.py")
             
+        if st.button("📝 匿名投稿", use_container_width=True):
+            st.switch_page("pages/post.py")
+            
         st.markdown('</div>', unsafe_allow_html=True)
     
     # ヘッダー
