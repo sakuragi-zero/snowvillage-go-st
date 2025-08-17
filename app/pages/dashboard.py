@@ -734,11 +734,11 @@ def main():
     # フィルター切り替えボタン
     display_task_filter_toggle()
     
+    # ミッションクリア通知の表示
+    display_mission_clear_notification()
+    
     # タスクの表示と管理
     display_tasks()
-    
-    # ミッションクリアポップアップの表示
-    display_mission_clear_popup()
     
     # ログアウトボタン
     if st.button("ログアウト", use_container_width=True, type="primary", key="logout_btn"):
@@ -838,31 +838,50 @@ def display_task_filter_toggle():
                 st.rerun()
 
 
-def display_mission_clear_popup():
-    """ミッションクリアポップアップの表示"""
+@st.dialog("🎉 ミッションクリア！")
+def show_mission_clear_dialog():
+    """ミッションクリアダイアログ表示"""
+    task_title = st.session_state.get("cleared_task_title", "ミッション")
+    
+    # ダイアログ内容
+    st.markdown(f"""
+    <div style="text-align: center; padding: 1rem;">
+        <h1 style="font-size: 4rem; margin: 1rem 0; color: #10b981;">🎉</h1>
+        <h2 style="font-size: 2rem; margin: 1rem 0; color: #10b981; font-weight: 700;">
+            ミッションクリア！
+        </h2>
+        <h3 style="font-size: 1.5rem; margin: 1rem 0; color: #374151; font-weight: 600;">
+            『{task_title}』
+        </h3>
+        <p style="font-size: 1.2rem; margin: 1.5rem 0; color: #6b7280;">
+            おめでとうございます！<br>
+            ミッションを完了しました！
+        </p>
+        <p style="font-size: 1rem; margin: 1rem 0; color: #9ca3af;">
+            未完了のミッションのみ表示に切り替えます
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # お祝い効果
+    st.balloons()
+    
+    # 確認ボタン
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("ミッション一覧に戻る", type="primary", use_container_width=True):
+            # フィルタリングモードに切り替えて状態をクリア
+            st.session_state["mission_cleared"] = False
+            st.session_state["show_only_incomplete"] = True
+            st.rerun()
+
+
+def display_mission_clear_notification():
+    """ミッションクリア通知の管理"""
     
     # ミッションクリア状態をチェック
     if st.session_state.get("mission_cleared", False):
-        task_title = st.session_state.get("cleared_task_title", "ミッション")
-        
-        # ポップアップHTML
-        st.markdown(f'''
-        <div class="popup-overlay"></div>
-        <div class="mission-clear-popup">
-            <h1>🎉 ミッションクリア！</h1>
-            <p><strong>{task_title}</strong></p>
-            <p>おめでとうございます！<br>ミッションを完了しました！</p>
-        </div>
-        ''', unsafe_allow_html=True)
-        
-        # 中央に戻るボタンを配置
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            if st.button("ミッション一覧に戻る", key="return_to_missions", type="primary", use_container_width=True):
-                # クリアフラグをリセットし、フィルター表示モードを有効に
-                st.session_state["mission_cleared"] = False
-                st.session_state["show_only_incomplete"] = True
-                st.rerun()
+        show_mission_clear_dialog()
 
 
 def display_tasks():
