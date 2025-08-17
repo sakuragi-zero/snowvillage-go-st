@@ -55,6 +55,10 @@ def main():
         bg_style = f"background: url(data:image/png;base64,{bg_base64}) no-repeat center center fixed; background-size: cover;"
     
     st.markdown(f"""
+    <!-- Material Icons CDN -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         /* 背景設定 */
         .stApp {{ 
@@ -156,26 +160,40 @@ def main():
         
         .stButton > button:hover {{
             background: #283593;
+            color: #90ee90 !important;
+            transition: color 0.3s ease;
+        }}
+        
+        /* 無効化されたボタンのホバーエフェクトを無効化 */
+        .stButton > button:disabled:hover {{
+            color: #9ca3af !important;
         }}
     </style>
     """, unsafe_allow_html=True)
     
     # サイドバーにユーザー情報を表示
     with st.sidebar:
-        st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
-        st.markdown(f"### Hello, {user.username}! 🎉")
-        st.markdown("**メニュー**")
+        st.markdown(f"""
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <span class="material-icons" style="font-size: 2rem; color: #ffffff;">account_circle</span>
+            <h3 style="margin: 0.5rem 0; color: #ffffff; font-weight: 600;">こんにちは{user.username}さん</h3>
+            <div style="color: #ffffff; font-size: 0.875rem; margin-top: 0.5rem; font-weight: 500;">
+                <span class="material-icons" style="font-size: 1rem; vertical-align: middle; margin-right: 0.5rem;">schedule</span>
+                {user.created_at.strftime('%Y年%m月%d日 %H:%M')}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
         
-        if st.button("📊 ダッシュボード", use_container_width=True):
+        st.markdown('<h4 style="margin: 0 0 1rem 0; color: #ffffff; font-weight: 600;"><span class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">menu</span>メニュー</h4>', unsafe_allow_html=True)
+        
+        if st.button("ダッシュボード", use_container_width=True, key="nav_dashboard"):
             st.switch_page("pages/dashboard.py")
         
-        if st.button("🏆 ランキング", use_container_width=True, disabled=True):
+        if st.button("ランキング", use_container_width=True, disabled=True, key="nav_ranking"):
             pass  # 現在のページ
             
-        if st.button("📝 匿名投稿", use_container_width=True):
+        if st.button("匿名投稿", use_container_width=True, key="nav_post"):
             st.switch_page("pages/post.py")
-            
-        st.markdown('</div>', unsafe_allow_html=True)
     
     # メインコンテンツ
     st.markdown('<div class="main-container">', unsafe_allow_html=True)

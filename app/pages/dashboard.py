@@ -366,6 +366,17 @@ def main():
             margin-bottom: 1rem;
             backdrop-filter: blur(10px);
         }}
+        
+        /* サイドバーボタンのホバーエフェクト */
+        .stButton > button:hover {{
+            color: #90ee90 !important;
+            transition: color 0.3s ease;
+        }}
+        
+        /* 無効化されたボタンのホバーエフェクトを無効化 */
+        .stButton > button:disabled:hover {{
+            color: #9ca3af !important;
+        }}
     </style>
     """, unsafe_allow_html=True)
     
@@ -373,16 +384,16 @@ def main():
     with st.sidebar:
         st.markdown(f"""
         <div style="text-align: center; margin-bottom: 1rem;">
-            <span class="material-icons" style="font-size: 2rem; color: #2563eb;">account_circle</span>
-            <h3 style="margin: 0.5rem 0; color: #374151;">Hello, {user.username}!</h3>
-            <div style="color: #6b7280; font-size: 0.875rem; margin-top: 0.5rem;">
+            <span class="material-icons" style="font-size: 2rem; color: #ffffff;">account_circle</span>
+            <h3 style="margin: 0.5rem 0; color: #ffffff; font-weight: 600;">こんにちは{user.username}さん</h3>
+            <div style="color: #ffffff; font-size: 0.875rem; margin-top: 0.5rem; font-weight: 500;">
                 <span class="material-icons" style="font-size: 1rem; vertical-align: middle; margin-right: 0.5rem;">schedule</span>
                 {user.created_at.strftime('%Y年%m月%d日 %H:%M')}
             </div>
         </div>
         """, unsafe_allow_html=True)
         
-        st.markdown('<h4 style="margin: 0 0 1rem 0; color: #374151;"><span class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">menu</span>メニュー</h4>', unsafe_allow_html=True)
+        st.markdown('<h4 style="margin: 0 0 1rem 0; color: #ffffff; font-weight: 600;"><span class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">menu</span>メニュー</h4>', unsafe_allow_html=True)
         
         if st.button("ダッシュボード", use_container_width=True, disabled=True, key="nav_dashboard"):
             pass  # 現在のページ
