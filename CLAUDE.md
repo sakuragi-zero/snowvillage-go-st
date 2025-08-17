@@ -184,3 +184,18 @@ export DB_HOST=localhost DB_PASSWORD=password
 uv run streamlit run main.py
 ```
 ※ snowvillage-postgresコンテナに接続（必要に応じて使用）
+
+## UI開発での重要な注意点
+
+### ボタンキーの重複エラー
+- **問題**: `StreamlitDuplicateElementKey` エラー - 同じキーのボタンが複数存在
+- **原因**: 複数の表示関数で同じキー形式を使用（例：`close_sns_{task_id}`）
+- **解決**: 
+  - ボタンキーに機能別の接尾辞を追加（例：`close_sns_content_{task_id}`）
+  - 重複する古い関数を削除
+  - セッション状態キーの統一（`show_quiz_{task_id}`, `show_sns_{task_id}`）
+
+### ボタンをHTMLカード内に配置しない
+- **問題**: HTMLカード内のボタンは反応しない
+- **解決**: 必ずStreamlitボタンをカード外に配置
+- **ベストプラクティス**: `st.columns()`でレイアウト調整

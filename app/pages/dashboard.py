@@ -54,10 +54,20 @@ def main():
         bg_style = f"background: url(data:image/png;base64,{bg_base64}) no-repeat center center fixed; background-size: cover;"
     
     st.markdown(f"""
+    <!-- Material Icons CDN -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* 基本設定 */
+        * {{
+            box-sizing: border-box;
+        }}
+        
         /* 背景設定 */
         .stApp {{ 
-            {bg_style} 
+            {bg_style}
+            font-family: 'Inter', sans-serif;
         }}
         
         /* Streamlitのデフォルト白い枠・余白を除去 */
@@ -76,57 +86,285 @@ def main():
         
         /* メインコンテナ */
         .main-container {{
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            padding: 2.5rem;
             margin: 2rem auto;
-            max-width: 800px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 25px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
         }}
         
+        /* ヘッダー */
         .welcome-header {{
             text-align: center;
-            color: #1a237e;
+            color: #1a1a1a;
             font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+        }}
+        
+        .header-icon {{
+            color: #2563eb;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }}
+        
+        /* セクション見出し */
+        .section-header {{
+            display: flex;
+            align-items: center;
+            margin: 2rem 0 1rem 0;
+            color: #374151;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }}
+        
+        .section-icon {{
+            margin-right: 0.75rem;
+            color: #2563eb;
+            font-size: 1.75rem;
+        }}
+        
+        /* タスクカテゴリー */
+        .task-category {{
+            margin: 2rem 0;
+        }}
+        
+        /* ミッションカード */
+        .mission-card {{
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }}
+        
+        .mission-card:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 6px 16px rgba(0, 0, 0, 0.08);
+            border-color: #d1d5db;
+        }}
+        
+        .mission-card.completed {{
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            border-color: #a7f3d0;
+        }}
+        
+        .mission-card.completed::before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+        }}
+        
+        /* カード内容 */
+        .card-content {{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }}
+        
+        .mission-info {{
+            flex: 1;
+        }}
+        
+        .mission-title {{
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }}
+        
+        .mission-type-icon {{
+            margin-right: 0.5rem;
+            font-size: 1.25rem;
+        }}
+        
+        .quiz-icon {{ color: #7c3aed; }}
+        .sns-icon {{ color: #dc2626; }}
+        
+        .mission-description {{
+            color: #6b7280;
+            font-size: 0.875rem;
+            line-height: 1.5;
             margin-bottom: 1rem;
         }}
         
-        .user-info {{
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 1rem;
-            margin: 1rem 0;
+        .mission-status {{
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+            font-weight: 500;
         }}
         
-        .task-container {{
-            background: #ffffff;
-            border-radius: 10px;
+        .status-completed {{
+            color: #059669;
+        }}
+        
+        .status-pending {{
+            color: #d97706;
+        }}
+        
+        .status-icon {{
+            margin-right: 0.25rem;
+            font-size: 1rem;
+        }}
+        
+        /* アクションボタン */
+        .mission-actions {{
+            flex-shrink: 0;
+        }}
+        
+        /* Material Design ボタン */
+        .md-button {{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            min-width: 100px;
+        }}
+        
+        .md-button:before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(100%);
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }}
+        
+        .md-button:hover:before {{
+            transform: translateY(0);
+        }}
+        
+        .md-button-primary {{
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }}
+        
+        .md-button-primary:hover {{
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }}
+        
+        .md-button-success {{
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }}
+        
+        .md-button-secondary {{
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }}
+        
+        .md-button-secondary:hover {{
+            background: #e5e7eb;
+            border-color: #9ca3af;
+        }}
+        
+        .md-button:disabled {{
+            background: #f3f4f6 !important;
+            color: #9ca3af !important;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }}
+        
+        .md-button-icon {{
+            margin-right: 0.5rem;
+            font-size: 1rem;
+        }}
+        
+        /* 展開エリア */
+        .mission-expand {{
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: #f9fafb;
             padding: 1.5rem;
-            margin: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }}
         
-        .logout-btn {{
-            margin-top: 2rem;
-            text-align: center;
+        /* レスポンシブ */
+        @media (max-width: 768px) {{
+            .main-container {{
+                margin: 1rem;
+                padding: 1.5rem;
+                border-radius: 16px;
+            }}
+            
+            .card-content {{
+                flex-direction: column;
+                gap: 1rem;
+            }}
+            
+            .mission-actions {{
+                width: 100%;
+            }}
+            
+            .md-button {{
+                width: 100%;
+            }}
         }}
         
         /* ボタンスタイル調整 */
         .stButton > button {{
-            background: #1a237e;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
-            border-radius: 10px;
+            border-radius: 8px;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }}
         
         .stButton > button:hover {{
-            background: #283593;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
         }}
         
         .stButton > button:disabled {{
-            background: #ccc;
-            color: #666;
+            background: #f3f4f6 !important;
+            color: #9ca3af !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }}
+        
+        /* サイドバー調整 */
+        .sidebar-content {{
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
         }}
     </style>
     """, unsafe_allow_html=True)
@@ -134,32 +372,55 @@ def main():
     # サイドバーにユーザー情報を表示
     with st.sidebar:
         st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
-        st.markdown(f"### Hello, {user.username}! 🎉")
-        st.markdown("**ユーザー情報**")
-        st.markdown(f"**ユーザー名:** {user.username}")
-        st.markdown(f"**登録日時:** {user.created_at.strftime('%Y年%m月%d日 %H:%M')}")
+        st.markdown(f"""
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <span class="material-icons" style="font-size: 2rem; color: #2563eb;">account_circle</span>
+            <h3 style="margin: 0.5rem 0; color: #374151;">Hello, {user.username}!</h3>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div style="color: #6b7280; font-size: 0.875rem;">
+            <div style="margin: 0.5rem 0;">
+                <span class="material-icons" style="font-size: 1rem; vertical-align: middle; margin-right: 0.5rem;">person</span>
+                {user.username}
+            </div>
+            <div style="margin: 0.5rem 0;">
+                <span class="material-icons" style="font-size: 1rem; vertical-align: middle; margin-right: 0.5rem;">schedule</span>
+                {user.created_at.strftime('%Y年%m月%d日 %H:%M')}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
         
         st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
-        st.markdown("**メニュー**")
+        st.markdown('<h4 style="margin: 0 0 1rem 0; color: #374151;"><span class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">menu</span>メニュー</h4>', unsafe_allow_html=True)
         
-        if st.button("📊 ダッシュボード", use_container_width=True, disabled=True):
+        if st.button("ダッシュボード", use_container_width=True, disabled=True, key="nav_dashboard"):
             pass  # 現在のページ
         
-        if st.button("🏆 ランキング", use_container_width=True):
+        if st.button("ランキング", use_container_width=True, key="nav_ranking"):
             st.switch_page("pages/ranking.py")
             
-        if st.button("📝 匿名投稿", use_container_width=True):
+        if st.button("匿名投稿", use_container_width=True, key="nav_post"):
             st.switch_page("pages/post.py")
             
         st.markdown('</div>', unsafe_allow_html=True)
     
     # ヘッダー
-    st.markdown('<h1 class="welcome-header">❄️ Snow Village Dashboard</h1>', unsafe_allow_html=True)
+    st.markdown('''
+    <h1 class="welcome-header">
+        <span class="material-icons header-icon" style="font-size: 3rem;">dashboard</span>
+        Snow Village Dashboard
+    </h1>
+    ''', unsafe_allow_html=True)
     
     # タスク管理セクション
-    st.markdown('<div class="task-container">', unsafe_allow_html=True)
-    st.markdown("### 🎯 ミッション進捗管理")
+    st.markdown('''
+    <div class="section-header">
+        <span class="material-icons section-icon">assignment</span>
+        ミッション進捗管理
+    </div>
+    ''', unsafe_allow_html=True)
     
     # タスクシステムの初期化と同期
     init_task_system()
@@ -167,16 +428,12 @@ def main():
     # タスクの表示と管理
     display_tasks()
     
-    st.markdown('</div>', unsafe_allow_html=True)
-    
     # ログアウトボタン
-    st.markdown('<div class="logout-btn">', unsafe_allow_html=True)
-    if st.button("ログアウト", use_container_width=True, type="primary"):
+    if st.button("ログアウト", use_container_width=True, type="primary", key="logout_btn"):
         # セッションクリア
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
 
 
 @st.cache_resource
@@ -215,81 +472,131 @@ def display_tasks():
     quiz_tasks = [task for task in tasks if task.get("task_type") == "quiz"]
     sns_tasks = [task for task in tasks if task.get("task_type") == "sns"]
     
-    st.markdown("### 🧠 技術クイズミッション")
-    display_quiz_tasks(quiz_tasks, task_service, user_id)
+    # クイズタスクセクション
+    st.markdown('''
+    <div class="task-category">
+        <div class="section-header">
+            <span class="material-icons section-icon">school</span>
+            技術クイズミッション
+        </div>
+    </div>
+    ''', unsafe_allow_html=True)
     
-    st.markdown("### 📱 SNS投稿ミッション")
-    display_sns_tasks(sns_tasks, task_service, user_id)
+    display_enhanced_quiz_tasks(quiz_tasks, task_service, user_id)
+    
+    # SNSタスクセクション
+    st.markdown('''
+    <div class="task-category">
+        <div class="section-header">
+            <span class="material-icons section-icon">camera_alt</span>
+            SNS投稿ミッション
+        </div>
+    </div>
+    ''', unsafe_allow_html=True)
+    
+    display_enhanced_sns_tasks(sns_tasks, task_service, user_id)
 
 
-def display_quiz_tasks(tasks, task_service, user_id):
-    """クイズタスクの表示"""
+def display_enhanced_quiz_tasks(tasks, task_service, user_id):
+    """改善されたクイズタスクの表示"""
     import json
     
     for task in tasks:
         task_id = task['id']
         is_completed = task['completed']
         
-        # タスクカード
-        with st.container():
-            col1, col2 = st.columns([4, 1])
-            
-            with col1:
-                if is_completed:
-                    st.markdown(f"✅ **{task['title']}** (完了済み)")
-                else:
-                    st.markdown(f"🧠 **{task['title']}**")
-                st.caption(task.get('description', ''))
-            
-            with col2:
-                if is_completed:
-                    st.success("完了")
-                else:
-                    challenge_key = f"challenge_quiz_{task_id}"
-                    if st.button("挑戦", key=f"btn_quiz_{task_id}", disabled=is_completed):
-                        st.session_state[challenge_key] = True
+        # タスクカードHTML（ボタンなし）
+        completed_class = "completed" if is_completed else ""
+        status_text = "完了" if is_completed else "挑戦可能"
+        status_class = "status-completed" if is_completed else "status-pending"
+        status_icon = "check_circle" if is_completed else "radio_button_unchecked"
         
-        # 折りたたみ式クイズ表示
-        if not is_completed and st.session_state.get(f"challenge_quiz_{task_id}", False):
+        card_html = f"""
+        <div class="mission-card {completed_class}">
+            <div class="card-content">
+                <div class="mission-info">
+                    <div class="mission-title">
+                        <span class="material-icons mission-type-icon quiz-icon">school</span>
+                        {task['title']}
+                    </div>
+                    <div class="mission-description">
+                        {task.get('description', '')}
+                    </div>
+                    <div class="mission-status {status_class}">
+                        <span class="material-icons status-icon">{status_icon}</span>
+                        {status_text}
+                    </div>
+                </div>
+            </div>
+        </div>
+        """
+        
+        st.markdown(card_html, unsafe_allow_html=True)
+        
+        # Streamlitボタン（カード外）
+        if not is_completed:
+            col1, col2 = st.columns([3, 1])
+            with col2:
+                if st.button("挑戦", key=f"quiz_btn_{task_id}", type="primary"):
+                    st.session_state[f"show_quiz_{task_id}"] = True
+                    st.rerun()
+        
+        # クイズコンテンツ表示
+        if not is_completed and st.session_state.get(f"show_quiz_{task_id}", False):
             with st.expander(f"📚 {task['title']} - クイズ", expanded=True):
                 display_quiz_content(task, task_service, user_id)
-        
-        st.divider()
 
 
-def display_sns_tasks(tasks, task_service, user_id):
-    """SNSタスクの表示"""
+def display_enhanced_sns_tasks(tasks, task_service, user_id):
+    """改善されたSNSタスクの表示"""
     import json
     
     for task in tasks:
         task_id = task['id']
         is_completed = task['completed']
         
-        # タスクカード
-        with st.container():
-            col1, col2 = st.columns([4, 1])
-            
-            with col1:
-                if is_completed:
-                    st.markdown(f"✅ **{task['title']}** (完了済み)")
-                else:
-                    st.markdown(f"📱 **{task['title']}**")
-                st.caption(task.get('description', ''))
-            
-            with col2:
-                if is_completed:
-                    st.success("完了")
-                else:
-                    challenge_key = f"challenge_sns_{task_id}"
-                    if st.button("挑戦", key=f"btn_sns_{task_id}", disabled=is_completed):
-                        st.session_state[challenge_key] = True
+        # タスクカードHTML（ボタンなし）
+        completed_class = "completed" if is_completed else ""
+        status_text = "完了" if is_completed else "投稿可能"
+        status_class = "status-completed" if is_completed else "status-pending"
+        status_icon = "check_circle" if is_completed else "radio_button_unchecked"
         
-        # 折りたたみ式SNS投稿表示
-        if not is_completed and st.session_state.get(f"challenge_sns_{task_id}", False):
+        card_html = f"""
+        <div class="mission-card {completed_class}">
+            <div class="card-content">
+                <div class="mission-info">
+                    <div class="mission-title">
+                        <span class="material-icons mission-type-icon sns-icon">camera_alt</span>
+                        {task['title']}
+                    </div>
+                    <div class="mission-description">
+                        {task.get('description', '')}
+                    </div>
+                    <div class="mission-status {status_class}">
+                        <span class="material-icons status-icon">{status_icon}</span>
+                        {status_text}
+                    </div>
+                </div>
+            </div>
+        </div>
+        """
+        
+        st.markdown(card_html, unsafe_allow_html=True)
+        
+        # Streamlitボタン（カード外）
+        if not is_completed:
+            col1, col2 = st.columns([3, 1])
+            with col2:
+                if st.button("投稿", key=f"sns_btn_{task_id}", type="primary"):
+                    st.session_state[f"show_sns_{task_id}"] = True
+                    st.rerun()
+        
+        # SNSコンテンツ表示
+        if not is_completed and st.session_state.get(f"show_sns_{task_id}", False):
             with st.expander(f"📱 {task['title']} - SNS投稿", expanded=True):
                 display_sns_content(task, task_service, user_id)
-        
-        st.divider()
+
+
 
 
 def display_quiz_content(task, task_service, user_id):
@@ -328,14 +635,14 @@ def display_quiz_content(task, task_service, user_id):
             if selected_index == correct_answer:
                 st.success("🎉 正解です！ミッション完了！")
                 task_service.mark_task_complete(task_id, user_id)
-                st.session_state[f"challenge_quiz_{task_id}"] = False
+                st.session_state[f"show_quiz_{task_id}"] = False
                 st.rerun()
             else:
                 st.error(f"❌ 不正解です。正解は: {options[correct_answer]}")
     
     with col2:
-        if st.button("閉じる", key=f"close_quiz_{task_id}"):
-            st.session_state[f"challenge_quiz_{task_id}"] = False
+        if st.button("閉じる", key=f"close_quiz_content_{task_id}"):
+            st.session_state[f"show_quiz_{task_id}"] = False
             st.rerun()
 
 
@@ -373,12 +680,12 @@ def display_sns_content(task, task_service, user_id):
         if st.button("完了", key=f"complete_sns_{task_id}"):
             st.success("🎉 SNS投稿ミッション完了！")
             task_service.mark_task_complete(task_id, user_id)
-            st.session_state[f"challenge_sns_{task_id}"] = False
+            st.session_state[f"show_sns_{task_id}"] = False
             st.rerun()
     
     with col2:
-        if st.button("閉じる", key=f"close_sns_{task_id}"):
-            st.session_state[f"challenge_sns_{task_id}"] = False
+        if st.button("閉じる", key=f"close_sns_content_{task_id}"):
+            st.session_state[f"show_sns_{task_id}"] = False
             st.rerun()
 
 
