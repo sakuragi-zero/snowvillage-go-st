@@ -371,28 +371,17 @@ def main():
     
     # サイドバーにユーザー情報を表示
     with st.sidebar:
-        st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
         st.markdown(f"""
         <div style="text-align: center; margin-bottom: 1rem;">
             <span class="material-icons" style="font-size: 2rem; color: #2563eb;">account_circle</span>
             <h3 style="margin: 0.5rem 0; color: #374151;">Hello, {user.username}!</h3>
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown(f"""
-        <div style="color: #6b7280; font-size: 0.875rem;">
-            <div style="margin: 0.5rem 0;">
-                <span class="material-icons" style="font-size: 1rem; vertical-align: middle; margin-right: 0.5rem;">person</span>
-                {user.username}
-            </div>
-            <div style="margin: 0.5rem 0;">
+            <div style="color: #6b7280; font-size: 0.875rem; margin-top: 0.5rem;">
                 <span class="material-icons" style="font-size: 1rem; vertical-align: middle; margin-right: 0.5rem;">schedule</span>
                 {user.created_at.strftime('%Y年%m月%d日 %H:%M')}
             </div>
         </div>
         """, unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
         st.markdown('<h4 style="margin: 0 0 1rem 0; color: #374151;"><span class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">menu</span>メニュー</h4>', unsafe_allow_html=True)
         
         if st.button("ダッシュボード", use_container_width=True, disabled=True, key="nav_dashboard"):
@@ -403,8 +392,6 @@ def main():
             
         if st.button("匿名投稿", use_container_width=True, key="nav_post"):
             st.switch_page("pages/post.py")
-            
-        st.markdown('</div>', unsafe_allow_html=True)
     
     # ヘッダー
     st.markdown('''
