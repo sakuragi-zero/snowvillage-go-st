@@ -156,14 +156,16 @@ def main():
             transition: color 0.3s ease;
         }}
         
+        .stButton > button:disabled {{
+            background: #f3f4f6 !important;
+            color: #9ca3af !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }}
+        
         /* 無効化されたボタンのホバーエフェクトを無効化 */
         .stButton > button:disabled:hover {{
             color: #9ca3af !important;
-        }}
-        
-        .stButton > button:disabled {{
-            background: #ccc;
-            color: #666;
         }}
         
         /* 送信ボタン専用スタイル */
