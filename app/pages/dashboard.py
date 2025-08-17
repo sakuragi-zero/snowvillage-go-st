@@ -312,6 +312,139 @@ def main():
             padding: 1.5rem;
         }}
         
+        /* Streamlit Expander 細かい調整 */
+        [data-testid="stExpander"] {{
+            background: #ffffff !important;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+            margin: 1rem 0 !important;
+        }}
+        
+        [data-testid="stExpander"] > div {{
+            background: #ffffff !important;
+        }}
+        
+        [data-testid="stExpander"] summary {{
+            background: #ffffff !important;
+            color: #111827 !important;
+            font-weight: 600 !important;
+            border-radius: 12px !important;
+            padding: 1rem !important;
+        }}
+        
+        [data-testid="stExpander"] > div > div {{
+            background: #ffffff !important;
+            padding: 2rem !important;
+        }}
+        
+        /* Expander内のテキスト要素のみ */
+        [data-testid="stExpander"] .stMarkdown {{
+            background: #ffffff !important;
+            color: #111827 !important;
+            font-weight: 600 !important;
+        }}
+        
+        [data-testid="stExpander"] .stMarkdown p {{
+            background: #ffffff !important;
+            color: #111827 !important;
+            font-weight: 600 !important;
+        }}
+        
+        [data-testid="stExpander"] .stMarkdown strong {{
+            background: #ffffff !important;
+            color: #000000 !important;
+            font-weight: 700 !important;
+        }}
+        
+        /* ラジオボタンコンテナのみ */
+        [data-testid="stExpander"] .stRadio {{
+            background: #ffffff !important;
+        }}
+        
+        [data-testid="stExpander"] .stRadio > div {{
+            background: #ffffff !important;
+        }}
+        
+        [data-testid="stExpander"] .stRadio label {{
+            color: #111827 !important;
+            font-weight: 600 !important;
+        }}
+        
+        [data-testid="stExpander"] .stRadio label span {{
+            color: #111827 !important;
+            font-weight: 600 !important;
+        }}
+        
+        /* ラジオボタンの選択肢テキスト */
+        [data-testid="stExpander"] .stRadio label p {{
+            color: #111827 !important;
+            font-weight: 600 !important;
+            background: #ffffff !important;
+        }}
+        
+        [data-testid="stExpander"] .stRadio div p {{
+            color: #111827 !important;
+            font-weight: 600 !important;
+            background: #ffffff !important;
+        }}
+        
+        /* ラジオボタンの選択部分は元のスタイルを維持 */
+        [data-testid="stExpander"] .stRadio input[type="radio"] {{
+            background: initial !important;
+        }}
+        
+        /* カラム要素のコンテナのみ */
+        [data-testid="stExpander"] .stColumns {{
+            background: #ffffff !important;
+        }}
+        
+        [data-testid="stExpander"] .stColumn {{
+            background: #ffffff !important;
+        }}
+        
+        /* ボタンは元のスタイルを維持 */
+        [data-testid="stExpander"] .stButton {{
+            background: transparent !important;
+        }}
+        
+        [data-testid="stExpander"] .stButton button {{
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+            color: #ffffff !important;
+        }}
+        
+        /* ボタン内のテキストも白色を保持 */
+        [data-testid="stExpander"] .stButton button p {{
+            color: #ffffff !important;
+            background: transparent !important;
+        }}
+        
+        /* Streamlitアラート（success/error/info）のテキスト */
+        [data-testid="stExpander"] .stAlert {{
+            background: #ffffff !important;
+        }}
+        
+        [data-testid="stExpander"] .stAlert p {{
+            color: #111827 !important;
+            font-weight: 600 !important;
+            background: #ffffff !important;
+        }}
+        
+        [data-testid="stExpander"] .stAlert div {{
+            background: #ffffff !important;
+        }}
+        
+        /* エラー・成功メッセージの強制スタイル */
+        [data-testid="stExpander"] [data-testid="stAlert"] {{
+            background: #ffffff !important;
+        }}
+        
+        [data-testid="stExpander"] [data-testid="stAlert"] p {{
+            color: #111827 !important;
+            font-weight: 600 !important;
+            background: #ffffff !important;
+        }}
+        
         /* レスポンシブ */
         @media (max-width: 768px) {{
             .main-container {{
