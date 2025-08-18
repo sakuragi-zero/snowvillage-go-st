@@ -689,7 +689,18 @@ def main():
             .rate-number {{
                 font-size: 2.5rem;
             }}
+            
+            /* サイドバーを非表示 */
+            .stSidebar {{
+                display: none !important;
+            }}
+            
+            /* メインコンテナの調整 */
+            .main .block-container {{
+                padding-bottom: 6rem !important;
+            }}
         }}
+        
     </style>
     """, unsafe_allow_html=True)
     
@@ -746,6 +757,9 @@ def main():
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
+    
+    # 下部ナビゲーションバー（隠しボタン付き）
+    display_bottom_navigation()
 
 
 @st.cache_resource
@@ -1095,6 +1109,26 @@ def display_quiz_content(task, task_service, user_id):
         if st.button("閉じる", key=f"close_quiz_content_{task_id}"):
             st.session_state[f"show_quiz_{task_id}"] = False
             st.rerun()
+
+
+def display_bottom_navigation():
+    """下部ナビゲーションバーの表示"""
+    
+    # 3つのナビゲーションボタン
+    st.markdown("### 📱 ページナビゲーション")
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if st.button("🏠 ホーム", key="bottom_nav_home", disabled=True, use_container_width=True):
+            pass  # 現在のページ
+    
+    with col2:
+        if st.button("🏆 ランキング", key="bottom_nav_ranking", use_container_width=True):
+            st.switch_page("pages/ranking.py")
+    
+    with col3:
+        if st.button("📝 匿名投稿", key="bottom_nav_post", use_container_width=True):
+            st.switch_page("pages/post.py")
 
 
 def display_sns_content(task, task_service, user_id):

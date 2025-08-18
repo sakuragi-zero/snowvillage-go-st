@@ -176,6 +176,20 @@ def main():
         .stButton > button:disabled:hover {{
             color: #9ca3af !important;
         }}
+        
+        /* モバイル対応 */
+        @media (max-width: 768px) {{
+            /* サイドバーを非表示 */
+            .stSidebar {{
+                display: none !important;
+            }}
+            
+            /* メインコンテナの調整 */
+            .main .block-container {{
+                padding-bottom: 6rem !important;
+            }}
+        }}
+        
     </style>
     """, unsafe_allow_html=True)
     
@@ -217,6 +231,29 @@ def main():
     # 戻るボタン
     if st.button("ダッシュボードに戻る", use_container_width=True, type="primary"):
         st.switch_page("pages/dashboard.py")
+    
+    # 下部ナビゲーションバー（隠しボタン付き）
+    display_bottom_navigation()
+
+
+def display_bottom_navigation():
+    """下部ナビゲーションバーの表示"""
+    
+    # 3つのナビゲーションボタン
+    st.markdown("### 📱 ページナビゲーション")
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if st.button("🏠 ホーム", key="bottom_nav_home", use_container_width=True):
+            st.switch_page("pages/dashboard.py")
+    
+    with col2:
+        if st.button("🏆 ランキング", key="bottom_nav_ranking", disabled=True, use_container_width=True):
+            pass  # 現在のページ
+    
+    with col3:
+        if st.button("📝 匿名投稿", key="bottom_nav_post", use_container_width=True):
+            st.switch_page("pages/post.py")
 
 
 def display_ranking():
