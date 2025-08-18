@@ -739,6 +739,9 @@ def main():
     # タスクシステムの初期化と同期
     init_task_system()
     
+    # ナビゲーションボタン（進捗状況の上）
+    display_navigation_buttons()
+    
     # タスク進捗状況セクション
     display_progress_overview()
     
@@ -757,9 +760,6 @@ def main():
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
-    
-    # 下部ナビゲーションバー（隠しボタン付き）
-    display_bottom_navigation()
 
 
 @st.cache_resource
@@ -1111,23 +1111,22 @@ def display_quiz_content(task, task_service, user_id):
             st.rerun()
 
 
-def display_bottom_navigation():
-    """下部ナビゲーションバーの表示"""
+def display_navigation_buttons():
+    """ナビゲーションボタンの表示（進捗状況の上）"""
     
-    # 3つのナビゲーションボタン
-    st.markdown("### 📱 ページナビゲーション")
-    col1, col2, col3 = st.columns(3)
+    # 3つのナビゲーションボタン - 少し間隔を調整
+    col1, col2, col3 = st.columns([1, 1, 1], gap="small")
     
     with col1:
-        if st.button("🏠 ホーム", key="bottom_nav_home", disabled=True, use_container_width=True):
+        if st.button("🏠 ホーム", key="top_nav_home", disabled=True, use_container_width=True):
             pass  # 現在のページ
     
     with col2:
-        if st.button("🏆 ランキング", key="bottom_nav_ranking", use_container_width=True):
+        if st.button("🏆 ランキング", key="top_nav_ranking", use_container_width=True):
             st.switch_page("pages/ranking.py")
     
     with col3:
-        if st.button("📝 匿名投稿", key="bottom_nav_post", use_container_width=True):
+        if st.button("📝 匿名投稿", key="top_nav_post", use_container_width=True):
             st.switch_page("pages/post.py")
 
 
