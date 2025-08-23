@@ -165,13 +165,19 @@ def main():
             color: #9ca3af !important;
         }}
         
+        /* サイドバーを完全に非表示 */
+        .stSidebar {{
+            display: none !important;
+        }}
+        
+        /* メインコンテナの調整（サイドバーなしのため全幅使用） */
+        .main .block-container {{
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }}
+
         /* モバイル対応 */
         @media (max-width: 768px) {{
-            /* サイドバーを非表示 */
-            .stSidebar {{
-                display: none !important;
-            }}
-            
             /* メインコンテナの調整 */
             .main .block-container {{
                 padding-bottom: 6rem !important;
