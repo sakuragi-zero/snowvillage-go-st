@@ -282,12 +282,12 @@ def display_ranking():
         タスク完了数ランキング（上位10位）
     </h3>
     ''', unsafe_allow_html=True)
-    st.caption("同じタスク数の場合は、最初に到達したユーザーが上位になります")
+    st.caption("同じタスク数の場合は、最後のタスク完了が早かったユーザーが上位になります")
     
     for i, rank_data in enumerate(ranking_data, 1):
         username = rank_data['username']
         completed_tasks = rank_data['completed_tasks']
-        first_completion = rank_data['first_completion']
+        last_completion = rank_data['last_completion']
         
         # ランク別スタイル
         rank_class = ""
@@ -306,8 +306,8 @@ def display_ranking():
         
         # 完了日時の表示
         completion_text = ""
-        if first_completion and completed_tasks > 0:
-            completion_text = f"初回完了: {first_completion.strftime('%Y年%m月%d日 %H:%M')}"
+        if last_completion and completed_tasks > 0:
+            completion_text = f"最後の完了: {last_completion.strftime('%Y年%m月%d日 %H:%M')}"
         elif completed_tasks == 0:
             completion_text = "タスク未完了"
         

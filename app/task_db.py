@@ -86,11 +86,11 @@ class TaskService:
                 cur.execute("""
                     SELECT u.username, 
                            COUNT(p.task_id) as completed_tasks,
-                           MIN(p.completed_at) as first_completion
+                           MAX(p.completed_at) as last_completion
                     FROM users u
                     LEFT JOIN progress p ON u.id = p.user_id
                     GROUP BY u.id, u.username
-                    ORDER BY completed_tasks DESC, first_completion ASC NULLS LAST
+                    ORDER BY completed_tasks DESC, last_completion ASC NULLS LAST
                     LIMIT 10
                 """)
                 return cur.fetchall()
