@@ -46,7 +46,7 @@ def main():
     
     # 背景設定
     base_dir = os.path.dirname(os.path.dirname(__file__))
-    bg_path = os.path.join(base_dir, "frontend", "public", "dashboard.png")
+    bg_path = os.path.join(base_dir, "frontend", "public", "SnowVillageGo.png")
     bg_base64 = get_base64_img(bg_path)
     
     bg_style = "background: linear-gradient(135deg, #1a237e, #283593, #3949ab, #42a5f5);"
@@ -1129,10 +1129,10 @@ def display_navigation_buttons():
     col1, col2, col3 = st.columns([1, 1, 1], gap="small")
     
     with col1:
-        dashboard_button = st.button(
-            "📏 ダッシュボード", 
-            key="top_nav_home", 
-            disabled=True, 
+        mission_button = st.button(
+            "🎯 ミッションに挑戦", 
+            key="top_nav_mission",
+            disabled=True,
             use_container_width=True
         )
     
