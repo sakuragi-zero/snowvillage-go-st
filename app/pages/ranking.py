@@ -11,20 +11,9 @@ st.set_page_config(
     page_title="Snow Village - ランキング",
     page_icon="emoji_events",
     layout="centered",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
-# サイドバーのスタイル設定
-st.markdown("""
-<style>
-    .sidebar-content {
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 10px;
-        padding: 1rem;
-        margin-bottom: 1rem;
-    }
-</style>
-""", unsafe_allow_html=True)
 
 
 def get_base64_img(path):
@@ -42,8 +31,6 @@ def main():
         st.error("ログインが必要です")
         st.stop()
     
-    user_info = st.session_state.user_info
-    user = user_info.get('user')
     
     # 背景設定
     base_dir = os.path.dirname(os.path.dirname(__file__))
@@ -193,29 +180,6 @@ def main():
     </style>
     """, unsafe_allow_html=True)
     
-    # サイドバーにユーザー情報を表示
-    with st.sidebar:
-        st.markdown(f"""
-        <div style="text-align: center; margin-bottom: 1rem;">
-            <span class="material-icons" style="font-size: 2rem; color: #ffffff;">account_circle</span>
-            <h3 style="margin: 0.5rem 0; color: #ffffff; font-weight: 600;">こんにちは{user.username}さん</h3>
-            <div style="color: #ffffff; font-size: 0.875rem; margin-top: 0.5rem; font-weight: 500;">
-                <span class="material-icons" style="font-size: 1rem; vertical-align: middle; margin-right: 0.5rem;">schedule</span>
-                {user.created_at.strftime('%Y年%m月%d日 %H:%M')}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown('<h4 style="margin: 0 0 1rem 0; color: #ffffff; font-weight: 600;"><span class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">menu</span>メニュー</h4>', unsafe_allow_html=True)
-        
-        if st.button("ミッションに挑戦", use_container_width=True, key="nav_dashboard"):
-            st.switch_page("pages/dashboard.py")
-        
-        if st.button("ランキング", use_container_width=True, disabled=True, key="nav_ranking"):
-            pass  # 現在のページ
-            
-        if st.button("匿名投稿", use_container_width=True, key="nav_post"):
-            st.switch_page("pages/post.py")
     
     # ヘッダー
     st.markdown('''
@@ -248,7 +212,7 @@ def display_bottom_navigation():
             st.switch_page("pages/dashboard.py")
     
     with col2:
-        ranking_button = st.button(
+        st.button(
             "ランキング", 
             key="bottom_nav_ranking", 
             disabled=True, 
