@@ -605,12 +605,23 @@ def main():
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 1rem;
             margin-bottom: 1.5rem;
+            flex-wrap: nowrap;
         }}
         
         .stat-item {{
             text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }}
+        
+        .stat-item-unified {{
+            text-align: center;
+            flex-shrink: 0;
         }}
         
         .stat-number {{
@@ -618,11 +629,13 @@ def main():
             font-weight: 700;
             color: #2563eb;
             line-height: 1;
+            white-space: nowrap;
         }}
         
         .stat-label {{
             font-size: 0.875rem;
             color: #6b7280;
+            white-space: nowrap;
             margin-top: 0.25rem;
         }}
         
@@ -630,6 +643,7 @@ def main():
             font-size: 2rem;
             color: #d1d5db;
             font-weight: 300;
+            flex-shrink: 0;
         }}
         
         .completion-rate {{
@@ -898,14 +912,9 @@ def display_progress_overview():
     st.markdown(f'''
     <div class="progress-overview-card">
         <div class="progress-stats">
-            <div class="stat-item">
-                <div class="stat-number">{completed_tasks}</div>
-                <div class="stat-label">完了済み</div>
-            </div>
-            <div class="stat-divider">/</div>
-            <div class="stat-item">
-                <div class="stat-number">{total_tasks}</div>
-                <div class="stat-label">総ミッション数</div>
+            <div class="stat-item-unified">
+                <div class="stat-number">{completed_tasks}/{total_tasks}</div>
+                <div class="stat-label">ミッション完了</div>
             </div>
             <div class="completion-rate">
                 <div class="rate-number">{completion_rate:.1f}%</div>
