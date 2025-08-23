@@ -28,7 +28,8 @@ def main():
     # 認証チェック
     if 'user_info' not in st.session_state or not st.session_state.user_info:
         st.error("ログインが必要です")
-        st.stop()
+        st.info("ログインページにリダイレクトしています...")
+        st.switch_page("main.py")
     
     user_info = st.session_state.user_info
     user = user_info.get('user')
