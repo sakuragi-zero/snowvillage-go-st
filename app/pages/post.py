@@ -9,7 +9,7 @@ import base64
 # ページ設定
 st.set_page_config(
     page_title="Snow Village - 匿名投稿",
-    page_icon="📝",
+    page_icon="edit",
     layout="centered",
     initial_sidebar_state="expanded"
 )
@@ -212,7 +212,7 @@ def main():
         
         st.markdown('<h4 style="margin: 0 0 1rem 0; color: #ffffff; font-weight: 600;"><span class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">menu</span>メニュー</h4>', unsafe_allow_html=True)
         
-        if st.button("ダッシュボード", use_container_width=True, key="nav_dashboard"):
+        if st.button("ミッションに挑戦", use_container_width=True, key="nav_dashboard"):
             st.switch_page("pages/dashboard.py")
         
         if st.button("ランキング", use_container_width=True, key="nav_ranking"):
@@ -232,7 +232,7 @@ def main():
     # ページ説明の追加
     st.markdown("""
     <div class="info-box">
-        <strong>📝 このページについて</strong><br>
+        <strong><span class="material-icons" style="vertical-align: middle; margin-right: 0.25rem;">edit</span>このページについて</strong><br>
         このページは村民に匿名で質問を投稿できます。ぜひSnowVillageのスラックに参加して質問の回答を確認しよう！
     </div>
     """, unsafe_allow_html=True)
@@ -252,7 +252,7 @@ def display_bottom_navigation():
     
     with col1:
         dashboard_button = st.button(
-            "📏 ダッシュボード", 
+            "ミッションに挑戦", 
             key="bottom_nav_home", 
             use_container_width=True
         )
@@ -261,7 +261,7 @@ def display_bottom_navigation():
     
     with col2:
         ranking_button = st.button(
-            "📈 ランキング", 
+            "ランキング", 
             key="bottom_nav_ranking", 
             use_container_width=True
         )
@@ -270,7 +270,7 @@ def display_bottom_navigation():
     
     with col3:
         post_button = st.button(
-            "✏️ 匿名投稿", 
+            "匿名投稿", 
             key="bottom_nav_post", 
             disabled=True, 
             use_container_width=True
@@ -287,7 +287,7 @@ def display_post_form(user):
     if not slack_client.is_configured():
         st.markdown("""
         <div class="error-box">
-            <strong>⚠️ Slack設定エラー</strong><br>
+            <strong><span class="material-icons" style="vertical-align: middle; margin-right: 0.25rem;">warning</span>Slack設定エラー</strong><br>
             Slack Botの設定が正しく行われていません。<br>
             管理者にお問い合わせください。
         </div>
@@ -297,7 +297,7 @@ def display_post_form(user):
     # 使い方説明
     st.markdown("""
     <div class="info-box">
-        <strong>📢 匿名投稿について</strong><br>
+        <strong><span class="material-icons" style="vertical-align: middle; margin-right: 0.25rem;">campaign</span>匿名投稿について</strong><br>
         • あなたの投稿は完全に匿名でSlackチャンネルに送信されます<br>
         • 投稿者の名前は表示されません<br>
         • 送信時刻のみが記録されます<br>
@@ -306,16 +306,16 @@ def display_post_form(user):
     """, unsafe_allow_html=True)
     
     # 接続状態表示
-    with st.expander("🔧 Slack接続状態", expanded=False):
+    with st.expander("Slack接続状態", expanded=False):
         if st.button("接続テスト", key="test_connection"):
             with st.spinner("接続をテスト中..."):
                 success, message = slack_client.test_connection()
                 if success:
-                    st.success(f"✅ {message}")
+                    st.success(f"{message}")
                 else:
-                    st.error(f"❌ {message}")
+                    st.error(f"{message}")
     
-    st.markdown("### 📝 メッセージを入力")
+    st.markdown("### メッセージを入力")
     
     # 投稿フォーム
     with st.form(key="anonymous_post_form", clear_on_submit=True):
@@ -339,7 +339,7 @@ def display_post_form(user):
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             submitted = st.form_submit_button(
-                "🚀 匿名で送信",
+                "匿名で送信",
                 use_container_width=True,
                 type="primary"
             )
@@ -356,7 +356,7 @@ def handle_form_submission(message: str, slack_client, user):
     if not message or not message.strip():
         st.markdown("""
         <div class="warning-box">
-            <strong>⚠️ 入力エラー</strong><br>
+            <strong><span class="material-icons" style="vertical-align: middle; margin-right: 0.25rem;">warning</span>入力エラー</strong><br>
             メッセージを入力してください。
         </div>
         """, unsafe_allow_html=True)
@@ -365,14 +365,14 @@ def handle_form_submission(message: str, slack_client, user):
     if len(message) > 2000:
         st.markdown("""
         <div class="warning-box">
-            <strong>⚠️ 文字数エラー</strong><br>
+            <strong><span class="material-icons" style="vertical-align: middle; margin-right: 0.25rem;">warning</span>文字数エラー</strong><br>
             メッセージは2000文字以内で入力してください。
         </div>
         """, unsafe_allow_html=True)
         return
     
     # 送信処理
-    with st.spinner("📤 Slackに送信中..."):
+    with st.spinner("Slackに送信中..."):
         success, result_message = slack_client.send_anonymous_message(
             message=message,
             username=user.username  # ログ用（Slackには表示されない）
@@ -383,7 +383,7 @@ def handle_form_submission(message: str, slack_client, user):
         # 成功ポップアップ
         st.markdown("""
         <div class="success-box">
-            <strong>🎉 送信完了！</strong><br>
+            <strong><span class="material-icons" style="vertical-align: middle; margin-right: 0.25rem;">check_circle</span>送信完了！</strong><br>
             メッセージが正常に送信されました。<br>
             Slackチャンネルをご確認ください。
         </div>
@@ -401,7 +401,7 @@ def handle_form_submission(message: str, slack_client, user):
         # エラー表示
         st.markdown(f"""
         <div class="error-box">
-            <strong>❌ 送信失敗</strong><br>
+            <strong><span class="material-icons" style="vertical-align: middle; margin-right: 0.25rem;">error</span>送信失敗</strong><br>
             {result_message}
         </div>
         """, unsafe_allow_html=True)

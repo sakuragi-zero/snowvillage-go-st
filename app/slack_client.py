@@ -81,13 +81,13 @@ class SlackClient:
             timestamp = datetime.now().strftime("%Y年%m月%d日 %H:%M:%S")
             
             # 匿名投稿フォーマット
-            formatted_message = f"""🏔️ **Snow Village 匿名投稿**
+            formatted_message = f"""**Snow Village 匿名投稿**
 
-📝 **メッセージ:**
+**メッセージ:**
 {message.strip()}
 
-🕐 **投稿時刻:** {timestamp}
-👤 **投稿者:** 匿名ユーザー"""
+**投稿時刻:** {timestamp}
+**投稿者:** 匿名ユーザー"""
             
             # Slackに送信
             response = self.client.chat_postMessage(

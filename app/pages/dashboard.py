@@ -8,7 +8,7 @@ import base64
 # ページ設定
 st.set_page_config(
     page_title="Snow Village - Dashboard",
-    page_icon="❄️",
+    page_icon="ac_unit",
     layout="centered",
     initial_sidebar_state="expanded"
 )
@@ -940,11 +940,11 @@ def display_task_filter_toggle():
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         if show_only_incomplete:
-            if st.button("📋 すべてのミッションを表示", key="show_all_tasks", type="secondary", use_container_width=True):
+            if st.button("すべてのミッションを表示", key="show_all_tasks", type="secondary", use_container_width=True):
                 st.session_state["show_only_incomplete"] = False
                 st.rerun()
         else:
-            if st.button("🎯 未完了のみ表示", key="show_incomplete_only", type="secondary", use_container_width=True):
+            if st.button("未完了のみ表示", key="show_incomplete_only", type="secondary", use_container_width=True):
                 st.session_state["show_only_incomplete"] = True
                 st.rerun()
 
@@ -1293,7 +1293,7 @@ def display_quiz_content(task, task_service, user_id):
                 st.session_state[f"show_quiz_{task_id}"] = False
                 st.rerun()
             else:
-                st.error(f"❌ 不正解です。正解は: {options[correct_answer]}")
+                st.error(f"不正解です。正解は: {options[correct_answer]}")
     
     with col2:
         if st.button("閉じる", key=f"close_quiz_content_{task_id}"):
@@ -1320,7 +1320,7 @@ def display_navigation_buttons():
     
     with col1:
         mission_button = st.button(
-            "🎯 ミッションに挑戦", 
+            "ミッションに挑戦", 
             key="top_nav_mission",
             disabled=True,
             use_container_width=True
@@ -1328,7 +1328,7 @@ def display_navigation_buttons():
     
     with col2:
         ranking_button = st.button(
-            "📈 ランキング", 
+            "ランキング", 
             key="top_nav_ranking", 
             use_container_width=True
         )
@@ -1337,7 +1337,7 @@ def display_navigation_buttons():
     
     with col3:
         post_button = st.button(
-            "❓ 匿名質問", 
+            "匿名質問", 
             key="top_nav_post", 
             use_container_width=True
         )
@@ -1376,7 +1376,7 @@ def display_swt_content(task, task_service, user_id):
         for req in requirements:
             st.markdown(f"- {req}")
     
-    st.info("🎉 上記のSWTエンジョイミッションに参加したら、下の「完了」ボタンを押してください！")
+    st.info("上記のSWTエンジョイミッションに参加したら、下の「完了」ボタンを押してください！")
     
     col1, col2 = st.columns([1, 1])
     
@@ -1424,7 +1424,7 @@ def display_sns_content(task, task_service, user_id):
         for req in requirements:
             st.markdown(f"- {req}")
     
-    st.info("📸 上記の要件を満たしてSNSに投稿したら、下の「完了」ボタンを押してください！")
+    st.info("上記の要件を満たしてSNSに投稿したら、下の「完了」ボタンを押してください！")
     
     col1, col2 = st.columns([1, 1])
     

@@ -9,7 +9,7 @@ import base64
 # ページ設定
 st.set_page_config(
     page_title="Snow Village - ランキング",
-    page_icon="🏆",
+    page_icon="emoji_events",
     layout="centered",
     initial_sidebar_state="expanded"
 )
@@ -208,7 +208,7 @@ def main():
         
         st.markdown('<h4 style="margin: 0 0 1rem 0; color: #ffffff; font-weight: 600;"><span class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">menu</span>メニュー</h4>', unsafe_allow_html=True)
         
-        if st.button("ダッシュボード", use_container_width=True, key="nav_dashboard"):
+        if st.button("ミッションに挑戦", use_container_width=True, key="nav_dashboard"):
             st.switch_page("pages/dashboard.py")
         
         if st.button("ランキング", use_container_width=True, disabled=True, key="nav_ranking"):
@@ -240,7 +240,7 @@ def display_bottom_navigation():
     
     with col1:
         dashboard_button = st.button(
-            "📏 ダッシュボード", 
+            "ミッションに挑戦", 
             key="bottom_nav_home", 
             use_container_width=True
         )
@@ -249,7 +249,7 @@ def display_bottom_navigation():
     
     with col2:
         ranking_button = st.button(
-            "📈 ランキング", 
+            "ランキング", 
             key="bottom_nav_ranking", 
             disabled=True, 
             use_container_width=True
@@ -257,7 +257,7 @@ def display_bottom_navigation():
     
     with col3:
         post_button = st.button(
-            "✏️ 匿名投稿", 
+            "匿名投稿", 
             key="bottom_nav_post", 
             use_container_width=True
         )
