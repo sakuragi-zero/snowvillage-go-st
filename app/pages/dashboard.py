@@ -671,6 +671,74 @@ def main():
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }}
         
+        /* ジャンプナビゲーション */
+        .jump-navigation {{
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }}
+        
+        .jump-button {{
+            background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+            color: #1e40af;
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        }}
+        
+        .jump-button:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+            background: linear-gradient(135deg, #a3d2f7 0%, #7bb3f0 100%);
+        }}
+        
+        .jump-button.swt {{
+            background: linear-gradient(135deg, #bbf7d0 0%, #86efac 100%);
+            color: #065f46;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+        }}
+        
+        .jump-button.swt:hover {{
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+            background: linear-gradient(135deg, #a7f3d0 0%, #6ee7b7 100%);
+        }}
+        
+        .jump-button.sns {{
+            background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+            color: #991b1b;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+        }}
+        
+        .jump-button.sns:hover {{
+            box-shadow: 0 8px 20px rgba(220, 38, 38, 0.25);
+            background: linear-gradient(135deg, #fed7d7 0%, #f87171 100%);
+        }}
+        
+        .swt-icon {{ color: #10b981; }}
+        
+        /* セクションアンカー */
+        .section-anchor {{
+            position: relative;
+            top: -100px;
+            visibility: hidden;
+        }}
+        
+        /* スムーススクロール */
+        html {{
+            scroll-behavior: smooth;
+        }}
+
         /* レスポンシブ対応 */
         @media (max-width: 768px) {{
             .progress-stats {{
@@ -702,6 +770,18 @@ def main():
             /* メインコンテナの調整 */
             .main .block-container {{
                 padding-bottom: 6rem !important;
+            }}
+            
+            /* ジャンプナビゲーションのレスポンシブ対応 */
+            .jump-navigation {{
+                flex-direction: column;
+                align-items: center;
+                gap: 0.75rem;
+            }}
+            
+            .jump-button {{
+                width: 90%;
+                justify-content: center;
             }}
         }}
         
@@ -752,6 +832,9 @@ def main():
     
     # フィルター切り替えボタン
     display_task_filter_toggle()
+    
+    # ジャンプナビゲーション
+    display_jump_navigation()
     
     # ミッションクリア通知の表示
     display_mission_clear_notification()
@@ -857,6 +940,26 @@ def display_task_filter_toggle():
                 st.rerun()
 
 
+def display_jump_navigation():
+    """ジャンプナビゲーションの表示"""
+    st.markdown("""
+    <div class="jump-navigation">
+        <a href="#swt-section" class="jump-button swt">
+            <span class="material-icons" style="font-size: 1rem;">celebration</span>
+            SWTエンジョイミッション
+        </a>
+        <a href="#sns-section" class="jump-button sns">
+            <span class="material-icons" style="font-size: 1rem;">camera_alt</span>
+            SNS投稿ミッション
+        </a>
+        <a href="#quiz-section" class="jump-button">
+            <span class="material-icons" style="font-size: 1rem;">school</span>
+            技術クイズミッション
+        </a>
+    </div>
+    """, unsafe_allow_html=True)
+
+
 @st.dialog("🎉 ミッションクリア！")
 def show_mission_clear_dialog():
     """ミッションクリアダイアログ表示"""
@@ -920,23 +1023,26 @@ def display_tasks():
         return
     
     # タスクタイプ別に分類
-    quiz_tasks = [task for task in tasks if task.get("task_type") == "quiz"]
+    swt_tasks = [task for task in tasks if task.get("task_type") == "swt"]
     sns_tasks = [task for task in tasks if task.get("task_type") == "sns"]
+    quiz_tasks = [task for task in tasks if task.get("task_type") == "quiz"]
     
-    # クイズタスクセクション
+    # SWTエンジョイミッションセクション
     st.markdown('''
+    <div id="swt-section" class="section-anchor"></div>
     <div class="task-category">
         <div class="section-header">
-            <span class="material-icons section-icon">school</span>
-            技術クイズミッション
+            <span class="material-icons section-icon">celebration</span>
+            SWTエンジョイミッション
         </div>
     </div>
     ''', unsafe_allow_html=True)
     
-    display_enhanced_quiz_tasks(quiz_tasks, task_service, user_id)
+    display_enhanced_swt_tasks(swt_tasks, task_service, user_id)
     
     # SNSタスクセクション
     st.markdown('''
+    <div id="sns-section" class="section-anchor"></div>
     <div class="task-category">
         <div class="section-header">
             <span class="material-icons section-icon">camera_alt</span>
@@ -946,6 +1052,76 @@ def display_tasks():
     ''', unsafe_allow_html=True)
     
     display_enhanced_sns_tasks(sns_tasks, task_service, user_id)
+    
+    # クイズタスクセクション
+    st.markdown('''
+    <div id="quiz-section" class="section-anchor"></div>
+    <div class="task-category">
+        <div class="section-header">
+            <span class="material-icons section-icon">school</span>
+            技術クイズミッション
+        </div>
+    </div>
+    ''', unsafe_allow_html=True)
+    
+    display_enhanced_quiz_tasks(quiz_tasks, task_service, user_id)
+
+
+def display_enhanced_swt_tasks(tasks, task_service, user_id):
+    """SWTエンジョイミッションの表示"""
+    import json
+    
+    # フィルタリング機能: 未完了のみ表示するかチェック
+    show_only_incomplete = st.session_state.get("show_only_incomplete", False)
+    
+    for task in tasks:
+        task_id = task['id']
+        is_completed = task['completed']
+        
+        # フィルタリング: 完了済みタスクを非表示にする場合はスキップ
+        if show_only_incomplete and is_completed:
+            continue
+        
+        # タスクカードHTML（ボタンなし）
+        completed_class = "completed" if is_completed else ""
+        status_text = "完了" if is_completed else "参加可能"
+        status_class = "status-completed" if is_completed else "status-pending"
+        status_icon = "check_circle" if is_completed else "radio_button_unchecked"
+        
+        card_html = f"""
+        <div class="mission-card {completed_class}">
+            <div class="card-content">
+                <div class="mission-info">
+                    <div class="mission-title">
+                        <span class="material-icons mission-type-icon swt-icon">celebration</span>
+                        {task['title']}
+                    </div>
+                    <div class="mission-description">
+                        {task.get('description', '')}
+                    </div>
+                    <div class="mission-status {status_class}">
+                        <span class="material-icons status-icon">{status_icon}</span>
+                        {status_text}
+                    </div>
+                </div>
+            </div>
+        </div>
+        """
+        
+        st.markdown(card_html, unsafe_allow_html=True)
+        
+        # Streamlitボタン（カード外）
+        if not is_completed:
+            col1, col2 = st.columns([3, 1])
+            with col2:
+                if st.button("参加", key=f"swt_btn_{task_id}", type="primary"):
+                    st.session_state[f"show_swt_{task_id}"] = True
+                    st.rerun()
+        
+        # SWTコンテンツ表示
+        if not is_completed and st.session_state.get(f"show_swt_{task_id}", False):
+            with st.expander(f"🎉 {task['title']} - SWTエンジョイ", expanded=True):
+                display_swt_content(task, task_service, user_id)
 
 
 def display_enhanced_quiz_tasks(tasks, task_service, user_id):
@@ -1158,6 +1334,59 @@ def display_navigation_buttons():
         )
         if post_button:
             st.switch_page("pages/post.py")
+
+
+def display_swt_content(task, task_service, user_id):
+    """SWTコンテンツの表示"""
+    import json
+    
+    task_id = task['id']
+    content = task.get('content')
+    
+    if isinstance(content, str):
+        content = json.loads(content)
+    
+    if not content:
+        st.error("SWTエンジョイデータが見つかりません")
+        return
+    
+    event_name = content.get('event_name', '')
+    description = content.get('description', '')
+    requirements = content.get('requirements', [])
+    location = content.get('location', '')
+    
+    if event_name:
+        st.markdown(f"**イベント名:** {event_name}")
+    if location:
+        st.markdown(f"**開催場所:** {location}")
+    if description:
+        st.markdown(f"**内容:** {description}")
+    
+    if requirements:
+        st.markdown("**参加条件:**")
+        for req in requirements:
+            st.markdown(f"- {req}")
+    
+    st.info("🎉 上記のSWTエンジョイミッションに参加したら、下の「完了」ボタンを押してください！")
+    
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        if st.button("完了", key=f"complete_swt_{task_id}"):
+            # ミッションクリア処理
+            task_service.mark_task_complete(task_id, user_id)
+            # クリア状態とタスク情報をセッションに保存
+            st.session_state["mission_cleared"] = True
+            st.session_state["cleared_task_title"] = task['title']
+            st.session_state["cleared_task_id"] = task_id
+            # SWT表示を非表示にして画面更新
+            st.session_state[f"show_swt_{task_id}"] = False
+            st.rerun()
+    
+    with col2:
+        if st.button("閉じる", key=f"close_swt_content_{task_id}"):
+            st.session_state[f"show_swt_{task_id}"] = False
+            st.rerun()
 
 
 def display_sns_content(task, task_service, user_id):
