@@ -714,6 +714,27 @@ def main():
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }}
         
+        /* 報酬セクション */
+        .reward-progress {{
+            margin-top: 1.5rem;
+            text-align: center;
+        }}
+        
+        .reward-info {{
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }}
+        
+        .earned-rewards {{
+            min-height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }}
+        
         /* ジャンプナビゲーション */
         .jump-navigation {{
             display: flex;
@@ -938,6 +959,10 @@ def display_progress_overview():
     completed_tasks = len([task for task in tasks if task['completed']])
     completion_rate = (completed_tasks / total_tasks) * 100 if total_tasks > 0 else 0
     
+    # 報酬情報の計算
+    earned_rewards = [milestone for milestone in MILESTONE_REWARDS.keys() if milestone <= completed_tasks]
+    next_milestone = get_next_milestone(completed_tasks)
+    
     # 進捗状況ヘッダー
     st.markdown('''
     <div class="section-header">
@@ -958,14 +983,46 @@ def display_progress_overview():
                 <div class="rate-number">{completion_rate:.1f}%</div>
                 <div class="rate-label">完了率</div>
             </div>
+            <div class="stat-item-unified">
+                <div class="stat-number">{len(earned_rewards)}</div>
+                <div class="stat-label">獲得報酬</div>
+            </div>
         </div>
         <div class="progress-bar-container">
             <div class="progress-bar">
                 <div class="progress-fill" style="width: {completion_rate}%"></div>
             </div>
         </div>
+        <div class="reward-progress">
+            <div class="reward-info">
+                <span style="color: #10b981; font-weight: 600;">🎁 次の報酬まで: {next_milestone - completed_tasks if next_milestone != "最大" else 0}ミッション</span>
+            </div>
+            <div class="earned-rewards">
+                {generate_earned_rewards_html(earned_rewards)}
+            </div>
+        </div>
     </div>
     ''', unsafe_allow_html=True)
+
+
+def generate_earned_rewards_html(earned_rewards):
+    """獲得済み報酬のHTML生成"""
+    if not earned_rewards:
+        return '<span style="color: #9ca3af; font-size: 0.9rem;">まだ報酬はありません</span>'
+    
+    rewards_html = '<div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem;">'
+    for milestone in earned_rewards:
+        reward = MILESTONE_REWARDS[milestone]
+        rewards_html += f'''
+            <div style="display: flex; align-items: center; background: {reward['color']}22; 
+                        border: 1px solid {reward['color']}44; border-radius: 20px; 
+                        padding: 0.3rem 0.8rem; font-size: 0.8rem;">
+                <span style="margin-right: 0.3rem;">{reward['icon']}</span>
+                <span style="color: {reward['color']}; font-weight: 600;">{milestone}</span>
+            </div>
+        '''
+    rewards_html += '</div>'
+    return rewards_html
 
 
 def display_task_filter_toggle():
@@ -1007,6 +1064,16 @@ def display_jump_navigation():
     """, unsafe_allow_html=True)
 
 
+# マイルストーン報酬の定義
+MILESTONE_REWARDS = {
+    5: {"name": "初心者報酬", "description": "5つのミッション完了", "icon": "🏅", "color": "#10b981"},
+    10: {"name": "冒険者報酬", "description": "10のミッション完了", "icon": "🏆", "color": "#f59e0b"},
+    15: {"name": "探検家報酬", "description": "15のミッション完了", "icon": "🎖️", "color": "#8b5cf6"},
+    20: {"name": "勇者報酬", "description": "20のミッション完了", "icon": "👑", "color": "#ef4444"},
+    25: {"name": "マスター報酬", "description": "25のミッション完了", "icon": "💎", "color": "#06b6d4"},
+    30: {"name": "伝説報酬", "description": "30のミッション完了", "icon": "✨", "color": "#d946ef"}
+}
+
 @st.dialog("ミッションクリア！")
 def show_mission_clear_dialog():
     """ミッションクリアダイアログ表示"""
@@ -1042,11 +1109,76 @@ def show_mission_clear_dialog():
             st.rerun()
 
 
+@st.dialog("🎁 報酬獲得！")
+def show_reward_dialog():
+    """報酬獲得ダイアログ表示"""
+    completed_count = st.session_state.get("completed_count_for_reward", 0)
+    reward = MILESTONE_REWARDS.get(completed_count, {})
+    
+    if not reward:
+        return
+    
+    # ダイアログ内容
+    st.markdown(f"""
+    <div style="text-align: center; padding: 2rem;">
+        <h1 style="font-size: 5rem; margin: 1rem 0; color: {reward['color']};">{reward['icon']}</h1>
+        <h2 style="font-size: 2.5rem; margin: 1rem 0; color: {reward['color']}; font-weight: 800;">
+            {reward['name']}
+        </h2>
+        <p style="font-size: 1.3rem; margin: 1.5rem 0; color: #374151; font-weight: 600;">
+            {reward['description']}達成！
+        </p>
+        <div style="background: linear-gradient(135deg, {reward['color']}22, {reward['color']}11); 
+                    border: 2px solid {reward['color']}44; 
+                    border-radius: 15px; 
+                    padding: 1.5rem; 
+                    margin: 2rem 0;">
+            <p style="font-size: 1.1rem; color: #374151; font-weight: 600; margin: 0;">
+                🎉 おめでとうございます！<br>
+                マイルストーン報酬を獲得しました！
+            </p>
+        </div>
+        <p style="font-size: 0.9rem; margin: 1rem 0; color: #9ca3af;">
+            次のマイルストーン: {get_next_milestone(completed_count)}ミッション完了
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # 特別な効果
+    st.balloons()
+    
+    # 確認ボタン
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("素晴らしい！", type="primary", use_container_width=True):
+            # 報酬ダイアログを閉じる
+            st.session_state["reward_earned"] = False
+            st.session_state["show_only_incomplete"] = True
+            st.rerun()
+
+
+def get_next_milestone(current_count):
+    """次のマイルストーンを取得"""
+    milestones = sorted(MILESTONE_REWARDS.keys())
+    for milestone in milestones:
+        if milestone > current_count:
+            return milestone
+    return "最大"
+
+
+def check_milestone_reward(completed_count):
+    """マイルストーン報酬をチェック"""
+    return completed_count in MILESTONE_REWARDS
+
+
 def display_mission_clear_notification():
     """ミッションクリア通知の管理"""
     
+    # 報酬獲得状態をチェック（優先して表示）
+    if st.session_state.get("reward_earned", False):
+        show_reward_dialog()
     # ミッションクリア状態をチェック
-    if st.session_state.get("mission_cleared", False):
+    elif st.session_state.get("mission_cleared", False):
         show_mission_clear_dialog()
 
 
@@ -1320,10 +1452,21 @@ def display_quiz_content(task, task_service, user_id):
             if selected_index == correct_answer:
                 # ミッションクリア処理
                 task_service.mark_task_complete(task_id, user_id)
+                
+                # 完了数を再計算してマイルストーン報酬チェック
+                tasks = task_service.get_tasks_with_progress(user_id)
+                completed_count = len([task for task in tasks if task['completed']])
+                
                 # クリア状態とタスク情報をセッションに保存
                 st.session_state["mission_cleared"] = True
                 st.session_state["cleared_task_title"] = task['title']
                 st.session_state["cleared_task_id"] = task_id
+                
+                # マイルストーン報酬チェック
+                if check_milestone_reward(completed_count):
+                    st.session_state["reward_earned"] = True
+                    st.session_state["completed_count_for_reward"] = completed_count
+                
                 # クイズ表示を非表示にして画面更新
                 st.session_state[f"show_quiz_{task_id}"] = False
                 st.rerun()
@@ -1419,10 +1562,21 @@ def display_swt_content(task, task_service, user_id):
         if st.button("完了", key=f"complete_swt_{task_id}"):
             # ミッションクリア処理
             task_service.mark_task_complete(task_id, user_id)
+            
+            # 完了数を再計算してマイルストーン報酬チェック
+            tasks = task_service.get_tasks_with_progress(user_id)
+            completed_count = len([task for task in tasks if task['completed']])
+            
             # クリア状態とタスク情報をセッションに保存
             st.session_state["mission_cleared"] = True
             st.session_state["cleared_task_title"] = task['title']
             st.session_state["cleared_task_id"] = task_id
+            
+            # マイルストーン報酬チェック
+            if check_milestone_reward(completed_count):
+                st.session_state["reward_earned"] = True
+                st.session_state["completed_count_for_reward"] = completed_count
+            
             # SWT表示を非表示にして画面更新
             st.session_state[f"show_swt_{task_id}"] = False
             st.rerun()
@@ -1467,10 +1621,21 @@ def display_sns_content(task, task_service, user_id):
         if st.button("完了", key=f"complete_sns_{task_id}"):
             # ミッションクリア処理
             task_service.mark_task_complete(task_id, user_id)
+            
+            # 完了数を再計算してマイルストーン報酬チェック
+            tasks = task_service.get_tasks_with_progress(user_id)
+            completed_count = len([task for task in tasks if task['completed']])
+            
             # クリア状態とタスク情報をセッションに保存
             st.session_state["mission_cleared"] = True
             st.session_state["cleared_task_title"] = task['title']
             st.session_state["cleared_task_id"] = task_id
+            
+            # マイルストーン報酬チェック
+            if check_milestone_reward(completed_count):
+                st.session_state["reward_earned"] = True
+                st.session_state["completed_count_for_reward"] = completed_count
+            
             # SNS表示を非表示にして画面更新
             st.session_state[f"show_sns_{task_id}"] = False
             st.rerun()
