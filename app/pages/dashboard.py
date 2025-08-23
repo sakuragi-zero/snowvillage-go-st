@@ -1114,19 +1114,44 @@ def display_quiz_content(task, task_service, user_id):
 def display_navigation_buttons():
     """ナビゲーションボタンの表示（進捗状況の上）"""
     
-    # 3つのナビゲーションボタン - 少し間隔を調整
+    # 3つのナビゲーションボタン - Material UIアイコン付き
+    st.markdown("""
+    <style>
+        /* ナビゲーションボタン内のMaterial Icons */
+        .nav-button-icon {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     col1, col2, col3 = st.columns([1, 1, 1], gap="small")
     
     with col1:
-        if st.button("🏠 ホーム", key="top_nav_home", disabled=True, use_container_width=True):
-            pass  # 現在のページ
+        dashboard_button = st.button(
+            "📏 ダッシュボード", 
+            key="top_nav_home", 
+            disabled=True, 
+            use_container_width=True
+        )
     
     with col2:
-        if st.button("🏆 ランキング", key="top_nav_ranking", use_container_width=True):
+        ranking_button = st.button(
+            "📈 ランキング", 
+            key="top_nav_ranking", 
+            use_container_width=True
+        )
+        if ranking_button:
             st.switch_page("pages/ranking.py")
     
     with col3:
-        if st.button("📝 匿名投稿", key="top_nav_post", use_container_width=True):
+        post_button = st.button(
+            "✏️ 匿名投稿", 
+            key="top_nav_post", 
+            use_container_width=True
+        )
+        if post_button:
             st.switch_page("pages/post.py")
 
 

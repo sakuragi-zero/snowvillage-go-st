@@ -228,11 +228,7 @@ def main():
     # ランキング表示
     display_ranking()
     
-    # 戻るボタン
-    if st.button("ダッシュボードに戻る", use_container_width=True, type="primary"):
-        st.switch_page("pages/dashboard.py")
-    
-    # 下部ナビゲーションバー（隠しボタン付き）
+    # 下部ナビゲーションバー
     display_bottom_navigation()
 
 
@@ -243,15 +239,29 @@ def display_bottom_navigation():
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        if st.button("🏠 ホーム", key="bottom_nav_home", use_container_width=True):
+        dashboard_button = st.button(
+            "📏 ダッシュボード", 
+            key="bottom_nav_home", 
+            use_container_width=True
+        )
+        if dashboard_button:
             st.switch_page("pages/dashboard.py")
     
     with col2:
-        if st.button("🏆 ランキング", key="bottom_nav_ranking", disabled=True, use_container_width=True):
-            pass  # 現在のページ
+        ranking_button = st.button(
+            "📈 ランキング", 
+            key="bottom_nav_ranking", 
+            disabled=True, 
+            use_container_width=True
+        )
     
     with col3:
-        if st.button("📝 匿名投稿", key="bottom_nav_post", use_container_width=True):
+        post_button = st.button(
+            "✏️ 匿名投稿", 
+            key="bottom_nav_post", 
+            use_container_width=True
+        )
+        if post_button:
             st.switch_page("pages/post.py")
 
 
