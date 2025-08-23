@@ -186,7 +186,7 @@ def launch_screen():
             <h1 class="mobile-title" style="color: #4FC3F7; font-weight: 700; margin: 0; padding: 0; line-height: 1; text-align: center; display: block;">SnowVillage GO</h1>
             <p style="color: #E0E0E0; font-size: 1.1rem; margin: 0 auto 1.2rem auto; padding: 0; line-height: 1.2; text-align: center; display: block; font-weight: 600;">Snowflake World Tour Tokyo 2025</p>
             <div style="color: #94a3b8; font-size: 0.8rem; text-align: center; line-height: 1.4; margin: 0 auto 1rem auto; display: block;">
-                ✓ クエストとチャレンジ<br>
+                ✓ ミッション<br>
                 ✓ ランキング<br>
                 ✓ 景品
             </div>
@@ -236,16 +236,16 @@ def main():
         st.session_state.authenticated_user = login_result.get('user')
         
         if login_result['intent'] == 'new_user':
-            st.balloons()
+            st.snow()
             st.success(f"🎉 ようこそ {st.session_state.user_info['name']} さん！")
             st.info("ダッシュボードへ移動します...")
-            time.sleep(2)
+            time.sleep(4)
             st.switch_page("pages/dashboard.py")
         elif login_result['intent'] == 'existing_user':
-            st.balloons()
-            st.success(f"🎉 おかえりなさい {st.session_state.user_info['name']} さん！")
+            st.snow()
+            st.success(f"おかえりなさい {st.session_state.user_info['name']} さん！")
             st.info("ダッシュボードへ移動します...")
-            time.sleep(2)
+            time.sleep(4)
             st.switch_page("pages/dashboard.py")
 
 if __name__ == "__main__":

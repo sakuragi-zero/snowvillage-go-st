@@ -221,7 +221,7 @@ def main():
     st.markdown('''
     <h1 class="ranking-header">
         <span class="material-icons" style="font-size: 3rem; vertical-align: middle; margin-right: 0.5rem; color: #1a237e;">leaderboard</span>
-        ユーザーランキング
+        ランキング
     </h1>
     ''', unsafe_allow_html=True)
     
