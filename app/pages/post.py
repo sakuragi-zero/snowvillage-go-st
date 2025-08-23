@@ -110,6 +110,7 @@ def main():
             padding: 1rem;
             margin: 1rem 0;
             border-radius: 5px;
+            color: #000000;
         }}
         
         .warning-box {{
@@ -118,6 +119,7 @@ def main():
             padding: 1rem;
             margin: 1rem 0;
             border-radius: 5px;
+            color: #000000;
         }}
         
         .success-box {{
@@ -126,6 +128,7 @@ def main():
             padding: 1rem;
             margin: 1rem 0;
             border-radius: 5px;
+            color: #000000;
         }}
         
         .error-box {{
@@ -134,6 +137,7 @@ def main():
             padding: 1rem;
             margin: 1rem 0;
             border-radius: 5px;
+            color: #000000;
         }}
         
         .back-btn {{
@@ -220,10 +224,18 @@ def main():
     # ヘッダー
     st.markdown('''
     <h1 class="post-header">
-        <span class="material-icons" style="font-size: 3rem; vertical-align: middle; margin-right: 0.5rem; color: #1a237e;">edit</span>
-        匿名投稿
+        <span class="material-icons" style="font-size: 3rem; vertical-align: middle; margin-right: 0.5rem; color: #1a237e;">help_outline</span>
+        匿名質問
     </h1>
     ''', unsafe_allow_html=True)
+    
+    # ページ説明の追加
+    st.markdown("""
+    <div class="info-box">
+        <strong>📝 このページについて</strong><br>
+        このページは村民に匿名で質問を投稿できます。ぜひSnowVillageのスラックに参加して質問の回答を確認しよう！
+    </div>
+    """, unsafe_allow_html=True)
     
     # 投稿フォーム表示
     display_post_form(user)

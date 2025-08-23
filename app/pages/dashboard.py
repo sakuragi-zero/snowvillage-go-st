@@ -725,7 +725,7 @@ def main():
         if st.button("ランキング", use_container_width=True, key="nav_ranking"):
             st.switch_page("pages/ranking.py")
             
-        if st.button("匿名投稿", use_container_width=True, key="nav_post"):
+        if st.button("匿名質問", use_container_width=True, key="nav_post"):
             st.switch_page("pages/post.py")
     
     # ヘッダー
@@ -1147,7 +1147,7 @@ def display_navigation_buttons():
     
     with col3:
         post_button = st.button(
-            "✏️ 匿名投稿", 
+            "❓ 匿名質問", 
             key="top_nav_post", 
             use_container_width=True
         )
