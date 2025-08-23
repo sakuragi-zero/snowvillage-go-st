@@ -969,7 +969,7 @@ def display_jump_navigation():
     """, unsafe_allow_html=True)
 
 
-@st.dialog("🎉 ミッションクリア！")
+@st.dialog("ミッションクリア！")
 def show_mission_clear_dialog():
     """ミッションクリアダイアログ表示"""
     task_title = st.session_state.get("cleared_task_title", "ミッション")
@@ -978,9 +978,6 @@ def show_mission_clear_dialog():
     st.markdown(f"""
     <div style="text-align: center; padding: 1rem;">
         <h1 style="font-size: 4rem; margin: 1rem 0; color: #10b981;">🎉</h1>
-        <h2 style="font-size: 2rem; margin: 1rem 0; color: #10b981; font-weight: 700;">
-            ミッションクリア！
-        </h2>
         <h3 style="font-size: 1.5rem; margin: 1rem 0; color: #374151; font-weight: 600;">
             『{task_title}』
         </h3>
