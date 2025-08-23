@@ -98,11 +98,15 @@ def main():
         /* ヘッダー */
         .welcome-header {{
             text-align: center;
-            color: #1a1a1a;
+            background: linear-gradient(135deg, #42a5f5, #1976d2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 2rem;
             letter-spacing: -0.5px;
+            line-height: 1.2;
         }}
         
         .header-icon {{
@@ -731,8 +735,9 @@ def main():
     # ヘッダー
     st.markdown('''
     <h1 class="welcome-header">
-        <span class="material-icons header-icon" style="font-size: 3rem;">dashboard</span>
-        Snow Village Dashboard
+        SnowVillage<br>
+        Community<br>
+        Mission
     </h1>
     ''', unsafe_allow_html=True)
     
