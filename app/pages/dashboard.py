@@ -125,16 +125,39 @@ def main():
         .section-header {{
             display: flex;
             align-items: center;
-            margin: 2rem 0 1rem 0;
-            color: #374151;
-            font-size: 1.5rem;
-            font-weight: 600;
+            justify-content: center;
+            margin: 2.5rem 0 1.5rem 0;
+            background: linear-gradient(135deg, #1a237e, #3949ab);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+            font-weight: 700;
+            position: relative;
+            padding: 1rem 0;
+        }}
+        
+        .section-header::before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            z-index: -1;
+            backdrop-filter: blur(5px);
         }}
         
         .section-icon {{
             margin-right: 0.75rem;
-            color: #2563eb;
-            font-size: 1.75rem;
+            background: linear-gradient(135deg, #1a237e, #3949ab);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2rem;
         }}
         
         /* タスクカテゴリー */
@@ -780,6 +803,21 @@ def main():
             
             .welcome-header::before {{
                 width: 110%;
+            }}
+            
+            .section-header {{
+                font-size: 1.5rem;
+                margin: 2rem 0 1rem 0;
+                padding: 0.8rem 0;
+            }}
+            
+            .section-header::before {{
+                width: 90%;
+            }}
+            
+            .section-icon {{
+                font-size: 1.5rem;
+                margin-right: 0.5rem;
             }}
             
             .progress-stats {{
