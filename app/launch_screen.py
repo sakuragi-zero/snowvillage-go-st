@@ -183,7 +183,7 @@ def launch_screen():
         }
         </style>
         <div style="text-align: center; width: 100%;">
-            <h1 class="mobile-title" style="color: #4FC3F7; font-weight: 700; margin: 0; padding: 0; line-height: 1; text-align: center; display: block;">SnowVillage GO</h1>
+            <h1 class="mobile-title" style="color: #4FC3F7; font-weight: 700; margin: 0 0 0.8rem 0; padding: 0; line-height: 1; text-align: center; display: block;">SnowVillage GO</h1>
             <p style="color: #E0E0E0; font-size: 1.1rem; margin: 0 auto 1.2rem auto; padding: 0; line-height: 1.2; text-align: center; display: block; font-weight: 600;">Snowflake World Tour Tokyo 2025</p>
             <div style="color: #94a3b8; font-size: 0.8rem; text-align: center; line-height: 1.4; margin: 0 auto 1rem auto; display: block;">
                 ✓ ミッション<br>
