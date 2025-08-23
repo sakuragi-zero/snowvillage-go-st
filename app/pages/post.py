@@ -71,19 +71,27 @@ def main():
         
         /* メインコンテナ */
         .main-container {{
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            padding: 2.5rem;
             margin: 2rem auto;
-            max-width: 800px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 25px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
         }}
         
         .post-header {{
             text-align: center;
-            color: #1a237e;
+            background: linear-gradient(135deg, #1a237e, #3949ab);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            text-shadow: 0 2px 4px rgba(26, 35, 126, 0.3);
         }}
         
         .form-container {{

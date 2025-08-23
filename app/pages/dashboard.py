@@ -88,15 +88,31 @@ def main():
         /* ヘッダー */
         .welcome-header {{
             text-align: center;
-            background: linear-gradient(135deg, #42a5f5, #1976d2);
+            background: linear-gradient(135deg, #1a237e, #3949ab, #42a5f5);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            letter-spacing: -0.5px;
-            line-height: 1.2;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.8px;
+            line-height: 1.1;
+            position: relative;
+        }}
+        
+        .welcome-header::before {{
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120%;
+            height: calc(100% + 20px);
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            z-index: -1;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
         }}
         
         .header-icon {{
@@ -756,6 +772,16 @@ def main():
 
         /* レスポンシブ対応 */
         @media (max-width: 768px) {{
+            .welcome-header {{
+                font-size: 2.2rem;
+                margin-bottom: 2rem;
+                letter-spacing: -0.5px;
+            }}
+            
+            .welcome-header::before {{
+                width: 110%;
+            }}
+            
             .progress-stats {{
                 flex-direction: column;
                 gap: 1rem;
