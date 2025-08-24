@@ -25,17 +25,17 @@ class UserService:
         # Streamlit Cloud環境での接続パラメータ
         try:
             # Streamlit Secretsから接続情報を取得
-            db_config = st.secrets.get("database", {})
+
+            db_config = st.secrets.get("database", {})  # Streamlit secrets.toml または Cloud Secrets
             self.connection_params = {
-                'host': db_config.get('host', os.getenv('DB_HOST', 'デフォルト')),
-                'database': db_config.get('database', os.getenv('DB_NAME', 'snowvillage')),
-                'user': db_config.get('user', os.getenv('DB_USER', 'postgres')),
-                'password': db_config.get('password', os.getenv('DB_PASSWORD', '')),
-                'port': int(db_config.get('port', os.getenv('DB_PORT', '5432'))),
-                # 外部インスタンス接続用のSSL設定
-                'sslmode': db_config.get('sslmode', 'prefer'),
-                'connect_timeout': int(db_config.get('connect_timeout', '10')),
-                'application_name': 'snowvillage_go_app'
+                "host": db_config.get("host") or os.getenv("DB_HOST", "localhost"),
+                "database": db_config.get("database") or os.getenv("DB_NAME", "snowvillage"),
+                "user": db_config.get("user") or os.getenv("DB_USER", "postgres"),
+                "password": db_config.get("password") or os.getenv("DB_PASSWORD", ""),
+                "port": int(db_config.get("port") or os.getenv("DB_PORT", "5432")),
+                "sslmode": db_config.get("sslmode", "prefer"),
+                "connect_timeout": int(db_config.get("connect_timeout") or os.getenv("DB_CONNECT_TIMEOUT", "10")),
+                "application_name": "snowvillage_go_app",
             }
         except Exception as e:
             # Secretsが利用できない場合（ローカル開発環境）
