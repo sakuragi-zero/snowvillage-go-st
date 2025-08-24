@@ -2,43 +2,78 @@ import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from datetime import datetime
+import streamlit as st
 
 class TaskService:
     """タスクサービス"""
     def __init__(self):
-        self.connection_params = {
-            'host': os.getenv('DB_HOST', 'postgres-dev'),
-            'database': os.getenv('DB_NAME', 'snowvillage'),
-            'user': os.getenv('DB_USER', 'postgres'),
-            'password': os.getenv('DB_PASSWORD', 'devpassword'),
-            'port': int(os.getenv('DB_PORT', '5432'))
-        }
+        # Streamlit Cloud環境での接続パラメータ
+        try:
+            # Streamlit Secretsから接続情報を取得
+            db_config = st.secrets.get("database", {})
+            self.connection_params = {
+                'host': db_config.get('host', os.getenv('DB_HOST', 'localhost')),
+                'database': db_config.get('database', os.getenv('DB_NAME', 'snowvillage')),
+                'user': db_config.get('user', os.getenv('DB_USER', 'postgres')),
+                'password': db_config.get('password', os.getenv('DB_PASSWORD', '')),
+                'port': int(db_config.get('port', os.getenv('DB_PORT', '5432'))),
+                # 外部インスタンス接続用のSSL設定
+                'sslmode': db_config.get('sslmode', 'prefer'),
+                'connect_timeout': int(db_config.get('connect_timeout', '10')),
+                'application_name': 'snowvillage_go_app'
+            }
+        except Exception as e:
+            # Secretsが利用できない場合（ローカル開発環境）
+            print(f"Using fallback database configuration: {e}")
+            self.connection_params = {
+                'host': os.getenv('DB_HOST', 'postgres-dev'),
+                'database': os.getenv('DB_NAME', 'snowvillage'),
+                'user': os.getenv('DB_USER', 'postgres'),
+                'password': os.getenv('DB_PASSWORD', 'devpassword'),
+                'port': int(os.getenv('DB_PORT', '5432')),
+                'sslmode': 'prefer',
+                'connect_timeout': 10,
+                'application_name': 'snowvillage_go_app'
+            }
         self._init_db()
 
     def _init_db(self):
         """テーブル初期化"""
-        with psycopg2.connect(**self.connection_params) as conn:
-            with conn.cursor() as cursor:
-                cursor.execute("""
-                CREATE TABLE IF NOT EXISTS tasks (
-                    id SERIAL PRIMARY KEY,
-                    title TEXT NOT NULL,
-                    task_type TEXT DEFAULT 'basic',
-                    description TEXT,
-                    content JSONB
-                )
-                """)
-                cursor.execute("""
-                CREATE TABLE IF NOT EXISTS progress (
-                    id SERIAL PRIMARY KEY,
-                    user_id INT NOT NULL,
-                    task_id INT NOT NULL,
-                    completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    FOREIGN KEY (task_id) REFERENCES tasks(id),
-                    UNIQUE(user_id, task_id)
-                )
-                """)
-            conn.commit()
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                with psycopg2.connect(**self.connection_params) as conn:
+                    with conn.cursor() as cursor:
+                        cursor.execute("""
+                        CREATE TABLE IF NOT EXISTS tasks (
+                            id SERIAL PRIMARY KEY,
+                            title TEXT NOT NULL,
+                            task_type TEXT DEFAULT 'basic',
+                            description TEXT,
+                            content JSONB
+                        )
+                        """)
+                        cursor.execute("""
+                        CREATE TABLE IF NOT EXISTS progress (
+                            id SERIAL PRIMARY KEY,
+                            user_id INT NOT NULL,
+                            task_id INT NOT NULL,
+                            completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            FOREIGN KEY (task_id) REFERENCES tasks(id),
+                            UNIQUE(user_id, task_id)
+                        )
+                        """)
+                    conn.commit()
+                    print(f"Task database connection successful (attempt {attempt + 1})")
+                    return
+            except psycopg2.OperationalError as e:
+                print(f"Task database connection attempt {attempt + 1} failed: {e}")
+                if attempt == max_retries - 1:
+                    raise Exception(f"Failed to connect to task database after {max_retries} attempts: {e}")
+            except Exception as e:
+                print(f"Task database initialization error: {e}")
+                if attempt == max_retries - 1:
+                    raise
 
     def insert_task_if_not_exists(self, task_id: int, title: str, task_type: str = 'basic', description: str = None, content: dict = None):
         """タスクがなければ追加"""

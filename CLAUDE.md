@@ -159,16 +159,73 @@ uv sync --reinstall
 3. **環境変数**: 本番環境では適切な環境変数を設定する
 4. **依存関係**: 新しいライブラリ追加時は`pyproject.toml`を更新する
 
+## Streamlit Cloud デプロイメント
+
+### 必要な設定
+
+1. **Streamlit Secrets設定**
+   - Streamlit Cloudの管理画面でSecretsを設定
+   - `.streamlit/secrets.toml.example`を参考に以下の設定を追加:
+
+```toml
+[database]
+host = "your-external-postgres-host.com"
+database = "snowvillage"
+user = "your_db_user"
+password = "your_secure_password"
+port = 5432
+sslmode = "require"
+connect_timeout = 10
+
+[slack]
+bot_token = "xoxb-your-slack-bot-token"
+channel_id = "C1234567890"
+bot_name = "Snow Village Bot"
+```
+
+2. **データベース要件**
+   - PostgreSQL 12以上
+   - SSL接続対応（推奨: sslmode=require）
+   - ファイアウォール設定でStreamlit Cloud IPからのアクセスを許可
+   - タイムゾーン設定: UTC推奨
+
+3. **接続設定**
+   - **SSL必須**: 外部インスタンス接続時はSSL設定必須
+   - **接続プール**: アプリケーション名による識別
+   - **タイムアウト**: 10秒のタイムアウト設定
+   - **リトライ**: 3回の接続リトライ機能
+
+### デプロイメント手順
+
+1. GitHubリポジトリにpush
+2. Streamlit Cloudでアプリを作成
+3. Secretsに接続情報を設定
+4. デプロイ実行
+5. ログでデータベース接続成功を確認
+
 ## テスト・デバッグ
 
 ### データベース接続テスト
+
+**ローカル環境（Docker）:**
 ```bash
 uv run python -c "from task_db import TaskService; ts = TaskService(); print('OK')"
 ```
 
+**Streamlit Cloud環境:**
+- Streamlit Cloud上でアプリを起動し、ログを確認
+- 接続成功時は "Database connection successful" メッセージが表示される
+
 ### テーブル確認
+
+**ローカル環境:**
 ```bash
 docker exec snowvillage-postgres psql -U postgres -d snowvillage -c "\\dt"
+```
+
+**外部PostgreSQL:**
+```bash
+psql -h your-host -p 5432 -U your-user -d snowvillage -c "\\dt"
 ```
 
 ### アプリケーション起動
