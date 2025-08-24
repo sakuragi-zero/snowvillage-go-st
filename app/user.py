@@ -27,7 +27,7 @@ class UserService:
             # Streamlit Secretsから接続情報を取得
             db_config = st.secrets.get("database", {})
             self.connection_params = {
-                'host': db_config.get('host', os.getenv('DB_HOST', 'localhost')),
+                'host': db_config.get('host', os.getenv('DB_HOST', 'デフォルト')),
                 'database': db_config.get('database', os.getenv('DB_NAME', 'snowvillage')),
                 'user': db_config.get('user', os.getenv('DB_USER', 'postgres')),
                 'password': db_config.get('password', os.getenv('DB_PASSWORD', '')),
