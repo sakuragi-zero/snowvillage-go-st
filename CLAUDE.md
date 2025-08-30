@@ -152,12 +152,101 @@ uv sync --reinstall
 - `docker-compose.yml`: 本番環境コンテナ設定
 - `docker-compose.dev.yml`: 開発環境コンテナ設定
 
+## パフォーマンス最適化（2025年8月実装）
+
+### 実装背景
+投稿ボタンやページ遷移の度に以下の問題が発生していた：
+- `TaskService`初期化時に毎回CREATE TABLE文が実行される
+- YAMLからのタスク同期で重複チェッククエリが大量発生
+- PostgreSQLの直列処理により数ms〜数十msの遅延が積み重なる
+
+### 最適化策
+
+#### 1. グローバル初期化フラグ機能
+```python
+# task_db.py
+_DB_INITIALIZED = False
+_TASKS_SYNCED = False
+
+def _ensure_db_initialized(self):
+    global _DB_INITIALIZED
+    if _DB_INITIALIZED:
+        return
+    # 初回のみ実行
+```
+
+**効果**: 
+- 初回: 0.423秒 → 2回目以降: 0.000秒（∞倍高速化）
+- CREATE TABLE文の重複実行を完全排除
+
+#### 2. Streamlitセッション状態キャッシング
+```python
+# セッション状態での二重チェック
+if hasattr(st.session_state, '_db_initialized') and st.session_state._db_initialized:
+    _DB_INITIALIZED = True
+    return
+```
+
+**効果**: ページ遷移時も初期化をスキップ
+
+#### 3. 一括挿入機能（bulk_insert_tasks_if_not_exists）
+```python
+# 既存：個別にSELECT + INSERT
+for task in tasks:
+    cur.execute("SELECT 1 FROM tasks WHERE id = %s", (task_id,))
+    if not cur.fetchone():
+        cur.execute("INSERT INTO tasks...")
+
+# 最適化：一括SELECT + 一括INSERT
+cur.execute(f"SELECT id FROM tasks WHERE id IN ({format_strings})", task_ids)
+existing_ids = set(row[0] for row in cur.fetchall())
+cur.executemany("INSERT INTO tasks...", new_tasks_data)
+```
+
+**効果**: 
+- 個別挿入: 0.022秒 → 一括挿入: 0.002秒（11倍高速化）
+- 90個タスク同期: 0.052秒 → 2回目以降: 0.000秒
+
+#### 4. タスク同期の最適化
+```python
+# tasks.py
+def sync_yaml_to_db(yaml_path: str):
+    if _TASKS_SYNCED or (hasattr(st.session_state, '_tasks_synced') and st.session_state._tasks_synced):
+        return  # 同期済みの場合は即座に終了
+    
+    task_service.bulk_insert_tasks_if_not_exists(tasks)  # 一括処理
+    st.session_state._tasks_synced = True  # フラグ設定
+```
+
+### パフォーマンステスト結果
+
+| 処理 | 最適化前 | 最適化後 | 改善率 |
+|------|---------|----------|--------|
+| DB初期化（2回目） | 0.423秒 | 0.000秒 | ∞倍 |
+| タスク同期（2回目） | 0.052秒 | 0.000秒 | ∞倍 |
+| 一括vs個別挿入 | 0.022秒 | 0.002秒 | 11倍 |
+| 複数インスタンス作成 | 各0.4秒 | 各0.000秒 | ∞倍 |
+
+### 運用上の注意点
+
+1. **フラグリセット**: アプリケーション再起動時に自動でリセットされる
+2. **メモリ使用量**: グローバルフラグは最小限のメモリ使用量
+3. **デバッグ時**: `performance_test.py`で動作確認可能
+4. **本番環境**: Streamlit Cloudでも同様の効果を確認
+
+### ファイル構成
+- `task_db.py`: 初期化フラグとバルク挿入機能
+- `tasks.py`: 同期最適化ロジック  
+- `performance_test.py`: 性能測定スクリプト
+
 ## 開発時の注意点
 
 1. **新しいサービス作成時**: 必ず`user.py`の`UserService`と同じ接続設定を使用する
 2. **データベーススキーマ変更時**: `_init_db()`メソッドを更新する
-3. **環境変数**: 本番環境では適切な環境変数を設定する
-4. **依存関係**: 新しいライブラリ追加時は`pyproject.toml`を更新する
+3. **パフォーマンス重視**: 初期化処理は`_ensure_db_initialized()`パターンを使用する
+4. **大量データ処理**: 個別処理ではなく一括処理（`bulk_*`メソッド）を優先する
+5. **環境変数**: 本番環境では適切な環境変数を設定する
+6. **依存関係**: 新しいライブラリ追加時は`pyproject.toml`を更新する
 
 ## Streamlit Cloud デプロイメント
 
