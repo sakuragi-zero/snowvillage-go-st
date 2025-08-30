@@ -959,8 +959,9 @@ def display_progress_overview():
     completed_tasks = len([task for task in tasks if task['completed']])
     completion_rate = (completed_tasks / total_tasks) * 100 if total_tasks > 0 else 0
     
-    # 報酬情報の計算
-    earned_rewards = [milestone for milestone in MILESTONE_REWARDS.keys() if milestone <= completed_tasks]
+    # 報酬情報の計算（最新3つまで表示）
+    all_earned_rewards = [milestone for milestone in MILESTONE_REWARDS.keys() if milestone <= completed_tasks]
+    earned_rewards = sorted(all_earned_rewards, reverse=True)[:3]  # 最新3つまで
     next_milestone = get_next_milestone(completed_tasks)
     
     # 進捗状況ヘッダー
@@ -970,6 +971,9 @@ def display_progress_overview():
         進捗状況
     </div>
     ''', unsafe_allow_html=True)
+    
+    # 獲得報酬のHTML生成（分離）
+    earned_rewards_html = generate_earned_rewards_html(earned_rewards)
     
     # 進捗表示カード
     st.markdown(f'''
@@ -984,7 +988,7 @@ def display_progress_overview():
                 <div class="rate-label">完了率</div>
             </div>
             <div class="stat-item-unified">
-                <div class="stat-number">{len(earned_rewards)}</div>
+                <div class="stat-number">{len(all_earned_rewards)}</div>
                 <div class="stat-label">獲得報酬</div>
             </div>
         </div>
@@ -998,7 +1002,7 @@ def display_progress_overview():
                 <span style="color: #10b981; font-weight: 600;">🎁 次の報酬まで: {next_milestone - completed_tasks if next_milestone != "最大" else 0}ミッション</span>
             </div>
             <div class="earned-rewards">
-                {generate_earned_rewards_html(earned_rewards)}
+                {earned_rewards_html}
             </div>
         </div>
     </div>
@@ -1011,16 +1015,10 @@ def generate_earned_rewards_html(earned_rewards):
         return '<span style="color: #9ca3af; font-size: 0.9rem;">まだ報酬はありません</span>'
     
     rewards_html = '<div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem;">'
-    for milestone in earned_rewards:
+    # 降順でソート（最新の報酬が左から表示される）
+    for milestone in sorted(earned_rewards, reverse=True):
         reward = MILESTONE_REWARDS[milestone]
-        rewards_html += f'''
-            <div style="display: flex; align-items: center; background: {reward['color']}22; 
-                        border: 1px solid {reward['color']}44; border-radius: 20px; 
-                        padding: 0.3rem 0.8rem; font-size: 0.8rem;">
-                <span style="margin-right: 0.3rem;">{reward['icon']}</span>
-                <span style="color: {reward['color']}; font-weight: 600;">{milestone}</span>
-            </div>
-        '''
+        rewards_html += f'<div style="display: flex; align-items: center; background: {reward["color"]}22; border: 1px solid {reward["color"]}44; border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.8rem;"><span style="margin-right: 0.3rem;">{reward["icon"]}</span><span style="color: {reward["color"]}; font-weight: 600;">{milestone}</span></div>'
     rewards_html += '</div>'
     return rewards_html
 
