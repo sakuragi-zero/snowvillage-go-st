@@ -309,11 +309,12 @@ def display_post_form(user):
     # 投稿フォーム
     with st.form(key="anonymous_post_form", clear_on_submit=True):
         message = st.text_area(
-            "",
+            "メッセージ",
             placeholder="ここにメッセージを入力してください...\n\n例:\n- 技術的な質問\n- 実現したいデータ利活用シーン",
             height=150,
             max_chars=2000,
-            help="最大2000文字まで入力できます"
+            help="最大2000文字まで入力できます",
+            label_visibility="collapsed"
         )
         
         # 文字数カウンター

@@ -34,6 +34,8 @@ class SlackClient:
             # Webhook URLが設定されていない場合の警告
             if not self.webhook_url:
                 logger.warning("Slack webhook URL not found in secrets. Please configure [slack] webhook_url in secrets.toml")
+            else:
+                logger.info(f"Slack webhook URL loaded: {self.webhook_url[:50]}...")
             
             if self.webhook_url:
                 logger.info("Slack webhook client initialized successfully")
