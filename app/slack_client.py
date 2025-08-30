@@ -26,19 +26,14 @@ class SlackClient:
     def _init_client(self):
         """Slackクライアントを初期化"""
         try:
-            # Streamlit secrets または環境変数から設定を取得
-            try:
-                slack_config = st.secrets.get("slack", {})
-                self.webhook_url = slack_config.get("webhook_url")
-                self.bot_name = slack_config.get("bot_name", "Snow Village Bot")
-            except:
-                # secrets が利用できない場合は環境変数から取得
-                self.webhook_url = os.getenv("SLACK_WEBHOOK_URL")
-                self.bot_name = os.getenv("SLACK_BOT_NAME", "Snow Village Bot")
+            # Streamlit secrets から設定を取得（ローカル・本番共通）
+            slack_config = st.secrets.get("slack", {})
+            self.webhook_url = slack_config.get("webhook_url")
+            self.bot_name = slack_config.get("bot_name", "Snow Village Bot")
             
             # Webhook URLが設定されていない場合の警告
             if not self.webhook_url:
-                logger.warning("Slack webhook URL not found in secrets or environment variables")
+                logger.warning("Slack webhook URL not found in secrets. Please configure [slack] webhook_url in secrets.toml")
             
             if self.webhook_url:
                 logger.info("Slack webhook client initialized successfully")
