@@ -36,7 +36,7 @@ def main():
     
     # 背景設定
     base_dir = os.path.dirname(os.path.dirname(__file__))
-    bg_path = os.path.join(base_dir, "frontend", "public", "SnowVillageGo.png")
+    bg_path = os.path.join(base_dir, "frontend", "public", "SnowVillageGO-white.png")
     bg_base64 = get_base64_img(bg_path)
     
     bg_style = "background: linear-gradient(135deg, #1a237e, #283593, #3949ab, #42a5f5);"

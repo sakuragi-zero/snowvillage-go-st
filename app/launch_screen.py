@@ -114,7 +114,7 @@ def launch_screen():
         return ""
 
     base_dir = os.path.dirname(__file__)
-    logo_path = os.path.join(base_dir, "frontend", "public", "SnowVillageLogo.png")
+    logo_path = os.path.join(base_dir, "frontend", "public", "SnowVillageLogo-white.png")
     bg_path = os.path.join(base_dir, "frontend", "public", "bg-villag-go.png")
     
     logo_base64 = get_base64_img(logo_path)
@@ -184,19 +184,19 @@ def launch_screen():
         </style>
         <div style="text-align: center; width: 100%;">
             <h1 class="mobile-title" style="color: #4FC3F7; font-weight: 700; margin: 0 0 0.8rem 0; padding: 0; line-height: 1; text-align: center; display: block;">SnowVillage GO</h1>
-            <p style="color: #E0E0E0; font-size: 1.1rem; margin: 0 auto 1.2rem auto; padding: 0; line-height: 1.2; text-align: center; display: block; font-weight: 600;">Snowflake World Tour Tokyo 2025</p>
+            <p style="color: #E0E0E0; font-size: 1.1rem; margin: 0 auto 1.2rem auto; padding: 0; line-height: 1.2; text-align: center; display: block; font-weight: 600;">Snowflake World Tour Tokyo</p>
             <div style="color: #94a3b8; font-size: 0.8rem; text-align: center; line-height: 1.4; margin: 0 auto 1rem auto; display: block;">
-                ✓ ミッション<br>
-                ✓ ランキング<br>
-                ✓ 景品
+                ✓ SWTTokyoをもっと楽しもう！<br>
+                ✓ コミュニティミッションにチャレンジ<br>
+                ✓ 気軽に投稿できる質問フォーム
             </div>
-            <div style="color: #94a3b8; font-size: 0.7rem; text-align: center; margin: 0 auto 1.5rem auto; display: block;">※メールアドレスと電話番号は不要です</div>
+            <div style="color: #94a3b8; font-size: 0.7rem; text-align: center; margin: 0 auto 1.5rem auto; display: block;">※登録名でユーザー識別します。他の人とかぶらなさそうな自由な名前をつかってね！</div>
         </div>
         """, unsafe_allow_html=True)
 
         st.text_input(
             "名前",
-            placeholder="名前の登録",
+            placeholder="ユーザー名の入力",
             key="user_name_input",
             label_visibility="collapsed"
         )
@@ -204,8 +204,8 @@ def launch_screen():
         # Display messages using fragment
         display_messages()
         
-        st.button("遊びに行く！", use_container_width=True, on_click=handle_submit, args=('play',))
-        st.button("登録済みの方はこちら", use_container_width=True, on_click=handle_submit, args=('login',))
+        st.button("ユーザー登録する", use_container_width=True, on_click=handle_submit, args=('play',))
+        st.button("遊びに行く！", use_container_width=True, on_click=handle_submit, args=('login',))
         
     
     return None
