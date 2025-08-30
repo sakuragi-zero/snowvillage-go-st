@@ -102,6 +102,14 @@ def main():
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }}
         
+        /* フォーム背景を透明に設定 */
+        div[data-testid="stForm"] {{
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }}
+        
         .info-box {{
             background: #e3f2fd;
             border-left: 4px solid #2196f3;
@@ -170,13 +178,19 @@ def main():
             color: #9ca3af !important;
         }}
         
-        /* 送信ボタン専用スタイル */
-        .send-button {{
-            background: #4caf50 !important;
+        /* フォーム送信ボタンのスタイル統一 */
+        div[data-testid="stForm"] .stButton > button {{
+            background: #1a237e !important;
+            color: white !important;
+            border-radius: 10px !important;
+            border: none !important;
+            padding: 0.5rem 1rem !important;
         }}
         
-        .send-button:hover {{
-            background: #45a049 !important;
+        div[data-testid="stForm"] .stButton > button:hover {{
+            background: #283593 !important;
+            color: #90ee90 !important;
+            transition: color 0.3s ease !important;
         }}
         
         /* サイドバーを完全に非表示 */
@@ -214,7 +228,7 @@ def main():
     st.markdown("""
     <div class="info-box">
         <strong><span class="material-icons" style="vertical-align: middle; margin-right: 0.25rem;">edit</span>このページについて</strong><br>
-        このページは村民に匿名で質問を投稿できます。ぜひSnowVillageのスラックに参加して質問の回答を確認しよう！
+        このページは村民に匿名で質問を投稿できます。ぜひSnowVillageのSlackに参加して質問の回答を確認しよう！
     </div>
     """, unsafe_allow_html=True)
     
@@ -278,7 +292,7 @@ def display_post_form(user):
     # 使い方説明
     st.markdown("""
     <div class="info-box">
-        <strong><span class="material-icons" style="vertical-align: middle; margin-right: 0.25rem;">campaign</span>匿名投稿について</strong><br>
+        <strong><span class="material-icons" style="vertical-align: middle; margin-right: 0.25rem;">campaign</span>投稿について</strong><br>
         • あなたの投稿は完全に匿名でSlackチャンネルに送信されます<br>
         • 投稿者の名前は表示されません<br>
         • 送信時刻のみが記録されます<br>
@@ -286,23 +300,17 @@ def display_post_form(user):
     </div>
     """, unsafe_allow_html=True)
     
-    # 接続状態表示
-    with st.expander("Slack接続状態", expanded=False):
-        if st.button("接続テスト", key="test_connection"):
-            with st.spinner("接続をテスト中..."):
-                success, message = slack_client.test_connection()
-                if success:
-                    st.success(f"{message}")
-                else:
-                    st.error(f"{message}")
-    
-    st.markdown("### メッセージを入力")
+    st.markdown('''
+    <h3 style="background: linear-gradient(135deg, #1a237e, #3949ab); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700; margin-bottom: 1rem;">
+        投稿内容
+    </h3>
+    ''', unsafe_allow_html=True)
     
     # 投稿フォーム
     with st.form(key="anonymous_post_form", clear_on_submit=True):
         message = st.text_area(
-            "投稿内容",
-            placeholder="ここにメッセージを入力してください...\n\n例:\n- イベントの感想\n- 技術的な質問\n- 改善提案\n- その他のフィードバック",
+            "",
+            placeholder="ここにメッセージを入力してください...\n\n例:\n- 技術的な質問\n- 実現したいデータ利活用シーン",
             height=150,
             max_chars=2000,
             help="最大2000文字まで入力できます"
@@ -317,13 +325,10 @@ def display_post_form(user):
         st.markdown("---")
         
         # 送信ボタン
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            submitted = st.form_submit_button(
-                "匿名で送信",
-                use_container_width=True,
-                type="primary"
-            )
+        submitted = st.form_submit_button(
+            "匿名で送信",
+            use_container_width=True
+        )
     
     # フォーム送信処理
     if submitted:

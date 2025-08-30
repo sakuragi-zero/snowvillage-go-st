@@ -1,12 +1,13 @@
 """
-Slack Bot クライアント
+Slack Webhook クライアント
 匿名投稿機能を提供
 """
 import streamlit as st
-from slack_sdk import WebClient
-from slack_sdk.errors import SlackApiError
+import requests
+import json
 from datetime import datetime
 import logging
+import os
 
 # ログ設定
 logging.basicConfig(level=logging.INFO)
@@ -14,50 +15,44 @@ logger = logging.getLogger(__name__)
 
 
 class SlackClient:
-    """Slack API クライアント"""
+    """Slack Webhook クライアント"""
     
     def __init__(self):
         """初期化"""
-        self.client = None
-        self.channel_id = None
+        self.webhook_url = None
         self.bot_name = None
         self._init_client()
     
     def _init_client(self):
         """Slackクライアントを初期化"""
         try:
-            # Streamlit secrets から設定を取得
-            slack_config = st.secrets.get("slack", {})
-            bot_token = slack_config.get("bot_token")
-            self.channel_id = slack_config.get("channel_id")
-            self.bot_name = slack_config.get("bot_name", "Snow Village Bot")
-            
-            if not bot_token:
-                logger.warning("Slack bot token not found in secrets")
-                return
-            
-            if not self.channel_id:
-                logger.warning("Slack channel ID not found in secrets")
-                return
-            
-            # WebClientを初期化
-            self.client = WebClient(token=bot_token)
-            
-            # 接続テスト
+            # Streamlit secrets または環境変数から設定を取得
             try:
-                response = self.client.auth_test()
-                logger.info(f"Slack client initialized successfully. Bot user: {response['user']}")
-            except SlackApiError as e:
-                logger.error(f"Slack auth test failed: {e.response['error']}")
-                self.client = None
+                slack_config = st.secrets.get("slack", {})
+                self.webhook_url = slack_config.get("webhook_url")
+                self.bot_name = slack_config.get("bot_name", "Snow Village Bot")
+            except:
+                # secrets が利用できない場合は環境変数から取得
+                self.webhook_url = os.getenv("SLACK_WEBHOOK_URL")
+                self.bot_name = os.getenv("SLACK_BOT_NAME", "Snow Village Bot")
+            
+            # デフォルトのWebhook URL（提供されたもの）
+            if not self.webhook_url:
+                self.webhook_url = "https://hooks.slack.com/services/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"
+                logger.info("Using default Slack webhook URL")
+            
+            if self.webhook_url:
+                logger.info("Slack webhook client initialized successfully")
+            else:
+                logger.warning("Slack webhook URL not configured")
                 
         except Exception as e:
             logger.error(f"Failed to initialize Slack client: {e}")
-            self.client = None
+            self.webhook_url = None
     
     def is_configured(self) -> bool:
         """Slack設定が正しく行われているかチェック"""
-        return self.client is not None and self.channel_id is not None
+        return self.webhook_url is not None
     
     def send_anonymous_message(self, message: str, username: str = None) -> tuple[bool, str]:
         """
@@ -81,76 +76,44 @@ class SlackClient:
             timestamp = datetime.now().strftime("%Y年%m月%d日 %H:%M:%S")
             
             # 匿名投稿フォーマット
-            formatted_message = f"""**Snow Village 匿名投稿**
+            formatted_message = f"""*Snow Village 匿名投稿* :snowflake:
 
-**メッセージ:**
+*メッセージ:*
 {message.strip()}
 
-**投稿時刻:** {timestamp}
-**投稿者:** 匿名ユーザー"""
+*投稿時刻:* {timestamp}"""
+            
+            # Webhook用のペイロード
+            payload = {
+                "text": formatted_message,
+                "username": self.bot_name,
+                "icon_emoji": ":snowflake:"
+            }
             
             # Slackに送信
-            response = self.client.chat_postMessage(
-                channel=self.channel_id,
-                text=formatted_message,
-                username=self.bot_name,
-                icon_emoji=":snowflake:"
+            response = requests.post(
+                self.webhook_url,
+                json=payload,
+                headers={'Content-Type': 'application/json'},
+                timeout=30
             )
             
-            if response["ok"]:
-                logger.info(f"Message sent successfully. Timestamp: {response['ts']}")
+            if response.status_code == 200:
+                logger.info("Message sent successfully via webhook")
                 return True, "メッセージが正常に送信されました"
             else:
-                logger.error(f"Failed to send message: {response}")
-                return False, "メッセージの送信に失敗しました"
+                logger.error(f"Failed to send message. Status code: {response.status_code}, Response: {response.text}")
+                return False, f"メッセージの送信に失敗しました (Status: {response.status_code})"
                 
-        except SlackApiError as e:
-            error_code = e.response["error"]
-            logger.error(f"Slack API error: {error_code}")
+        except requests.exceptions.Timeout:
+            logger.error("Request timeout")
+            return False, "送信がタイムアウトしました"
             
-            # エラーメッセージをユーザーフレンドリーに変換
-            if error_code == "channel_not_found":
-                return False, "指定されたチャンネルが見つかりません"
-            elif error_code == "not_in_channel":
-                return False, "ボットがチャンネルに参加していません"
-            elif error_code == "invalid_auth":
-                return False, "認証情報が無効です"
-            else:
-                return False, f"Slack API エラー: {error_code}"
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Request error: {e}")
+            return False, f"ネットワークエラーが発生しました: {str(e)}"
                 
         except Exception as e:
             logger.error(f"Unexpected error: {e}")
             return False, f"予期しないエラーが発生しました: {str(e)}"
     
-    def test_connection(self) -> tuple[bool, str]:
-        """
-        Slack接続をテスト
-        
-        Returns:
-            tuple[bool, str]: (成功フラグ, メッセージ)
-        """
-        if not self.client:
-            return False, "Slackクライアントが初期化されていません"
-        
-        try:
-            # 認証テスト
-            auth_response = self.client.auth_test()
-            bot_user = auth_response["user"]
-            
-            # チャンネル情報取得テスト
-            channel_response = self.client.conversations_info(channel=self.channel_id)
-            channel_name = channel_response["channel"]["name"]
-            
-            return True, f"接続成功 - Bot: @{bot_user}, Channel: #{channel_name}"
-            
-        except SlackApiError as e:
-            error_code = e.response["error"]
-            if error_code == "channel_not_found":
-                return False, "チャンネルが見つかりません"
-            elif error_code == "invalid_auth":
-                return False, "認証情報が無効です"
-            else:
-                return False, f"Slack API エラー: {error_code}"
-                
-        except Exception as e:
-            return False, f"接続テストに失敗しました: {str(e)}"
