@@ -36,10 +36,9 @@ class SlackClient:
                 self.webhook_url = os.getenv("SLACK_WEBHOOK_URL")
                 self.bot_name = os.getenv("SLACK_BOT_NAME", "Snow Village Bot")
             
-            # デフォルトのWebhook URL（提供されたもの）
+            # Webhook URLが設定されていない場合の警告
             if not self.webhook_url:
-                self.webhook_url = "https://hooks.slack.com/services/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"
-                logger.info("Using default Slack webhook URL")
+                logger.warning("Slack webhook URL not found in secrets or environment variables")
             
             if self.webhook_url:
                 logger.info("Slack webhook client initialized successfully")
