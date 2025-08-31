@@ -1101,9 +1101,13 @@ def show_mission_clear_dialog():
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         if st.button("ミッション一覧に戻る", type="primary", use_container_width=True):
-            # フィルタリングモードに切り替えて状態をクリア
+            # ミッションクリアダイアログを閉じる
             st.session_state["mission_cleared"] = False
-            st.session_state["show_only_incomplete"] = True
+            
+            # 報酬ダイアログがある場合はそちらを表示、ない場合はフィルタリングモードに切り替え
+            if not st.session_state.get("reward_earned", False):
+                st.session_state["show_only_incomplete"] = True
+            
             st.rerun()
 
 
@@ -1172,12 +1176,12 @@ def check_milestone_reward(completed_count):
 def display_mission_clear_notification():
     """ミッションクリア通知の管理"""
     
-    # 報酬獲得状態をチェック（優先して表示）
-    if st.session_state.get("reward_earned", False):
-        show_reward_dialog()
-    # ミッションクリア状態をチェック
-    elif st.session_state.get("mission_cleared", False):
+    # ミッションクリア状態を優先して表示
+    if st.session_state.get("mission_cleared", False):
         show_mission_clear_dialog()
+    # 報酬獲得状態をチェック（ミッションクリア後に表示）
+    elif st.session_state.get("reward_earned", False):
+        show_reward_dialog()
 
 
 def display_tasks():
