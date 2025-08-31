@@ -54,6 +54,18 @@ def main():
             box-sizing: border-box;
         }}
         
+        /* モバイル用の横スクロール防止 */
+        html, body {{
+            overflow-x: hidden;
+            max-width: 100vw;
+        }}
+        
+        /* 全ての要素が viewport を超えないように */
+        .stApp > div {{
+            max-width: 100vw;
+            overflow-x: hidden;
+        }}
+        
         /* 背景設定 */
         .stApp {{ 
             {bg_style}
@@ -816,6 +828,15 @@ def main():
 
         /* レスポンシブ対応 */
         @media (max-width: 768px) {{
+            /* メインコンテナのモバイル調整 */
+            .main-container {{
+                margin: 0.5rem;
+                padding: 1rem;
+                border-radius: 16px;
+                max-width: calc(100vw - 1rem);
+                box-sizing: border-box;
+            }}
+            
             .welcome-header {{
                 font-size: 2.2rem;
                 margin-bottom: 2rem;
@@ -823,7 +844,7 @@ def main():
             }}
             
             .welcome-header::before {{
-                width: 110%;
+                width: 100%;
             }}
             
             .section-header {{
@@ -866,6 +887,10 @@ def main():
             /* メインコンテナの調整 */
             .main .block-container {{
                 padding-bottom: 6rem !important;
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
             }}
             
             /* ジャンプナビゲーションのレスポンシブ対応 */
@@ -876,8 +901,10 @@ def main():
             }}
             
             .jump-button {{
-                width: 90%;
+                width: calc(100% - 1rem);
+                max-width: 280px;
                 justify-content: center;
+                margin: 0 auto;
             }}
         }}
         
