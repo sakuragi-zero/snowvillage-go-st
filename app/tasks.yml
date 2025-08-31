@@ -754,7 +754,7 @@ tasks:
   # Basic type missions (30 total)
   - id: 61
     title: "イベント受付を完了する"
-    type: "basic"
+    type: "swt"
     description: "Snow Villageイベントの受付手続きを完了しましょう"
     content:
       task_description: "受付でチェックインを行い、参加者バッジを受け取る"
@@ -765,7 +765,7 @@ tasks:
   
   - id: 62
     title: "ネットワーキングタイムに参加"
-    type: "basic"
+    type: "swt"
     description: "他の参加者と交流し、ネットワーキングを楽しもう"
     content:
       task_description: "指定されたネットワーキングタイムに参加して交流する"
@@ -776,7 +776,7 @@ tasks:
   
   - id: 63
     title: "メインステージ講演を聴講"
-    type: "basic"
+    type: "swt"
     description: "メインステージでの基調講演を聴講しよう"
     content:
       task_description: "メインステージでの講演を最後まで聴講する"
@@ -787,7 +787,7 @@ tasks:
   
   - id: 64
     title: "ランチセッションに参加"
-    type: "basic"
+    type: "swt"
     description: "ランチを取りながら技術談義を楽しもう"
     content:
       task_description: "指定されたランチセッションに参加する"
@@ -798,7 +798,7 @@ tasks:
   
   - id: 65
     title: "アンケートに回答"
-    type: "basic"
+    type: "swt"
     description: "イベントの改善のためフィードバックを提供しよう"
     content:
       task_description: "イベント評価アンケートに回答する"
@@ -809,7 +809,7 @@ tasks:
   
   - id: 66
     title: "スポンサーブースを見学"
-    type: "basic"
+    type: "swt"
     description: "イベントスポンサー企業のブースを訪問しよう"
     content:
       task_description: "スポンサーブースエリアを見学する"
@@ -820,7 +820,7 @@ tasks:
   
   - id: 67
     title: "コーヒーブレイクに参加"
-    type: "basic"
+    type: "swt"
     description: "コーヒーブレイク時間に参加者と交流しよう"
     content:
       task_description: "指定されたコーヒーブレイクタイムに参加する"
@@ -831,7 +831,7 @@ tasks:
   
   - id: 68
     title: "技術書籍コーナーを見学"
-    type: "basic"
+    type: "swt"
     description: "展示されている技術書籍を閲覧しよう"
     content:
       task_description: "技術書籍の展示コーナーを見学する"
@@ -842,7 +842,7 @@ tasks:
   
   - id: 69
     title: "ライトニングトーク聴講"
-    type: "basic"
+    type: "swt"
     description: "参加者によるライトニングトークを聴講しよう"
     content:
       task_description: "ライトニングトークセッションを聴講する"
@@ -853,7 +853,7 @@ tasks:
   
   - id: 70
     title: "ワークショップエリア見学"
-    type: "basic"
+    type: "swt"
     description: "ハンズオンワークショップの様子を見学しよう"
     content:
       task_description: "ワークショップエリアを見学する"
@@ -864,7 +864,7 @@ tasks:
   
   - id: 71
     title: "フォトスポットで記念撮影"
-    type: "basic"
+    type: "swt"
     description: "イベント記念のフォトスポットで撮影しよう"
     content:
       task_description: "設置されたフォトスポットで記念撮影する"
@@ -875,7 +875,7 @@ tasks:
   
   - id: 72
     title: "休憩エリアを利用"
-    type: "basic"
+    type: "swt"
     description: "休憩スペースでリフレッシュしよう"
     content:
       task_description: "休憩エリアで適度な休息を取る"
@@ -886,7 +886,7 @@ tasks:
   
   - id: 73
     title: "受付でパンフレット入手"
-    type: "basic"
+    type: "swt"
     description: "イベントの詳細パンフレットを入手しよう"
     content:
       task_description: "受付でイベントパンフレットを入手する"
@@ -897,7 +897,7 @@ tasks:
   
   - id: 74
     title: "クローク利用"
-    type: "basic"
+    type: "swt"
     description: "荷物預かりサービスを利用しよう"
     content:
       task_description: "クロークサービスで荷物を預ける（必要に応じて）"
@@ -908,7 +908,7 @@ tasks:
   
   - id: 75
     title: "Wi-Fi接続設定"
-    type: "basic"
+    type: "swt"
     description: "イベント会場のWi-Fiに接続しよう"
     content:
       task_description: "会場提供のWi-Fiネットワークに接続する"
@@ -919,7 +919,7 @@ tasks:
   
   - id: 76
     title: "避難経路確認"
-    type: "basic"
+    type: "swt"
     description: "安全のため避難経路を確認しよう"
     content:
       task_description: "会場の避難経路と非常口を確認する"
@@ -930,7 +930,7 @@ tasks:
   
   - id: 77
     title: "イベント運営スタッフと挨拶"
-    type: "basic"
+    type: "swt"
     description: "イベントを支えるスタッフの方々に感謝の挨拶をしよう"
     content:
       task_description: "運営スタッフに挨拶と感謝を伝える"
@@ -941,7 +941,7 @@ tasks:
   
   - id: 78
     title: "イベントアプリダウンロード"
-    type: "basic"
+    type: "swt"
     description: "イベント専用アプリをダウンロードしよう"
     content:
       task_description: "Snow Villageイベントアプリをインストールする"
@@ -952,7 +952,7 @@ tasks:
   
   - id: 79
     title: "QRコードスキャン体験"
-    type: "basic"
+    type: "swt"
     description: "会場各所のQRコードをスキャンしてみよう"
     content:
       task_description: "設置されたQRコードを3箇所以上でスキャンする"
@@ -963,7 +963,7 @@ tasks:
   
   - id: 80
     title: "イベントハッシュタグ投稿"
-    type: "basic"
+    type: "swt"
     description: "公式ハッシュタグを使ってSNS投稿しよう"
     content:
       task_description: "ハッシュタグ #SnowVillage を使った投稿を行う"
@@ -974,7 +974,7 @@ tasks:
   
   - id: 81
     title: "参加者同士の情報交換"
-    type: "basic"
+    type: "swt"
     description: "他の参加者と技術情報を交換しよう"
     content:
       task_description: "参加者同士で技術に関する情報交換を行う"
@@ -985,7 +985,7 @@ tasks:
   
   - id: 82
     title: "イベントスケジュール確認"
-    type: "basic"
+    type: "swt"
     description: "一日のスケジュールを整理し計画を立てよう"
     content:
       task_description: "イベント全体のスケジュールを確認し参加計画を立てる"
@@ -996,7 +996,7 @@ tasks:
   
   - id: 83
     title: "展示デモの見学"
-    type: "basic"
+    type: "swt"
     description: "各ブースでのデモンストレーションを見学しよう"
     content:
       task_description: "技術デモンストレーションを5つ以上見学する"
@@ -1007,7 +1007,7 @@ tasks:
   
   - id: 84
     title: "技術資料収集"
-    type: "basic"
+    type: "swt"
     description: "配布されている技術資料を収集しよう"
     content:
       task_description: "各ブースや講演で配布される資料を収集する"
@@ -1018,7 +1018,7 @@ tasks:
   
   - id: 85
     title: "イベント感想の記録"
-    type: "basic"
+    type: "swt"
     description: "今日の学びや感想をメモに記録しよう"
     content:
       task_description: "イベントでの学びや気づきを文書化する"
@@ -1029,7 +1029,7 @@ tasks:
   
   - id: 86
     title: "閉会式参加"
-    type: "basic"
+    type: "swt"
     description: "イベントの閉会式に参加しよう"
     content:
       task_description: "イベント閉会式に参加し最後まで見届ける"
@@ -1040,7 +1040,7 @@ tasks:
   
   - id: 87
     title: "連絡先交換フォローアップ"
-    type: "basic"
+    type: "swt"
     description: "交換した連絡先にフォローアップメッセージを送ろう"
     content:
       task_description: "イベントで出会った人にフォローアップの連絡をする"
@@ -1051,7 +1051,7 @@ tasks:
   
   - id: 88
     title: "学習計画の作成"
-    type: "basic"
+    type: "swt"
     description: "今日学んだことを基に学習計画を立てよう"
     content:
       task_description: "イベントでの学びを基にした学習計画を作成する"
@@ -1062,7 +1062,7 @@ tasks:
   
   - id: 89
     title: "イベント写真の整理"
-    type: "basic"
+    type: "swt"
     description: "撮影した写真を整理し思い出をまとめよう"
     content:
       task_description: "イベントで撮影した写真を整理する"
@@ -1073,7 +1073,7 @@ tasks:
   
   - id: 90
     title: "次回イベントへの準備"
-    type: "basic"
+    type: "swt"
     description: "今回の経験を活かし次回参加に向けて準備しよう"
     content:
       task_description: "次回イベント参加に向けた準備と改善点を整理する"

@@ -984,7 +984,7 @@ def display_progress_overview():
                 <div class="stat-label">ミッション完了</div>
             </div>
             <div class="completion-rate">
-                <div class="rate-number">{completion_rate:.1f}%</div>
+                <div class="rate-number">{completion_rate:.0f}%</div>
                 <div class="rate-label">完了率</div>
             </div>
             <div class="stat-item-unified">
@@ -1081,14 +1081,14 @@ def show_mission_clear_dialog():
     st.markdown(f"""
     <div style="text-align: center; padding: 1rem;">
         <h1 style="font-size: 4rem; margin: 1rem 0; color: #10b981;">🎉</h1>
-        <h3 style="font-size: 1.5rem; margin: 1rem 0; color: #374151; font-weight: 600;">
+        <h3 style="font-size: 1.5rem; margin: 1rem 0; color: #10b981; font-weight: 600;">
             『{task_title}』
         </h3>
-        <p style="font-size: 1.2rem; margin: 1.5rem 0; color: #6b7280;">
+        <p style="font-size: 1.2rem; margin: 1.5rem 0; color: #10b981;">
             おめでとうございます！<br>
             ミッションを完了しました！
         </p>
-        <p style="font-size: 1rem; margin: 1rem 0; color: #9ca3af;">
+        <p style="font-size: 1rem; margin: 1rem 0; color: #10b981;">
             未完了のミッションのみ表示に切り替えます
         </p>
     </div>

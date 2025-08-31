@@ -72,7 +72,7 @@ class TaskService:
                         CREATE TABLE IF NOT EXISTS tasks (
                             id SERIAL PRIMARY KEY,
                             title TEXT NOT NULL,
-                            task_type TEXT DEFAULT 'basic',
+                            task_type TEXT,
                             description TEXT,
                             content JSONB
                         )
@@ -108,7 +108,7 @@ class TaskService:
         """データベース接続を取得"""
         return psycopg2.connect(**self.connection_params)
 
-    def insert_task_if_not_exists(self, task_id: int, title: str, task_type: str = 'basic', description: str = None, content: dict = None):
+    def insert_task_if_not_exists(self, task_id: int, title: str, task_type: str = None, description: str = None, content: dict = None):
         """タスクがなければ追加（個別実行用）"""
         import json
         with psycopg2.connect(**self.connection_params) as conn:
@@ -148,7 +148,7 @@ class TaskService:
                         insert_data.append((
                             task['id'], 
                             task['title'], 
-                            task.get('type', 'basic'), 
+                            task.get('type'), 
                             task.get('description'), 
                             content_json
                         ))
