@@ -1123,7 +1123,7 @@ def show_reward_dialog():
         <h2 style="font-size: 2.5rem; margin: 1rem 0; color: {reward['color']}; font-weight: 800;">
             {reward['name']}
         </h2>
-        <p style="font-size: 1.3rem; margin: 1.5rem 0; color: #374151; font-weight: 600;">
+        <p style="font-size: 1.3rem; margin: 1.5rem 0; color: #ffffff; font-weight: 600;">
             {reward['description']}達成！
         </p>
         <div style="background: linear-gradient(135deg, {reward['color']}22, {reward['color']}11); 
@@ -1131,12 +1131,12 @@ def show_reward_dialog():
                     border-radius: 15px; 
                     padding: 1.5rem; 
                     margin: 2rem 0;">
-            <p style="font-size: 1.1rem; color: #374151; font-weight: 600; margin: 0;">
+            <p style="font-size: 1.1rem; color: #ffffff; font-weight: 600; margin: 0;">
                 🎉 おめでとうございます！<br>
                 マイルストーン報酬を獲得しました！
             </p>
         </div>
-        <p style="font-size: 0.9rem; margin: 1rem 0; color: #9ca3af;">
+        <p style="font-size: 0.9rem; margin: 1rem 0; color: #ffffff;">
             次のマイルストーン: {get_next_milestone(completed_count)}ミッション完了
         </p>
     </div>
