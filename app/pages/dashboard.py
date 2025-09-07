@@ -1500,7 +1500,7 @@ def display_quiz_content(task, task_service, user_id):
                 st.session_state[f"show_quiz_{task_id}"] = False
                 st.rerun()
             else:
-                st.error(f"不正解です。正解は: {options[correct_answer]}")
+                st.error("不正解です。")
     
     with col2:
         if st.button("閉じる", key=f"close_quiz_content_{task_id}"):
@@ -1630,15 +1630,15 @@ def display_sns_content(task, task_service, user_id):
         st.error("SNS投稿データが見つかりません")
         return
     
-    booth_name = content.get('booth_name', '')
-    sns_prompt = content.get('sns_prompt', '')
+    # booth_name = content.get('booth_name', '')
+    # sns_prompt = content.get('sns_prompt', '')
     requirements = content.get('requirements', [])
     
-    st.markdown(f"**訪問先:** {booth_name}")
-    st.markdown(f"**推奨投稿内容:** {sns_prompt}")
+    # st.markdown(f"**訪問先:** {booth_name}")
+    # st.markdown(f"**推奨投稿内容:** {sns_prompt}")
     
     if requirements:
-        st.markdown("**要件:**")
+        st.markdown("**クリア条件:**")
         for req in requirements:
             st.markdown(f"- {req}")
     
