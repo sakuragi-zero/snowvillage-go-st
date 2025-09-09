@@ -145,7 +145,7 @@ tasks:
     description: "SnowVillageではSlackワークスペースで活発なコミュニケーションをしています。ぜひ参加してみてね！"
     content:
       requirements: "SnowVillageのSlackワークスペースに参加する。　※達成判定あり、ただし会社の事情などで参加できない場合は達成として景品交換時にその旨お伝えください。"
-      post_example: "特になし"
+      post_example: ""
 
   - id: 19
     title: "Snowflake Japan公式アカウントをフォローしよう！"
@@ -412,3 +412,101 @@ tasks:
         - "新宿"
       correct_answer: 1
       explanation: "正解は2の「八重洲」でした。イベントなどでぜひ来てください"
+
+  - id: 42
+    title: "Snowflake豆知識：アプリ開発"
+    type: "quiz"
+    description: "Snowflakeで使えるWebアプリ開発フレームワークは？"
+    content:
+      question: "Snowflakeが買収した、PythonでWebアプリケーションを簡単に作成・共有できるオープンソースのフレームワークの名前はなんでしょうか？"
+      options:
+        - "Stonelit"
+        - "Sleeplit"
+        - "Storangelit"
+        - "Streamlit"
+      correct_answer: 3
+      explanation: "正解は3のStreamlitです。Snowflake上で簡単にWebアプリを開発することができます。"
+
+  - id: 43
+    title: "Snowflake豆知識：データ保管"
+    type: "quiz"
+    description: "Snowflakeで使われているデータ保管技術は？"
+    content:
+      question: "Snowflakeでデータ保管を司るDatabase storage層で使われている、小さな不変のファイル群でデータを保管する技術の名前はなんでしょう？"
+      options:
+        - "マクロパーティション"
+        - "マエストロパーティション"
+        - "マイティパーティション"
+        - "マキシムパーティション"
+      correct_answer: 0
+      explanation: "正解は0のマイクロパーティション"
+
+  - id: 44
+    title: "Snowflake豆知識：データ保管"
+    type: "quiz"
+    description: "Snowflakeで使われているデータ保管技術は？"
+    content:
+      question: "Snowflakeでデータ保管を司るDatabase storage層で使われている、小さな不変のファイル群でデータを保管する技術の名前はなんでしょう？"
+      options:
+        - "マクロパーティション"
+        - "マエストロパーティション"
+        - "マイティパーティション"
+        - "マキシムパーティション"
+      correct_answer: 0
+      explanation: "正解は0のマイクロパーティション"
+
+  - id: 45
+    title: "データ基盤知識：SQLの原型"
+    type: "quiz"
+    description: "SQLの原型となったデータベースアクセス言語の名前は？"
+    content:
+      question: "IBMの研究者であるドナルド・チェンパリンとレイモンド・ボイスが開発した、SQLの原型となったデータベースアクセス言語の名前は？"
+      options:
+        - "Python"
+        - "Prolog"
+        - "LISP"
+        - "SEQUEL"
+      correct_answer: 3
+      explanation: "正解は3のSEQUEL"
+
+  - id: 46
+    title: "データ基盤知識：DBの種類"
+    type: "quiz"
+    description: "NoSQLは一般的に何の略語と言われているでしょう？"
+    content:
+      question: "リレーショナルデータベース以外のデータベース管理システムの総称として使われる NoSQL は、一般的にどういう言葉の略語と言われているでしょう？"
+      options:
+        - "No limit SQL"
+        - "No more SQL"
+        - "Not alone SQL"
+        - "Not only SQL"
+      correct_answer: 3
+      explanation: "正解は3のNot only SQL"
+
+  - id: 47
+    title: "データ基盤知識：分析用のデータモデル"
+    type: "quiz"
+    description: "分析用データベースで使われているデータモデルの名前は？"
+    content:
+      question: "業務システムのDBで使われているデータモデルとしては第３正規系が有名ですが、データ分析用のDBでよく用いられる有名なデータモデルの名前はなんでしょうか？"
+      options:
+        - "ディフィカルトモデリング"
+        - "デンジャラスモデリング"
+        - "デストロイモデリング"
+        - "ディメンショナルモデリング"
+      correct_answer: 3
+      explanation: "正解は3のディメンショナルモデリング"
+  
+  - id: 48
+    title: "コミュニティ：コミュニティメンバー"
+    type: "quiz"
+    description: "Snowflakeコミュニティでは、コミュニティメンバーをなんと呼ぶでしょうか？"
+    content:
+      question: "Snowflakeコミュニティでは、コミュニティメンバーのことをある呼称で呼びます。なんと呼ぶでしょうか？"
+      options:
+        - "Data Fam"
+        - "DATA Saber"
+        - "Data Hero"
+        - "Hata Haiker"
+      correct_answer: 2
+      explanation: "正解は2のData Hero"
