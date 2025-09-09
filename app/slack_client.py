@@ -76,8 +76,7 @@ class SlackClient:
 
 *メッセージ:*
 {message.strip()}
-
-*投稿時刻:* {timestamp}"""
+"""
             
             # Webhook用のペイロード
             payload = {
