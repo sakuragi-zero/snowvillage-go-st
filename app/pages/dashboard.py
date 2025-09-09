@@ -1679,7 +1679,7 @@ def display_sns_content(task, task_service, user_id):
         else:
             st.markdown(str(requirements))
     
-    st.info("上記の要件を満たしてSNSに投稿したら、下の「完了」ボタンを押してください！")
+    st.info("上記の要件を満たしたら、下の「完了」ボタンを押してください！")
     
     col1, col2 = st.columns([1, 1])
     
