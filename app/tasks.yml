@@ -1,5 +1,5 @@
 tasks:
-  # SWT type missions (ID 1-20)
+  # SWT type missions (ID 1-16)
   - id: 1
     title: "キーノートセッションに参加しよう！"
     type: "swt"
@@ -128,40 +128,8 @@ tasks:
       requirements: "会場マップの「ポイント獲得スポット」に行ってポイント獲得の条件をクリアしてね"
       hints: "会場マップの「ポイント獲得スポット」をめざせ！"
 
+  # SNS type missions (ID 17-30)
   - id: 17
-    title: ""
-    type: "swt"
-    description: ""
-    content:
-      requirements: ""
-      hints: ""
-
-  - id: 18
-    title: ""
-    type: "swt"
-    description: ""
-    content:
-      requirements: ""
-      hints: ""
-
-  - id: 19
-    title: ""
-    type: "swt"
-    description: ""
-    content:
-      requirements: ""
-      hints: ""
-
-  - id: 20
-    title: ""
-    type: "swt"
-    description: ""
-    content:
-      requirements: ""
-      hints: ""
-
-  # SNS type missions (ID 21-40)
-  - id: 21
     title: "匿名投稿フォームで質問を投げてみよう！"
     type: "sns"
     description: "本アプリの「匿名投稿」機能に気づいたかな？気になる機能や素朴な疑問など気軽に聞いてみよう！"
@@ -171,7 +139,7 @@ tasks:
         Snowflakeのお気に入り機能ってありますか？　私はｘｘｘです！
         「データベースロール」って皆さん実際使ってますか？
 
-  - id: 22
+  - id: 18
     title: "SnowVillageのワークスペースに参加しよう"
     type: "sns"
     description: "SnowVillageではSlackワークスペースで活発なコミュニケーションをしています。ぜひ参加してみてね！"
@@ -179,7 +147,7 @@ tasks:
       requirements: "SnowVillageのSlackワークスペースに参加する。　※達成判定あり、ただし会社の事情などで参加できない場合は達成として景品交換時にその旨お伝えください。"
       post_example: "特になし"
 
-  - id: 23
+  - id: 19
     title: "Snowflake Japan公式アカウントをフォローしよう！"
     type: "sns"
     description: "Snowflake Japan公式アカウントでは生成AIやデータクラウドの最新情報、イベント、事例、トレーニングなどの情報を発信しています。ぜひフォローしてね！"
@@ -187,7 +155,7 @@ tasks:
       requirements: "@Snowflake_Japan　をフォローする"
       post_example: ""
 
-  - id: 24
+  - id: 20
     title: "クマ太郎公式アカウントをフォローしよう！"
     type: "sns"
     description: "Snowflake公式キャラクターのホッキョクSnowflakeクマ太郎アカウントではDeveloper向けの情報やコミュニティについて情報発信しています。ぜひフォローしてね！"
@@ -195,7 +163,7 @@ tasks:
       requirements: "@SnowflakeDB_jp をフォローする"
       post_example: ""
 
-  - id: 25
+  - id: 21
     title: "セッションの感想をポストしよう！"
     type: "sns"
     description: "セッションの感想を、ハッシュタグを付けてポストしよう！"
@@ -207,7 +175,7 @@ tasks:
         XX社さんのセッション、めっちゃ参考になった　#SWTTokyo25
         YY社さんのSnowflakeのAI活用、うちでもやってみたい！　#SWTTokyo25
 
-  - id: 26
+  - id: 22
     title: "セッションの会場の様子をポストしよう！"
     type: "sns"
     description: "会場の様子を、ハッシュタグを付けてポストしよう！"
@@ -219,7 +187,7 @@ tasks:
         現地到着！　#SWTTokyo25
         大盛況！（写真を付けて）　#SWTTokyo25
 
-  - id: 27
+  - id: 23
     title: "SnowVillage についてポストしよう！"
     type: "sns"
     description: "コミュニティブースの様子やグッズを、ハッシュタグを付けてポストしよう！"
@@ -229,7 +197,7 @@ tasks:
         みんな楽しそう！　参加してみようかな　#SnowVillage
         地元の中部ユーザー会のロゴシールもらった！（写真を付けて）　#SnowVillage
 
-  - id: 28
+  - id: 24
     title: "SnowVillageのSlackで自己紹介しよう"
     type: "sns"
     description: "SnowVillageの #自己紹介 channelで自己紹介してみよう"
@@ -237,7 +205,7 @@ tasks:
       requirements: "SnowVillageの #自己紹介 channelで自己紹介してみよう"
       post_example: "ｘｘｘ社でデータエンジニアをしています、○○です！Snowflakeの○○なところが大好きです！"
 
-  - id: 29
+  - id: 25
     title: "SnowVillageのSlackで自己紹介にリアクションしよう"
     type: "sns"
     description: "SnowVillageの #自己紹介 channelで誰かの自己紹介にリアクションしてね"
@@ -245,7 +213,7 @@ tasks:
       requirements: "SnowVillageの #自己紹介 channelで誰かの自己紹介にスタンプ押そう"
       post_example: ""
 
-  - id: 30
+  - id: 26
     title: "SnowVillageブースのアクティビティの感想をポストしよう！"
     type: "sns"
     description: "ブースのアクティビティの感想を、ハッシュタグを付けてポストしよう！"
@@ -253,7 +221,7 @@ tasks:
       requirements: "ハッシュタグ #SnowVillage #SWTTokyo25 を付けて、ブースのアクティビティの感想をポストする"
       post_example: "Rookies campのDemo楽しかった〜！実際のイベントにも参加したい！ #SnowVillage #SWTTokyo25"
 
-  - id: 31
+  - id: 27
     title: "#SWTTokyo25 がついたポストをいいねしよう！"
     type: "sns"
     description: "#SWTTokyo25 がついた感想や写真が撮られたポストをいいねしよう！"
@@ -261,7 +229,7 @@ tasks:
       requirements: " ハッシュタグ #SWTTokyo25をついたポストをいいねする"
       post_example: ""
 
-  - id: 32
+  - id: 28
     title: "SnowVillageのSlackで自己紹介にコメントをしよう"
     type: "sns"
     description: "SnowVillageの #自己紹介 channelで誰かの自己紹介にコメントしてね"
@@ -269,7 +237,7 @@ tasks:
       requirements: " SnowVillageの #自己紹介 channelで誰かの自己紹介にコメントをしよう"
       post_example: "私も今日のイベントきっかけで参加しました！ぜひ他のイベントでお会いできると嬉しいです！"
 
-  - id: 33
+  - id: 29
     title: "Slackで好きなChannelに参加しよう"
     type: "sns"
     description: ""
@@ -277,7 +245,7 @@ tasks:
       requirements: ""
       post_example: ""
 
-  - id: 34
+  - id: 30
     title: "Slackに参加してSnowVillageの歩き方を読もう"
     type: "sns"
     description: ""
@@ -285,56 +253,8 @@ tasks:
       requirements: "#generalのcanvasにあるよ"
       post_example: ""
 
-  - id: 35
-    title: ""
-    type: "sns"
-    description: ""
-    content:
-      requirements: ""
-      post_example: ""
-
-  - id: 36
-    title: ""
-    type: "sns"
-    description: ""
-    content:
-      requirements: ""
-      post_example: ""
-
-  - id: 37
-    title: ""
-    type: "sns"
-    description: ""
-    content:
-      requirements: ""
-      post_example: ""
-
-  - id: 38
-    title: ""
-    type: "sns"
-    description: ""
-    content:
-      requirements: ""
-      post_example: ""
-
-  - id: 39
-    title: ""
-    type: "sns"
-    description: ""
-    content:
-      requirements: ""
-      post_example: ""
-
-  - id: 40
-    title: ""
-    type: "sns"
-    description: ""
-    content:
-      requirements: ""
-      post_example: ""
-
-  # Quiz type missions (ID 41-60)
-  - id: 41
+  # Quiz type missions (ID 31-41)
+  - id: 31
     title: "SQL基礎：集計"
     type: "quiz"
     description: "集計SQLに関する問題に答えよう！"
@@ -348,7 +268,7 @@ tasks:
       correct_answer: 2
       explanation: "SQLで集計を表現する構文は「GROUP BY」です。"
 
-  - id: 42
+  - id: 32
     title: "Snowflake豆知識：創業者"
     type: "quiz"
     description: "Snowfflake創業者の出身企業はどこでしょう？"
@@ -362,7 +282,7 @@ tasks:
       correct_answer: 3
       explanation: "お2人はOracle社のアーキテクトでしたが、彼らの考えた「クラウドに実装することを前提としたた画期的なDB」を作るためにSnowflakeを起業しました。"
 
-  - id: 43
+  - id: 33
     title: "Snowflake豆知識：日本法人"
     type: "quiz"
     description: "Snowfflake日本法人の現社長は誰でしょう？"
@@ -376,7 +296,7 @@ tasks:
       correct_answer: 1
       explanation: "Snowflake日本法人の2代目社長は浮田 竜路さんです。"
 
-  - id: 44
+  - id: 34
     title: "データ基盤知識： データレイク"
     type: "quiz"
     description: "データを保管する「データレイク」で最近注目されている技術はなんでしょう？"
@@ -390,7 +310,7 @@ tasks:
       correct_answer: 3
       explanation: "Snowflakeも対応している最近話題のオープンソースの分散型データテーブル形式 は Apatch Iceberg です。"
 
-  - id: 45
+  - id: 35
     title: "Snowflake豆知識：周年イベント"
     type: "quiz"
     description: "Snowflakeの周年イベント「Snowflake Summit」の開催都市はどこでしょう？"
@@ -404,7 +324,7 @@ tasks:
       correct_answer: 3
       explanation: "2025年、2026年の Snowflake Summit の開催地は、サンフランシスコです。（2024年まではラスベガスでした）"
 
-  - id: 46
+  - id: 36
     title: "データ基盤知識： DBの種類"
     type: "quiz"
     description: "データベースを使って行う処理の種類はなんでしょう？"
@@ -418,7 +338,7 @@ tasks:
       correct_answer: 1
       explanation: "OnLine Analytical Processing（オンライン分析処理）の略で「OLAP」です。ちなみに、「OLTP」は OnLine Transaction Processing の略です。"
 
-  - id: 47
+  - id: 37
     title: "Snowflake豆知識：過去データへのアクセス"
     type: "quiz"
     description: "Snowflakeで、過去データにアクセスする機能の名前はなんでしょう？"
@@ -432,7 +352,7 @@ tasks:
       correct_answer: 2
       explanation: "過去データにアクセスする機能は「タイムトラベル」です。遡れる日数は最大90日まで設定できますが、変化の激しいデータだとその分ストレージ容量が大きくなるので注意が必要です。"
 
-  - id: 48
+  - id: 38
     title: "Snowflake基盤知識： クラウドプロバイダー"
     type: "quiz"
     description: "Snowflakeはどのクラウドプロバイダー環境で動作するでしょう？"
@@ -451,7 +371,7 @@ tasks:
         「1:AWS、2:Azure、3.Google Cloud」を選択した方も誤りではありませんが、
         「4.上記全て」が最も適した回答になります。
 
-  - id: 49
+  - id: 39
     title: "コミュニティ：Snowflakeコミュニティ"
     type: "quiz"
     description: "日本のSnowflakeコミュニティ（User Group）の名前は？"
@@ -467,7 +387,7 @@ tasks:
         SnowVillageです。
         https://usergroups.snowflake.com/snowvillage/
 
-  - id: 50
+  - id: 40
     title: "Snowflake基盤知識： 正式名称"
     type: "quiz"
     description: "スノーフレイクの正式な表記はどれでしょうか？"
@@ -481,7 +401,7 @@ tasks:
       correct_answer: 2
       explanation: "Snowflakeです。"
 
-  - id: 51
+  - id: 41
     title: "Snowflake豆知識：日本法人"
     type: "quiz"
     description: "日本法人のオフィスはどこでしょうか"
@@ -494,102 +414,3 @@ tasks:
         - "新宿"
       correct_answer: 2
       explanation: "正解は2の「八重洲」でした。イベントなどでぜひ来てください"
-
-  - id: 52
-    title: ""
-    type: "quiz"
-    description: ""
-    content:
-      question: ""
-      choices:
-        - ""
-      correct_answer: 1
-      explanation: ""
-
-  - id: 53
-    title: ""
-    type: "quiz"
-    description: ""
-    content:
-      question: ""
-      choices:
-        - ""
-      correct_answer: 1
-      explanation: ""
-
-  - id: 54
-    title: ""
-    type: "quiz"
-    description: ""
-    content:
-      question: ""
-      choices:
-        - ""
-      correct_answer: 1
-      explanation: ""
-
-  - id: 55
-    title: ""
-    type: "quiz"
-    description: ""
-    content:
-      question: ""
-      choices:
-        - ""
-      correct_answer: 1
-      explanation: ""
-
-  - id: 56
-    title: ""
-    type: "quiz"
-    description: ""
-    content:
-      question: ""
-      choices:
-        - ""
-      correct_answer: 1
-      explanation: ""
-
-  - id: 57
-    title: ""
-    type: "quiz"
-    description: ""
-    content:
-      question: ""
-      choices:
-        - ""
-      correct_answer: 1
-      explanation: ""
-
-  - id: 58
-    title: ""
-    type: "quiz"
-    description: ""
-    content:
-      question: ""
-      choices:
-        - ""
-      correct_answer: 1
-      explanation: ""
-
-  - id: 59
-    title: ""
-    type: "quiz"
-    description: ""
-    content:
-      question: ""
-      choices:
-        - ""
-      correct_answer: 1
-      explanation: ""
-
-  - id: 60
-    title: ""
-    type: "quiz"
-    description: ""
-    content:
-      question: ""
-      choices:
-        - ""
-      correct_answer: 1
-      explanation: ""
