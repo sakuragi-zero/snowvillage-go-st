@@ -1663,6 +1663,7 @@ def display_sns_content(task, task_service, user_id):
     # booth_name = content.get('booth_name', '')
     # sns_prompt = content.get('sns_prompt', '')
     requirements = content.get('requirements', '')
+    post_example = content.get('post_example', '')
     
     # st.markdown(f"**訪問先:** {booth_name}")
     # st.markdown(f"**推奨投稿内容:** {sns_prompt}")
@@ -1678,6 +1679,15 @@ def display_sns_content(task, task_service, user_id):
                 st.markdown(f"- {req}")
         else:
             st.markdown(str(requirements))
+    
+    if post_example:
+        st.markdown("**投稿例：**")
+        if isinstance(post_example, str):
+            # 複数行のテキストを<br>に変換してHTMLとして表示
+            post_example_html = post_example.replace('\n', '<br>')
+            st.markdown(f'<div style="background-color: #f0f8ff; padding: 10px; border-left: 4px solid #1e90ff; font-style: italic;">{post_example_html}</div>', unsafe_allow_html=True)
+        else:
+            st.markdown(str(post_example))
     
     st.info("上記の要件を満たしたら、下の「完了」ボタンを押してください！")
     
