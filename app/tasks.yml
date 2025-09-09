@@ -1,1083 +1,512 @@
 tasks:
-  # Quiz type missions (30 total)
+  # SWT type missions (ID 1-16)
   - id: 1
-    title: "データ取得技術"
-    type: "quiz"
-    description: "データベースからのデータ取得に関する技術クイズです"
+    title: "キーノートセッションに参加しよう！"
+    type: "swt"
+    description: "キーノートセッションに参加しよう"
     content:
-      question: "SQLでテーブルの全てのレコードを取得するコマンドは？"
-      options:
-        - "SELECT * FROM table_name"
-        - "GET ALL FROM table_name"
-        - "FETCH * FROM table_name"
-        - "RETRIEVE ALL table_name"
-      correct_answer: 0
-  
-  - id: 2
-    title: "機械学習アルゴリズム"
-    type: "quiz"
-    description: "機械学習の基礎知識に関するクイズです"
-    content:
-      question: "教師あり学習の例として正しいものは？"
-      options:
-        - "クラスタリング"
-        - "線形回帰"
-        - "主成分分析"
-        - "K-means"
-      correct_answer: 1
-  
-  - id: 3
-    title: "プログラミング基礎"
-    type: "quiz"
-    description: "プログラミングの基礎的な概念に関するクイズです"
-    content:
-      question: "for文の実行回数を決める要素は？"
-      options:
-        - "条件式の真偽"
-        - "反復可能オブジェクトの要素数"
-        - "変数の初期値"
-        - "関数の戻り値"
-      correct_answer: 1
-  
-  - id: 4
-    title: "Python データ型"
-    type: "quiz"
-    description: "Pythonのデータ型に関する基礎クイズです"
-    content:
-      question: "Pythonで文字列を格納するデータ型は？"
-      options:
-        - "int"
-        - "str"
-        - "float"
-        - "bool"
-      correct_answer: 1
-  
-  - id: 5
-    title: "Git基本操作"
-    type: "quiz"
-    description: "Gitの基本的なコマンドに関するクイズです"
-    content:
-      question: "変更をローカルリポジトリにコミットするコマンドは？"
-      options:
-        - "git push"
-        - "git commit"
-        - "git add"
-        - "git pull"
-      correct_answer: 1
-  
-  - id: 6
-    title: "API設計"
-    type: "quiz"
-    description: "RESTful APIの設計に関するクイズです"
-    content:
-      question: "リソースを取得するHTTPメソッドは？"
-      options:
-        - "POST"
-        - "PUT"
-        - "DELETE"
-        - "GET"
-      correct_answer: 3
-  
-  - id: 7
-    title: "データベース正規化"
-    type: "quiz"
-    description: "データベースの正規化に関するクイズです"
-    content:
-      question: "第一正規形の条件として正しいものは？"
-      options:
-        - "主キーが存在する"
-        - "繰り返しグループがない"
-        - "部分関数従属がない"
-        - "推移関数従属がない"
-      correct_answer: 1
-  
-  - id: 8
-    title: "オブジェクト指向"
-    type: "quiz"
-    description: "オブジェクト指向プログラミングの概念クイズです"
-    content:
-      question: "カプセル化の目的として最も適切なものは？"
-      options:
-        - "処理速度の向上"
-        - "メモリ使用量の削減"
-        - "データの隠蔽と保護"
-        - "コードの短縮"
-      correct_answer: 2
-  
-  - id: 9
-    title: "アルゴリズム計算量"
-    type: "quiz"
-    description: "アルゴリズムの計算量に関するクイズです"
-    content:
-      question: "バブルソートの最悪計算時間は？"
-      options:
-        - "O(n)"
-        - "O(n log n)"
-        - "O(n²)"
-        - "O(n³)"
-      correct_answer: 2
-  
-  - id: 10
-    title: "ネットワーク基礎"
-    type: "quiz"
-    description: "ネットワークの基礎知識に関するクイズです"
-    content:
-      question: "HTTPSで使用されるポート番号は？"
-      options:
-        - "80"
-        - "443"
-        - "8080"
-        - "3000"
-      correct_answer: 1
-  
-  - id: 11
-    title: "HTML基礎"
-    type: "quiz"
-    description: "HTMLの基本的なタグに関するクイズです"
-    content:
-      question: "見出しを表すHTMLタグは？"
-      options:
-        - "<header>"
-        - "<title>"
-        - "<h1>"
-        - "<head>"
-      correct_answer: 2
-  
-  - id: 12
-    title: "CSS基礎"
-    type: "quiz"
-    description: "CSSの基本的なプロパティに関するクイズです"
-    content:
-      question: "要素の背景色を指定するプロパティは？"
-      options:
-        - "color"
-        - "background-color"
-        - "border-color"
-        - "text-color"
-      correct_answer: 1
-  
-  - id: 13
-    title: "JavaScript基礎"
-    type: "quiz"
-    description: "JavaScriptの基本文法に関するクイズです"
-    content:
-      question: "変数を宣言するキーワードは？"
-      options:
-        - "variable"
-        - "var"
-        - "declare"
-        - "define"
-      correct_answer: 1
-  
-  - id: 14
-    title: "React基礎"
-    type: "quiz"
-    description: "Reactの基本概念に関するクイズです"
-    content:
-      question: "Reactコンポーネントの状態管理に使用するフックは？"
-      options:
-        - "useEffect"
-        - "useState"
-        - "useContext"
-        - "useCallback"
-      correct_answer: 1
-  
-  - id: 15
-    title: "Docker基礎"
-    type: "quiz"
-    description: "Dockerの基本概念に関するクイズです"
-    content:
-      question: "Dockerイメージからコンテナを起動するコマンドは？"
-      options:
-        - "docker start"
-        - "docker create"
-        - "docker run"
-        - "docker exec"
-      correct_answer: 2
-  
-  - id: 16
-    title: "Linux基礎"
-    type: "quiz"
-    description: "Linuxの基本コマンドに関するクイズです"
-    content:
-      question: "現在のディレクトリを表示するコマンドは？"
-      options:
-        - "ls"
-        - "cd"
-        - "pwd"
-        - "mkdir"
-      correct_answer: 2
-  
-  - id: 17
-    title: "データ構造"
-    type: "quiz"
-    description: "基本的なデータ構造に関するクイズです"
-    content:
-      question: "LIFO（後入れ先出し）の原理に従うデータ構造は？"
-      options:
-        - "キュー"
-        - "スタック"
-        - "配列"
-        - "リンクリスト"
-      correct_answer: 1
-  
-  - id: 18
-    title: "セキュリティ基礎"
-    type: "quiz"
-    description: "情報セキュリティの基礎知識クイズです"
-    content:
-      question: "パスワードのハッシュ化に適したアルゴリズムは？"
-      options:
-        - "MD5"
-        - "SHA-1"
-        - "bcrypt"
-        - "Base64"
-      correct_answer: 2
-  
-  - id: 19
-    title: "クラウドコンピューティング"
-    type: "quiz"
-    description: "クラウドサービスの基礎知識クイズです"
-    content:
-      question: "IaaSの特徴として正しいものは？"
-      options:
-        - "アプリケーションを提供"
-        - "プラットフォームを提供"
-        - "インフラを提供"
-        - "ソフトウェアを提供"
-      correct_answer: 2
-  
-  - id: 20
-    title: "NoSQLデータベース"
-    type: "quiz"
-    description: "NoSQLデータベースに関するクイズです"
-    content:
-      question: "MongoDBが属するデータベースの種類は？"
-      options:
-        - "キー・バリューストア"
-        - "カラム型"
-        - "ドキュメント型"
-        - "グラフ型"
-      correct_answer: 2
-  
-  - id: 21
-    title: "マイクロサービス"
-    type: "quiz"
-    description: "マイクロサービスアーキテクチャに関するクイズです"
-    content:
-      question: "マイクロサービスの利点として正しいものは？"
-      options:
-        - "システム全体の結合度が高い"
-        - "単一技術スタックに限定される"
-        - "独立したデプロイが可能"
-        - "開発チームの規模が大きくなる"
-      correct_answer: 2
-  
-  - id: 22
-    title: "DevOps"
-    type: "quiz"
-    description: "DevOpsの概念に関するクイズです"
-    content:
-      question: "CI/CDのCIが表すものは？"
-      options:
-        - "Continuous Integration"
-        - "Code Inspection"
-        - "Container Implementation"
-        - "Cloud Infrastructure"
-      correct_answer: 0
-  
-  - id: 23
-    title: "API認証"
-    type: "quiz"
-    description: "API認証方式に関するクイズです"
-    content:
-      question: "JWTトークンの構成要素として正しいものは？"
-      options:
-        - "Header, Body, Footer"
-        - "Header, Payload, Signature"
-        - "Type, Data, Hash"
-        - "Auth, Content, Verify"
-      correct_answer: 1
-  
-  - id: 24
-    title: "テスト手法"
-    type: "quiz"
-    description: "ソフトウェアテストの手法に関するクイズです"
-    content:
-      question: "単体テストの別名として正しいものは？"
-      options:
-        - "Integration Test"
-        - "Unit Test"
-        - "System Test"
-        - "Acceptance Test"
-      correct_answer: 1
-  
-  - id: 25
-    title: "バージョン管理"
-    type: "quiz"
-    description: "バージョン管理システムに関するクイズです"
-    content:
-      question: "Gitで新しいブランチを作成するコマンドは？"
-      options:
-        - "git new branch"
-        - "git create branch"
-        - "git branch new"
-        - "git branch <name>"
-      correct_answer: 3
-  
-  - id: 26
-    title: "データベース設計"
-    type: "quiz"
-    description: "データベース設計に関するクイズです"
-    content:
-      question: "外部キーの目的として最も適切なものは？"
-      options:
-        - "データの高速化"
-        - "参照整合性の確保"
-        - "ストレージの圧縮"
-        - "クエリの最適化"
-      correct_answer: 1
-  
-  - id: 27
-    title: "フロントエンド技術"
-    type: "quiz"
-    description: "フロントエンド開発技術に関するクイズです"
-    content:
-      question: "SPA（Single Page Application）の特徴は？"
-      options:
-        - "複数のHTMLページで構成"
-        - "サーバーサイドレンダリング必須"
-        - "ページ遷移時に全体リロード"
-        - "動的にコンテンツを更新"
-      correct_answer: 3
-  
-  - id: 28
-    title: "サーバーサイド技術"
-    type: "quiz"
-    description: "サーバーサイド開発に関するクイズです"
-    content:
-      question: "Node.jsの特徴として正しいものは？"
-      options:
-        - "マルチスレッド処理"
-        - "ブロッキングI/O"
-        - "イベントドリブン"
-        - "同期処理のみ"
-      correct_answer: 2
-  
-  - id: 29
-    title: "キャッシュ戦略"
-    type: "quiz"
-    description: "キャッシング戦略に関するクイズです"
-    content:
-      question: "Redisの主な用途として正しいものは？"
-      options:
-        - "リレーショナルデータベース"
-        - "インメモリキャッシュ"
-        - "ファイルストレージ"
-        - "バッチ処理"
-      correct_answer: 1
-  
-  - id: 30
-    title: "Webパフォーマンス"
-    type: "quiz"
-    description: "Webパフォーマンス最適化に関するクイズです"
-    content:
-      question: "CDNの主な目的として正しいものは？"
-      options:
-        - "データベースの最適化"
-        - "コンテンツ配信の高速化"
-        - "セキュリティの向上"
-        - "開発効率の改善"
-      correct_answer: 1
+      requirements: "キーノートセッション（9/11、9/12いずれかまたは両方）に参加すること。"
+      hints: "キーノートは両日とも午前中に開催だよ"
 
-  # SNS type missions (30 total)
+  - id: 2
+    title: "スポンサーのデモを見よう！"
+    type: "swt"
+    description: "スポンサーブースでは各社工夫を凝らしたデモがあるはず！お気に入りのデモを見つけよう。"
+    content:
+      requirements: "スポンサーブースでデモを1つ以上みること。"
+      hints: "スポンサーブースはExpo（3F 北辰）にあるよ"
+
+  - id: 3
+    title: "SnowVillageに参加しよう！"
+    type: "swt"
+    description: "SnowVillageに参加しよう"
+    content:
+      requirements: "パンフレットのQRコードからSlackに参加する"
+      hints: "SnowVillage紹介パンフレットはCommunity Hubでもらえるよ"
+
+  - id: 4
+    title: "コミュニティブースを訪れよう！"
+    type: "swt"
+    description: "コミュニティブース「Snowflake Community Hub」を訪れよう"
+    content:
+      requirements: "コミュニティブースに遊びにくること。楽しむこと！"
+      hints: "コミュニティブースはExpo（3F 北辰）にあるよ"
+
+  - id: 5
+    title: "クマ太郎と写真を撮ろう！"
+    type: "swt"
+    description: "クマ太郎と写真を撮ろう！"
+    content:
+      requirements: "クマ太郎と写真をとる"
+      hints: "クマ太郎は会場のどこかを歩いているかも！？"
+
+  - id: 6
+    title: "セッションを聞こう！"
+    type: "swt"
+    description: "気になるセッションを聞いてみよう"
+    content:
+      requirements: "セッションを聞く"
+      hints: "タイムテーブルで気になるセッションを探してみよう"
+
+  - id: 7
+    title: "Data SuperHeroesと写真を撮ろう！"
+    type: "swt"
+    description: "Data SuperHeroesと写真を撮ろう"
+    content:
+      requirements: "会場に居るData SuperHeroesと写真を撮る"
+      hints: "SnowVillageブースの壁紙に似てる人たちが会場に居るみたい・・"
+
+  - id: 8
+    title: "ランチを受け取ろう！"
+    type: "swt"
+    description: "お昼のセッションで配られるランチまたは会場で配られるランチをゲットしてお腹を満たそう！"
+    content:
+      requirements: "SWTでランチをゲットする"
+      hints: "朝から引き換えチケットが○○で配られるみたい"
+
+  - id: 9
+    title: "SnowVillageブースのアクティビティに参加しよう！"
+    type: "swt"
+    description: "SnowVillageブースで開催されるアクティビティに参加しよう"
+    content:
+      requirements: "SnowVillageブースで開催されるユーザーグループのアクティビティに参加する"
+      hints: "チラシ裏のタイムテーブルをチェック！"
+
+  - id: 10
+    title: "Snowflake 社員のセッションに参加しよう！"
+    type: "swt"
+    description: "Snowflake社員による最新機能の紹介や、Deepな技術セッションのセッションに参加しよう"
+    content:
+      requirements: "Snowflake社員のセッションに１つ以上参加すること"
+      hints: "セッション一覧からSnowflakeの発表を探してみてね"
+
+  - id: 11
+    title: "スポンサーのデモを3つ見よう！"
+    type: "swt"
+    description: "Snowflakeの活用支援や、一緒に使うことでより価値を高めるサービスなど、様々な企業が出展しています。いろいろ聞いてみよう！"
+    content:
+      requirements: "スポンサーブースでデモを3つ以上みること"
+      hints: ""
+
+  - id: 12
+    title: "利用企業・パートナー企業のセッションに参加しよう！"
+    type: "swt"
+    description: "利用企業の業務活用の事例や、パートナー企業の導入支援の事例など、参考になる話が盛りだくさん！　事前登録が満席でも、当日空きがあれば入れるかも！？"
+    content:
+      requirements: "利用企業・パートナー企業のセッションに1つ以上参加すること"
+      hints: ""
+
+  - id: 13
+    title: "シアターセッションに参加しよう！"
+    type: "swt"
+    description: "シアターセッション会場に行き1つ以上見る"
+    content:
+      requirements: "シアターセッションを1つ以上見ること"
+      hints: "COMMUNITY HUBのブースの対角線上にあるよ"
+
+  - id: 14
+    title: "フォトスポットで写真を撮ろう！"
+    type: "swt"
+    description: "EXPOのフォトスポットで写真を撮ろう！"
+    content:
+      requirements: "EXPO会場内のフォトスポットで写真を撮ること！"
+      hints: "EXPO会場の中央あたりにあるよ"
+
+  - id: 15
+    title: "SnowBarに行ってみよう！"
+    type: "swt"
+    description: "SnowBarで軽食やドリンクを貰って休憩しよう"
+    content:
+      requirements: "常時オープンしているわけではありません。"
+      hints: "11:40ごろと15:00ごろだよ"
+
+  - id: 16
+    title: "ポイントラリーでSnowflakeグッズをGETしよう！"
+    type: "swt"
+    description: "ポイントを獲得してSNOWFLAKEグッズが当たる抽選に参加しよう！"
+    content:
+      requirements: "会場マップの「ポイント獲得スポット」に行ってポイント獲得の条件をクリアしてね"
+      hints: "会場マップの「ポイント獲得スポット」をめざせ！"
+
+  # SNS type missions (ID 17-30)
+  - id: 17
+    title: "匿名投稿フォームで質問を投げてみよう！"
+    type: "sns"
+    description: "本アプリの「匿名投稿」機能に気づいたかな？気になる機能や素朴な疑問など気軽に聞いてみよう！"
+    content:
+      requirements: "「匿名投稿」機能を利用して質問を投げる。　※達成判定あり"
+      post_example: |
+        Snowflakeのお気に入り機能ってありますか？　私はｘｘｘです！
+        「データベースロール」って皆さん実際使ってますか？
+
+  - id: 18
+    title: "SnowVillageのワークスペースに参加しよう"
+    type: "sns"
+    description: "SnowVillageではSlackワークスペースで活発なコミュニケーションをしています。ぜひ参加してみてね！"
+    content:
+      requirements: "SnowVillageのSlackワークスペースに参加する。　※達成判定あり、ただし会社の事情などで参加できない場合は達成として景品交換時にその旨お伝えください。"
+      post_example: ""
+
+  - id: 19
+    title: "Snowflake Japan公式アカウントをフォローしよう！"
+    type: "sns"
+    description: "Snowflake Japan公式アカウントでは生成AIやデータクラウドの最新情報、イベント、事例、トレーニングなどの情報を発信しています。ぜひフォローしてね！"
+    content:
+      requirements: "@Snowflake_Japan　をフォローする"
+      post_example: ""
+
+  - id: 20
+    title: "クマ太郎公式アカウントをフォローしよう！"
+    type: "sns"
+    description: "Snowflake公式キャラクターのホッキョクSnowflakeクマ太郎アカウントではDeveloper向けの情報やコミュニティについて情報発信しています。ぜひフォローしてね！"
+    content:
+      requirements: "@SnowflakeDB_jp をフォローする"
+      post_example: ""
+
+  - id: 21
+    title: "セッションの感想をポストしよう！"
+    type: "sns"
+    description: "セッションの感想を、ハッシュタグを付けてポストしよう！"
+    content:
+      requirements: |
+        ハッシュタグ #SWTTokyo25 を付けて、セッションの感想をポストする
+      post_example: |
+        XX社さんのセッション、めっちゃ参考になった　#SWTTokyo25
+        YY社さんのSnowflakeのAI活用、うちでもやってみたい！　#SWTTokyo25
+
+  - id: 22
+    title: "セッションの会場の様子をポストしよう！"
+    type: "sns"
+    description: "会場の様子を、ハッシュタグを付けてポストしよう！"
+    content:
+      requirements: |
+        ハッシュタグ #SWTTokyo25 を付けて、会場の様子をポストする
+      post_example: |
+        現地到着！　#SWTTokyo25
+        大盛況！（写真を付けて）　#SWTTokyo25
+
+  - id: 23
+    title: "SnowVillage についてポストしよう！"
+    type: "sns"
+    description: "コミュニティブースの様子やグッズを、ハッシュタグを付けてポストしよう！"
+    content:
+      requirements: "ハッシュタグ #SnowVillage を付けて、コミュニティブースの様子やグッズをポストする"
+      post_example: |
+        みんな楽しそう！　参加してみようかな　#SnowVillage
+        地元の中部ユーザー会のロゴシールもらった！（写真を付けて）　#SnowVillage
+
+  - id: 24
+    title: "SnowVillageのSlackで自己紹介しよう"
+    type: "sns"
+    description: "SnowVillageの #自己紹介 channelで自己紹介してみよう"
+    content:
+      requirements: "SnowVillageの #自己紹介 channelで自己紹介してみよう"
+      post_example: "ｘｘｘ社でデータエンジニアをしています、○○です！Snowflakeの○○なところが大好きです！"
+
+  - id: 25
+    title: "SnowVillageのSlackで自己紹介にリアクションしよう"
+    type: "sns"
+    description: "SnowVillageの #自己紹介 channelで誰かの自己紹介にリアクションしてね"
+    content:
+      requirements: "SnowVillageの #自己紹介 channelで誰かの自己紹介にスタンプ押そう"
+      post_example: ""
+
+  - id: 26
+    title: "SnowVillageブースのアクティビティの感想をポストしよう！"
+    type: "sns"
+    description: "ブースのアクティビティの感想を、ハッシュタグを付けてポストしよう！"
+    content:
+      requirements: "ハッシュタグ #SnowVillage #SWTTokyo25 を付けて、ブースのアクティビティの感想をポストする"
+      post_example: "Rookies campのDemo楽しかった〜！実際のイベントにも参加したい！ #SnowVillage #SWTTokyo25"
+
+  - id: 27
+    title: "#SWTTokyo25 がついたポストをいいねしよう！"
+    type: "sns"
+    description: "#SWTTokyo25 がついた感想や写真が撮られたポストをいいねしよう！"
+    content:
+      requirements: " ハッシュタグ #SWTTokyo25をついたポストをいいねする"
+      post_example: ""
+
+  - id: 28
+    title: "SnowVillageのSlackで自己紹介にコメントをしよう"
+    type: "sns"
+    description: "SnowVillageの #自己紹介 channelで誰かの自己紹介にコメントしてね"
+    content:
+      requirements: " SnowVillageの #自己紹介 channelで誰かの自己紹介にコメントをしよう"
+      post_example: "私も今日のイベントきっかけで参加しました！ぜひ他のイベントでお会いできると嬉しいです！"
+
+  - id: 29
+    title: "Slackで好きなChannelに参加しよう"
+    type: "sns"
+    description: "SnowVillageに参加したら、興味のあるChannelを探してみてね"
+    content:
+      requirements: "SnowVillageに参加したら、興味のあるChannelを探してみてね"
+      post_example: ""
+
+  - id: 30
+    title: "Slackに参加してSnowVillageの歩き方を読もう"
+    type: "sns"
+    description: "SnowVillageのgeneralチャンネルではキャンパス機能を使って歩き方ガイドを掲載しています。ご一読を！"
+    content:
+      requirements: "SnowVillageのgeneralチャンネルではキャンパス機能を使って歩き方ガイドを掲載しています。ご一読を！"
+      post_example: ""
+
+  # Quiz type missions (ID 31-41)
   - id: 31
-    title: "AI・MLブースを訪問"
-    type: "sns"
-    description: "AI・MLブースを訪問してSNSに投稿しよう！"
+    title: "SQL基礎：集計"
+    type: "quiz"
+    description: "集計SQLに関する問題に答えよう！"
     content:
-      booth_name: "AI・MLテクノロジーブース"
-      sns_prompt: "AI・MLブースで最新技術を体験中！ #SnowVillage #AI #ML"
-      requirements:
-        - "ブーススタッフと写真を撮る"
-        - "体験した技術についてコメント"
-        - "ハッシュタグ #SnowVillage を含める"
-  
+      question: "SQL（SELECT文）で集計を行うためのコマンドは？"
+      options:
+        - "WHERE"
+        - "GROUP BY"
+        - "ORDER BY"
+        - "UNION ALL"
+      correct_answer: 1
+      explanation: "SQLで集計を表現する構文は「GROUP BY」です。"
+
   - id: 32
-    title: "データ可視化ブースを訪問"
-    type: "sns"
-    description: "データ可視化ブースでインタラクティブな体験をしよう！"
+    title: "Snowflake豆知識：創業者"
+    type: "quiz"
+    description: "Snowfflake創業者の出身企業はどこでしょう？"
     content:
-      booth_name: "データ可視化・分析ブース"
-      sns_prompt: "データの美しい可視化を体験中！ #SnowVillage #DataViz #Analytics"
-      requirements:
-        - "インタラクティブなダッシュボードを体験"
-        - "作成したグラフを撮影"
-        - "体験の感想をコメント"
-  
+      question: "Snowflake創業者の中で、ブノワ・ダージュヴィルさんとティエリー・クルアネスさんの2名はある有名IT企業の出身です。その企業はどこでしょう？"
+      options:
+        - "Microsoft"
+        - "Google"
+        - "Oracle"
+        - "IBM"
+      correct_answer: 2
+      explanation: "お2人はOracle社のアーキテクトでしたが、彼らの考えた「クラウドに実装することを前提としたた画期的なDB」を作るためにSnowflakeを起業しました。"
+
   - id: 33
-    title: "クラウドコンピューティングブース"
-    type: "sns"
-    description: "クラウドサービスの実際の運用を体験しよう！"
+    title: "Snowflake豆知識：日本法人"
+    type: "quiz"
+    description: "Snowfflake日本法人の現社長は誰でしょう？"
     content:
-      booth_name: "クラウドコンピューティング体験ブース"
-      sns_prompt: "クラウドの力を実感！スケーラブルなシステムを体験中 #SnowVillage #Cloud #AWS"
-      requirements:
-        - "サーバーレス機能をデプロイ"
-        - "スケーリングのデモを体験"
-        - "学んだことをシェア"
-  
+      question: "7月に退任された東條秀樹さんのあとを受けて、Snowflake日本法人の二代目社長に就任されたのはどなたでしょうか？"
+      options:
+        - "浮田 竜路さん"
+        - "浮田 雀路さん"
+        - "浮田 虎路さん"
+        - "浮田 亀路さん"
+      correct_answer: 0
+      explanation: "Snowflake日本法人の2代目社長は浮田 竜路さんです。"
+
   - id: 34
-    title: "IoTデバイス体験ブース"
-    type: "sns"
-    description: "IoTデバイスとセンサーの世界を探検しよう！"
+    title: "データ基盤知識： データレイク"
+    type: "quiz"
+    description: "データを保管する「データレイク」で最近注目されている技術はなんでしょう？"
     content:
-      booth_name: "IoTテクノロジーブース"
-      sns_prompt: "IoTで繋がる未来を体験中！センサーデータがリアルタイムで可視化 #SnowVillage #IoT #Tech"
-      requirements:
-        - "センサーデータを確認"
-        - "IoTデバイスの操作を体験"
-        - "未来の可能性について投稿"
-  
+      question: "データレイク用のオープンソースの分散型データテーブル形式 Apatch ○○○ が近年注目されており、Snowflakeをはじめ様々な製品が対応しています。さて、○○○に入る単語は何でしょう？"
+      options:
+        - "Icecream"
+        - "Hamburg"
+        - "Iceberg"
+        - "Snowberg"
+      correct_answer: 2
+      explanation: "Snowflakeも対応している最近話題のオープンソースの分散型データテーブル形式 は Apatch Iceberg です。"
+
   - id: 35
-    title: "ブロックチェーン技術ブース"
-    type: "sns"
-    description: "ブロックチェーンの仕組みを学び体験しよう！"
+    title: "Snowflake豆知識：周年イベント"
+    type: "quiz"
+    description: "Snowflakeの周年イベント「Snowflake Summit」の開催都市はどこでしょう？"
     content:
-      booth_name: "ブロックチェーン・暗号技術ブース"
-      sns_prompt: "ブロックチェーンの革新的な技術を学習中！ #SnowVillage #Blockchain #Web3"
-      requirements:
-        - "ブロックチェーンのデモを体験"
-        - "スマートコントラクトについて学習"
-        - "技術の応用例について投稿"
-  
+      question: "Snowflakeの周年イベント「Snowflake Summit」が、今年は6月2～5日にアメリカのある都市で開催されました。来年も同じ都市で6月1～4日に開催予定です。その都市とはどこでしょう？"
+      options:
+        - "ニューヨーク"
+        - "ラスベガス"
+        - "サンフランシスコ"
+        - "ナッシュビル"
+      correct_answer: 2
+      explanation: "2025年、2026年の Snowflake Summit の開催地は、サンフランシスコです。（2024年まではラスベガスでした）"
+
   - id: 36
-    title: "サイバーセキュリティブース"
-    type: "sns"
-    description: "セキュリティの最前線技術を体験しよう！"
+    title: "データ基盤知識： DBの種類"
+    type: "quiz"
+    description: "データベースを使って行う処理の種類はなんでしょう？"
     content:
-      booth_name: "サイバーセキュリティ体験ブース"
-      sns_prompt: "セキュリティの重要性を実感！最新の防御技術を学習中 #SnowVillage #Security #CyberSec"
-      requirements:
-        - "セキュリティテストツールを体験"
-        - "脆弱性検知のデモを確認"
-        - "セキュリティの重要性について投稿"
-  
+      question: "データベースを使って行う処理には2種類あります。１つはOracleやPostgressSQLなどが得意とするトランザクション処理「OLTP」ですが、もう１つ、Snowflakeなどが得意とする分析（アナリティクス）の処理はなんと呼ばれるでしょう？"
+      options:
+        - "OLAP"
+        - "OLIP"
+        - "OLUP"
+        - "OLEP"
+      correct_answer: 0
+      explanation: "OnLine Analytical Processing（オンライン分析処理）の略で「OLAP」です。ちなみに、「OLTP」は OnLine Transaction Processing の略です。"
+
   - id: 37
-    title: "AR/VR体験ブース"
-    type: "sns"
-    description: "拡張現実と仮想現実の最新技術を体験！"
+    title: "Snowflake豆知識：過去データへのアクセス"
+    type: "quiz"
+    description: "Snowflakeで、過去データにアクセスする機能の名前はなんでしょう？"
     content:
-      booth_name: "AR/VR イマーシブ体験ブース"
-      sns_prompt: "AR/VRの没入感が凄い！未来のインターフェースを体験中 #SnowVillage #AR #VR #Metaverse"
-      requirements:
-        - "VRヘッドセットを体験"
-        - "AR技術のデモを確認"
-        - "体験した感動をシェア"
-  
+      question: "Snowflakeでは、日々更新されるデータに対して、最大90日前までの過去の任意の辞典のデータにアクセスすることができます。その機能の名前はなんでしょう？"
+      options:
+        - "タイムマシン"
+        - "タイムトラベル"
+        - "タイムゾーン"
+        - "タイムシェアリング"
+      correct_answer: 1
+      explanation: "過去データにアクセスする機能は「タイムトラベル」です。遡れる日数は最大90日まで設定できますが、変化の激しいデータだとその分ストレージ容量が大きくなるので注意が必要です。"
+
   - id: 38
-    title: "ゲーム開発ブース"
-    type: "sns"
-    description: "ゲーム開発の楽しさと技術を体験しよう！"
+    title: "Snowflake基盤知識： クラウドプロバイダー"
+    type: "quiz"
+    description: "Snowflakeはどのクラウドプロバイダー環境で動作するでしょう？"
     content:
-      booth_name: "ゲーム開発・インタラクティブメディアブース"
-      sns_prompt: "ゲーム開発の裏側を体験中！創造する楽しさを実感 #SnowVillage #GameDev #Unity #IndieGame"
-      requirements:
-        - "ゲーム開発ツールを体験"
-        - "インディーゲームをプレイ"
-        - "開発者との交流について投稿"
-  
+      question: |
+        Snowflakeはクラウドプロバイダーの環境上で稼働しています。どのクラウドプロバイダー環境が使えるでしょうか？
+        最も近いものを選択してください。
+      options:
+        - "AWS"
+        - "Azure"
+        - "Google Cloud"
+        - "上記全て"
+      correct_answer: 3
+      explanation: |
+        AWS/Azure/Google Cloudから選択できます。
+        「1:AWS、2:Azure、3.Google Cloud」を選択した方も誤りではありませんが、
+        「4.上記全て」が最も適した回答になります。
+
   - id: 39
-    title: "モバイルアプリ開発ブース"
-    type: "sns"
-    description: "スマートフォンアプリの開発プロセスを体験！"
+    title: "コミュニティ：Snowflakeコミュニティ"
+    type: "quiz"
+    description: "日本のSnowflakeコミュニティ（User Group）の名前は？"
     content:
-      booth_name: "モバイルアプリケーション開発ブース"
-      sns_prompt: "モバイルアプリ開発の面白さを発見！UIデザインから実装まで #SnowVillage #Mobile #App #Flutter"
-      requirements:
-        - "アプリのプロトタイプを作成"
-        - "UIデザインツールを体験"
-        - "開発プロセスについて投稿"
-  
+      question: "日本のSnowflakeユーザーのコミュニティの名前はなんでしょうか？"
+      options:
+        - "Snowpark"
+        - "SnowAvenue"
+        - "SnowVillage"
+        - "SnowStreet"
+      correct_answer: 2
+      explanation: |
+        SnowVillageです。
+        https://usergroups.snowflake.com/snowvillage/
+
   - id: 40
-    title: "オープンソースブース"
-    type: "sns"
-    description: "オープンソースコミュニティの文化を体験！"
+    title: "Snowflake基盤知識： 正式名称"
+    type: "quiz"
+    description: "スノーフレイクの正式な表記はどれでしょうか？"
     content:
-      booth_name: "オープンソースコミュニティブース"
-      sns_prompt: "オープンソースの力を実感！コミュニティの素晴らしさ #SnowVillage #OpenSource #Community #GitHub"
-      requirements:
-        - "OSS プロジェクトに貢献体験"
-        - "コミュニティメンバーと交流"
-        - "協働の価値について投稿"
-  
+      question: "スノーフレイクの正式な表記はどれでしょうか？この問題文ではあえてカタカナ表記しています。"
+      options:
+        - "SNOWFLAKE"
+        - "Snowflake"
+        - "SnowFlake"
+        - "snowflake"
+      correct_answer: 1
+      explanation: "Snowflakeです。"
+
   - id: 41
-    title: "フロントエンド技術ブース"
-    type: "sns"
-    description: "最新のフロントエンド技術とUIライブラリを体験！"
+    title: "Snowflake豆知識：日本法人"
+    type: "quiz"
+    description: "日本法人のオフィスはどこでしょうか"
     content:
-      booth_name: "フロントエンド・UI/UXブース"
-      sns_prompt: "最新のフロントエンド技術に触れてます！美しいUIの作り方を学習中 #SnowVillage #Frontend #React #Vue"
-      requirements:
-        - "モダンなUIコンポーネントを作成"
-        - "フレームワークを比較体験"
-        - "UX改善のTipsをシェア"
-  
+      question: "日本法人のオフィスはどこでしょうか"
+      options:
+        - "丸の内"
+        - "八重洲"
+        - "渋谷"
+        - "新宿"
+      correct_answer: 1
+      explanation: "正解は2の「八重洲」でした。イベントなどでぜひ来てください"
+
   - id: 42
-    title: "バックエンド技術ブース"
-    type: "sns"
-    description: "サーバーサイドアーキテクチャと最新バックエンド技術を学習！"
+    title: "Snowflake豆知識：アプリ開発"
+    type: "quiz"
+    description: "Snowflakeで使えるWebアプリ開発フレームワークは？"
     content:
-      booth_name: "バックエンドアーキテクチャブース"
-      sns_prompt: "スケーラブルなバックエンド設計を学習中！システムアーキテクチャの奥深さ #SnowVillage #Backend #API #Microservices"
-      requirements:
-        - "APIの設計と実装を体験"
-        - "マイクロサービス構成を確認"
-        - "アーキテクチャについて投稿"
-  
+      question: "Snowflakeが買収した、PythonでWebアプリケーションを簡単に作成・共有できるオープンソースのフレームワークの名前はなんでしょうか？"
+      options:
+        - "Stonelit"
+        - "Sleeplit"
+        - "Storangelit"
+        - "Streamlit"
+      correct_answer: 3
+      explanation: "正解は3のStreamlitです。Snowflake上で簡単にWebアプリを開発することができます。"
+
   - id: 43
-    title: "データエンジニアリングブース"
-    type: "sns"
-    description: "ビッグデータの処理と分析基盤を体験！"
+    title: "Snowflake豆知識：データ保管"
+    type: "quiz"
+    description: "Snowflakeで使われているデータ保管技術は？"
     content:
-      booth_name: "データエンジニアリング・ビッグデータブース"
-      sns_prompt: "ビッグデータの世界を探求中！データパイプラインの構築を体験 #SnowVillage #DataEngineering #BigData #ETL"
-      requirements:
-        - "データパイプラインを構築"
-        - "リアルタイムデータ処理を体験"
-        - "データの価値について投稿"
-  
+      question: "Snowflakeでデータ保管を司るDatabase storage層で使われている、小さな不変のファイル群でデータを保管する技術の名前はなんでしょう？"
+      options:
+        - "マクロパーティション"
+        - "マエストロパーティション"
+        - "マイティパーティション"
+        - "マキシムパーティション"
+      correct_answer: 0
+      explanation: "正解は0のマイクロパーティション"
+
   - id: 44
-    title: "DevOps・CI/CDブース"
-    type: "sns"
-    description: "自動化されたデプロイメントパイプラインを構築体験！"
+    title: "Snowflake豆知識：データ保管"
+    type: "quiz"
+    description: "Snowflakeで使われているデータ保管技術は？"
     content:
-      booth_name: "DevOps・自動化ブース"
-      sns_prompt: "DevOpsの効率性を体感！自動化でソフトウェア開発が変わる #SnowVillage #DevOps #CICD #Automation"
-      requirements:
-        - "CI/CDパイプラインを構築"
-        - "自動テストを設定"
-        - "開発効率化について投稿"
-  
+      question: "Snowflakeでデータ保管を司るDatabase storage層で使われている、小さな不変のファイル群でデータを保管する技術の名前はなんでしょう？"
+      options:
+        - "マクロパーティション"
+        - "マエストロパーティション"
+        - "マイティパーティション"
+        - "マキシムパーティション"
+      correct_answer: 0
+      explanation: "正解は0のマイクロパーティション"
+
   - id: 45
-    title: "量子コンピューティングブース"
-    type: "sns"
-    description: "量子コンピュータの原理と可能性を探る！"
+    title: "データ基盤知識：SQLの原型"
+    type: "quiz"
+    description: "SQLの原型となったデータベースアクセス言語の名前は？"
     content:
-      booth_name: "量子コンピューティング研究ブース"
-      sns_prompt: "量子コンピュータの驚異的な可能性を学習中！未来の計算技術 #SnowVillage #Quantum #FutureTech #Innovation"
-      requirements:
-        - "量子アルゴリズムのデモを体験"
-        - "量子ゲートの概念を学習"
-        - "量子技術の将来について投稿"
-  
+      question: "IBMの研究者であるドナルド・チェンパリンとレイモンド・ボイスが開発した、SQLの原型となったデータベースアクセス言語の名前は？"
+      options:
+        - "Python"
+        - "Prolog"
+        - "LISP"
+        - "SEQUEL"
+      correct_answer: 3
+      explanation: "正解は3のSEQUEL"
+
   - id: 46
-    title: "エッジコンピューティングブース"
-    type: "sns"
-    description: "エッジデバイスでの分散処理技術を体験！"
+    title: "データ基盤知識：DBの種類"
+    type: "quiz"
+    description: "NoSQLは一般的に何の略語と言われているでしょう？"
     content:
-      booth_name: "エッジコンピューティング・分散処理ブース"
-      sns_prompt: "エッジコンピューティングで低遅延を実現！分散処理の威力を体験中 #SnowVillage #Edge #DistributedSystems #5G"
-      requirements:
-        - "エッジデバイスでの処理を体験"
-        - "レイテンシ改善を確認"
-        - "分散システムについて投稿"
-  
+      question: "リレーショナルデータベース以外のデータベース管理システムの総称として使われる NoSQL は、一般的にどういう言葉の略語と言われているでしょう？"
+      options:
+        - "No limit SQL"
+        - "No more SQL"
+        - "Not alone SQL"
+        - "Not only SQL"
+      correct_answer: 3
+      explanation: "正解は3のNot only SQL"
+
   - id: 47
-    title: "コンテナ技術ブース"
-    type: "sns"
-    description: "DockerとKubernetesによるコンテナオーケストレーションを体験！"
+    title: "データ基盤知識：分析用のデータモデル"
+    type: "quiz"
+    description: "分析用データベースで使われているデータモデルの名前は？"
     content:
-      booth_name: "コンテナ・オーケストレーションブース"
-      sns_prompt: "コンテナ技術でアプリケーションをスケール！Kubernetesの魅力を体験中 #SnowVillage #Docker #Kubernetes #Container"
-      requirements:
-        - "コンテナのデプロイを体験"
-        - "Kubernetesクラスタを操作"
-        - "コンテナ化の利点について投稿"
+      question: "業務システムのDBで使われているデータモデルとしては第３正規系が有名ですが、データ分析用のDBでよく用いられる有名なデータモデルの名前はなんでしょうか？"
+      options:
+        - "ディフィカルトモデリング"
+        - "デンジャラスモデリング"
+        - "デストロイモデリング"
+        - "ディメンショナルモデリング"
+      correct_answer: 3
+      explanation: "正解は3のディメンショナルモデリング"
   
   - id: 48
-    title: "No-Code/Low-Codeブース"
-    type: "sns"
-    description: "コードを書かずにアプリケーションを構築体験！"
+    title: "コミュニティ：コミュニティメンバー"
+    type: "quiz"
+    description: "Snowflakeコミュニティでは、コミュニティメンバーをなんと呼ぶでしょうか？"
     content:
-      booth_name: "No-Code/Low-Code開発ブース"
-      sns_prompt: "コードなしでアプリ開発！誰でもクリエイターになれる時代 #SnowVillage #NoCode #LowCode #CitizenDeveloper"
-      requirements:
-        - "ドラッグ&ドロップでアプリ作成"
-        - "ワークフローを自動化"
-        - "開発の民主化について投稿"
-  
-  - id: 49
-    title: "スタートアップ技術ブース"
-    type: "sns"
-    description: "スタートアップの最新技術とイノベーションを探る！"
-    content:
-      booth_name: "スタートアップ・イノベーションブース"
-      sns_prompt: "スタートアップの革新的な技術に触れてます！起業家精神を感じる #SnowVillage #Startup #Innovation #Entrepreneurship"
-      requirements:
-        - "新技術のプロトタイプを体験"
-        - "起業家からアドバイスを受ける"
-        - "イノベーションについて投稿"
-  
-  - id: 50
-    title: "グリーンIT技術ブース"
-    type: "sns"
-    description: "持続可能なIT技術と環境に優しい開発手法を学ぼう！"
-    content:
-      booth_name: "グリーンIT・持続可能技術ブース"
-      sns_prompt: "環境に優しいIT技術を学習中！持続可能な未来のために #SnowVillage #GreenIT #Sustainability #EcoTech"
-      requirements:
-        - "エネルギー効率の良いコーディング方法を学習"
-        - "カーボンフットプリント測定ツールを体験"
-        - "持続可能性について投稿"
-  
-  - id: 51
-    title: "Web3・DeFiブース"
-    type: "sns"
-    description: "分散型金融とWeb3技術の最前線を体験！"
-    content:
-      booth_name: "Web3・分散型金融ブース"
-      sns_prompt: "Web3の分散型世界を体験中！DeFiの仕組みに驚き #SnowVillage #Web3 #DeFi #Decentralized"
-      requirements:
-        - "DeFiプロトコルを体験"
-        - "NFTマーケットプレイスを見学"
-        - "分散型技術について投稿"
-  
-  - id: 52
-    title: "ロボティクス・自動化ブース"
-    type: "sns"
-    description: "ロボット工学と自動化技術の実演を見学！"
-    content:
-      booth_name: "ロボティクス・自動化技術ブース"
-      sns_prompt: "ロボットと未来を感じる！自動化技術の進歩に感動 #SnowVillage #Robotics #Automation #AI"
-      requirements:
-        - "産業ロボットのデモを見学"
-        - "RPA（業務自動化）を体験"
-        - "自動化の可能性について投稿"
-  
-  - id: 53
-    title: "音声・言語処理ブース"
-    type: "sns"
-    description: "自然言語処理と音声認識技術を体験！"
-    content:
-      booth_name: "音声・言語AI技術ブース"
-      sns_prompt: "AIが言語を理解する仕組みを体験中！音声認識技術の精度に驚き #SnowVillage #NLP #VoiceAI #LanguageModel"
-      requirements:
-        - "音声認識システムを体験"
-        - "チャットボットとの対話を楽しむ"
-        - "言語AI技術について投稿"
-  
-  - id: 54
-    title: "コンピュータビジョンブース"
-    type: "sns"
-    description: "画像認識と映像解析技術の最前線を体験！"
-    content:
-      booth_name: "コンピュータビジョン・画像解析ブース"
-      sns_prompt: "コンピュータの「目」を体験中！画像認識技術の精度に感動 #SnowVillage #ComputerVision #ImageRecognition #AI"
-      requirements:
-        - "リアルタイム物体検出を体験"
-        - "顔認識システムをテスト"
-        - "画像AI技術について投稿"
-  
-  - id: 55
-    title: "バーチャルイベント技術ブース"
-    type: "sns"
-    description: "オンラインイベントとリモート協業技術を体験！"
-    content:
-      booth_name: "バーチャルイベント・リモートコラボブース"
-      sns_prompt: "バーチャル空間での新しい働き方を体験中！リモート協業の可能性 #SnowVillage #VirtualEvent #Remote #Collaboration"
-      requirements:
-        - "バーチャル会議室を体験"
-        - "リモート開発ツールを使用"
-        - "新しい働き方について投稿"
-  
-  - id: 56
-    title: "ヘルステック・医療ITブース"
-    type: "sns"
-    description: "医療分野におけるテクノロジー活用を学ぼう！"
-    content:
-      booth_name: "ヘルステック・医療IT技術ブース"
-      sns_prompt: "テクノロジーで医療が変わる！ヘルステックの可能性を体験中 #SnowVillage #HealthTech #MedTech #DigitalHealth"
-      requirements:
-        - "医療データ解析ツールを体験"
-        - "ウェアラブルデバイスを確認"
-        - "医療技術の未来について投稿"
-  
-  - id: 57
-    title: "エドテック・教育技術ブース"
-    type: "sns"
-    description: "教育分野のテクノロジー革新を体験！"
-    content:
-      booth_name: "エドテック・教育イノベーションブース"
-      sns_prompt: "学習の未来を体験中！テクノロジーで教育が変わる #SnowVillage #EdTech #DigitalLearning #Education"
-      requirements:
-        - "AI学習システムを体験"
-        - "VR教育コンテンツを確認"
-        - "教育技術について投稿"
-  
-  - id: 58
-    title: "フィンテック・金融技術ブース"
-    type: "sns"
-    description: "金融業界のデジタルトランスフォーメーションを体験！"
-    content:
-      booth_name: "フィンテック・デジタル金融ブース"
-      sns_prompt: "金融の未来をテクノロジーで体験中！フィンテックの革新性 #SnowVillage #FinTech #DigitalPayment #Innovation"
-      requirements:
-        - "デジタル決済システムを体験"
-        - "投資アルゴリズムを学習"
-        - "金融技術について投稿"
-  
-  - id: 59
-    title: "スマートシティ技術ブース"
-    type: "sns"
-    description: "都市のデジタル化と IoT 活用を体験！"
-    content:
-      booth_name: "スマートシティ・都市テックブース"
-      sns_prompt: "スマートシティの未来を体験中！IoTで繋がる都市インフラ #SnowVillage #SmartCity #IoT #UrbanTech"
-      requirements:
-        - "都市データダッシュボードを確認"
-        - "スマート交通システムを体験"
-        - "未来の都市について投稿"
-  
-  - id: 60
-    title: "アクセシビリティ技術ブース"
-    type: "sns"
-    description: "誰もが使えるテクノロジーのデザインを学ぼう！"
-    content:
-      booth_name: "アクセシビリティ・インクルーシブデザインブース"
-      sns_prompt: "誰もが使えるテクノロジーを学習中！インクルーシブデザインの重要性 #SnowVillage #Accessibility #Inclusive #UniversalDesign"
-      requirements:
-        - "音声読み上げ機能を体験"
-        - "アクセシブルなUIを確認"
-        - "包括的デザインについて投稿"
-
-  # Basic type missions (30 total)
-  - id: 61
-    title: "イベント受付を完了する"
-    type: "basic"
-    description: "Snow Villageイベントの受付手続きを完了しましょう"
-    content:
-      task_description: "受付でチェックインを行い、参加者バッジを受け取る"
-      completion_criteria:
-        - "受付スタッフに参加者名を伝える"
-        - "参加者バッジを受け取る"
-        - "イベントマップを確認する"
-  
-  - id: 62
-    title: "ネットワーキングタイムに参加"
-    type: "basic"
-    description: "他の参加者と交流し、ネットワーキングを楽しもう"
-    content:
-      task_description: "指定されたネットワーキングタイムに参加して交流する"
-      completion_criteria:
-        - "3人以上の参加者と名刺交換"
-        - "自己紹介を行う"
-        - "連絡先を交換する"
-  
-  - id: 63
-    title: "メインステージ講演を聴講"
-    type: "basic"
-    description: "メインステージでの基調講演を聴講しよう"
-    content:
-      task_description: "メインステージでの講演を最後まで聴講する"
-      completion_criteria:
-        - "講演開始時に着席"
-        - "最後まで聴講を継続"
-        - "質疑応答セッションに参加"
-  
-  - id: 64
-    title: "ランチセッションに参加"
-    type: "basic"
-    description: "ランチを取りながら技術談義を楽しもう"
-    content:
-      task_description: "指定されたランチセッションに参加する"
-      completion_criteria:
-        - "ランチエリアでテーブルに着席"
-        - "同席者と技術について議論"
-        - "食事を完了する"
-  
-  - id: 65
-    title: "アンケートに回答"
-    type: "basic"
-    description: "イベントの改善のためフィードバックを提供しよう"
-    content:
-      task_description: "イベント評価アンケートに回答する"
-      completion_criteria:
-        - "満足度を5段階で評価"
-        - "改善提案を記入"
-        - "アンケートを送信"
-  
-  - id: 66
-    title: "スポンサーブースを見学"
-    type: "basic"
-    description: "イベントスポンサー企業のブースを訪問しよう"
-    content:
-      task_description: "スポンサーブースエリアを見学する"
-      completion_criteria:
-        - "最低3社のブースを訪問"
-        - "企業資料を収集"
-        - "担当者と簡単な会話"
-  
-  - id: 67
-    title: "コーヒーブレイクに参加"
-    type: "basic"
-    description: "コーヒーブレイク時間に参加者と交流しよう"
-    content:
-      task_description: "指定されたコーヒーブレイクタイムに参加する"
-      completion_criteria:
-        - "コーヒーエリアに移動"
-        - "飲み物を選択"
-        - "他参加者とカジュアルな会話"
-  
-  - id: 68
-    title: "技術書籍コーナーを見学"
-    type: "basic"
-    description: "展示されている技術書籍を閲覧しよう"
-    content:
-      task_description: "技術書籍の展示コーナーを見学する"
-      completion_criteria:
-        - "興味のある書籍を3冊以上確認"
-        - "書籍の内容を軽く読む"
-        - "購入検討リストを作成"
-  
-  - id: 69
-    title: "ライトニングトーク聴講"
-    type: "basic"
-    description: "参加者によるライトニングトークを聴講しよう"
-    content:
-      task_description: "ライトニングトークセッションを聴講する"
-      completion_criteria:
-        - "発表開始時に着席"
-        - "全発表を聴講"
-        - "気になった発表者に感想を伝える"
-  
-  - id: 70
-    title: "ワークショップエリア見学"
-    type: "basic"
-    description: "ハンズオンワークショップの様子を見学しよう"
-    content:
-      task_description: "ワークショップエリアを見学する"
-      completion_criteria:
-        - "進行中のワークショップを見学"
-        - "使用されている技術を確認"
-        - "興味のあるワークショップを特定"
-  
-  - id: 71
-    title: "フォトスポットで記念撮影"
-    type: "basic"
-    description: "イベント記念のフォトスポットで撮影しよう"
-    content:
-      task_description: "設置されたフォトスポットで記念撮影する"
-      completion_criteria:
-        - "フォトスポットを見つける"
-        - "記念撮影を行う"
-        - "SNS用写真を確保"
-  
-  - id: 72
-    title: "休憩エリアを利用"
-    type: "basic"
-    description: "休憩スペースでリフレッシュしよう"
-    content:
-      task_description: "休憩エリアで適度な休息を取る"
-      completion_criteria:
-        - "休憩スペースに移動"
-        - "15分程度休息"
-        - "充電や資料整理を実施"
-  
-  - id: 73
-    title: "受付でパンフレット入手"
-    type: "basic"
-    description: "イベントの詳細パンフレットを入手しよう"
-    content:
-      task_description: "受付でイベントパンフレットを入手する"
-      completion_criteria:
-        - "受付カウンターに行く"
-        - "パンフレットを受け取る"
-        - "スケジュールを確認"
-  
-  - id: 74
-    title: "クローク利用"
-    type: "basic"
-    description: "荷物預かりサービスを利用しよう"
-    content:
-      task_description: "クロークサービスで荷物を預ける（必要に応じて）"
-      completion_criteria:
-        - "クローク場所を確認"
-        - "荷物預かり番号を受け取る"
-        - "身軽な状態でイベント参加"
-  
-  - id: 75
-    title: "Wi-Fi接続設定"
-    type: "basic"
-    description: "イベント会場のWi-Fiに接続しよう"
-    content:
-      task_description: "会場提供のWi-Fiネットワークに接続する"
-      completion_criteria:
-        - "Wi-Fiネットワーク名を確認"
-        - "パスワードを入力"
-        - "インターネット接続を確認"
-  
-  - id: 76
-    title: "避難経路確認"
-    type: "basic"
-    description: "安全のため避難経路を確認しよう"
-    content:
-      task_description: "会場の避難経路と非常口を確認する"
-      completion_criteria:
-        - "最寄りの非常口を特定"
-        - "避難経路図を確認"
-        - "集合場所を把握"
-  
-  - id: 77
-    title: "イベント運営スタッフと挨拶"
-    type: "basic"
-    description: "イベントを支えるスタッフの方々に感謝の挨拶をしよう"
-    content:
-      task_description: "運営スタッフに挨拶と感謝を伝える"
-      completion_criteria:
-        - "受付スタッフに挨拶"
-        - "会場案内スタッフと会話"
-        - "感謝の気持ちを表現"
-  
-  - id: 78
-    title: "イベントアプリダウンロード"
-    type: "basic"
-    description: "イベント専用アプリをダウンロードしよう"
-    content:
-      task_description: "Snow Villageイベントアプリをインストールする"
-      completion_criteria:
-        - "アプリストアでアプリを検索"
-        - "アプリをダウンロード"
-        - "初期設定を完了"
-  
-  - id: 79
-    title: "QRコードスキャン体験"
-    type: "basic"
-    description: "会場各所のQRコードをスキャンしてみよう"
-    content:
-      task_description: "設置されたQRコードを3箇所以上でスキャンする"
-      completion_criteria:
-        - "QRコードスキャンアプリを準備"
-        - "異なる場所のQRコードを読み取り"
-        - "得られた情報を確認"
-  
-  - id: 80
-    title: "イベントハッシュタグ投稿"
-    type: "basic"
-    description: "公式ハッシュタグを使ってSNS投稿しよう"
-    content:
-      task_description: "ハッシュタグ #SnowVillage を使った投稿を行う"
-      completion_criteria:
-        - "イベントの感想を投稿"
-        - "公式ハッシュタグを含める"
-        - "適切なプラットフォームで共有"
-  
-  - id: 81
-    title: "参加者同士の情報交換"
-    type: "basic"
-    description: "他の参加者と技術情報を交換しよう"
-    content:
-      task_description: "参加者同士で技術に関する情報交換を行う"
-      completion_criteria:
-        - "興味のある技術について話し合う"
-        - "使用している開発ツールを共有"
-        - "学習リソースを教え合う"
-  
-  - id: 82
-    title: "イベントスケジュール確認"
-    type: "basic"
-    description: "一日のスケジュールを整理し計画を立てよう"
-    content:
-      task_description: "イベント全体のスケジュールを確認し参加計画を立てる"
-      completion_criteria:
-        - "タイムテーブルを詳しく確認"
-        - "参加したいセッションを選択"
-        - "移動時間を考慮した計画作成"
-  
-  - id: 83
-    title: "展示デモの見学"
-    type: "basic"
-    description: "各ブースでのデモンストレーションを見学しよう"
-    content:
-      task_description: "技術デモンストレーションを5つ以上見学する"
-      completion_criteria:
-        - "異なるブースのデモを見学"
-        - "デモの内容を理解"
-        - "質問や感想を伝える"
-  
-  - id: 84
-    title: "技術資料収集"
-    type: "basic"
-    description: "配布されている技術資料を収集しよう"
-    content:
-      task_description: "各ブースや講演で配布される資料を収集する"
-      completion_criteria:
-        - "紙の資料を10点以上収集"
-        - "デジタル資料のダウンロード"
-        - "資料を整理して保管"
-  
-  - id: 85
-    title: "イベント感想の記録"
-    type: "basic"
-    description: "今日の学びや感想をメモに記録しよう"
-    content:
-      task_description: "イベントでの学びや気づきを文書化する"
-      completion_criteria:
-        - "印象的だった内容を記録"
-        - "新しく学んだ技術をリスト化"
-        - "今後の学習計画を立案"
-  
-  - id: 86
-    title: "閉会式参加"
-    type: "basic"
-    description: "イベントの閉会式に参加しよう"
-    content:
-      task_description: "イベント閉会式に参加し最後まで見届ける"
-      completion_criteria:
-        - "閉会式会場に移動"
-        - "主催者挨拶を聴講"
-        - "来年への期待を共有"
-  
-  - id: 87
-    title: "連絡先交換フォローアップ"
-    type: "basic"
-    description: "交換した連絡先にフォローアップメッセージを送ろう"
-    content:
-      task_description: "イベントで出会った人にフォローアップの連絡をする"
-      completion_criteria:
-        - "交換した連絡先を整理"
-        - "お礼のメッセージを作成"
-        - "今後の交流に向けた提案"
-  
-  - id: 88
-    title: "学習計画の作成"
-    type: "basic"
-    description: "今日学んだことを基に学習計画を立てよう"
-    content:
-      task_description: "イベントでの学びを基にした学習計画を作成する"
-      completion_criteria:
-        - "興味を持った技術をリスト化"
-        - "優先順位をつけて整理"
-        - "具体的な学習ステップを計画"
-  
-  - id: 89
-    title: "イベント写真の整理"
-    type: "basic"
-    description: "撮影した写真を整理し思い出をまとめよう"
-    content:
-      task_description: "イベントで撮影した写真を整理する"
-      completion_criteria:
-        - "撮影した写真を確認"
-        - "ベストショットを選択"
-        - "アルバムやフォルダに整理"
-  
-  - id: 90
-    title: "次回イベントへの準備"
-    type: "basic"
-    description: "今回の経験を活かし次回参加に向けて準備しよう"
-    content:
-      task_description: "次回イベント参加に向けた準備と改善点を整理する"
-      completion_criteria:
-        - "今回の反省点を記録"
-        - "次回に向けた準備事項をリスト化"
-        - "継続的な学習目標を設定"
+      question: "Snowflakeコミュニティでは、コミュニティメンバーのことをある呼称で呼びます。なんと呼ぶでしょうか？"
+      options:
+        - "Data Fam"
+        - "DATA Saber"
+        - "Data Hero"
+        - "Hata Haiker"
+      correct_answer: 2
+      explanation: "正解は2のData Hero"

@@ -35,7 +35,7 @@ def main():
     
     # 背景設定
     base_dir = os.path.dirname(os.path.dirname(__file__))
-    bg_path = os.path.join(base_dir, "frontend", "public", "SnowVillageGo.png")
+    bg_path = os.path.join(base_dir, "frontend", "public", "SnowVillage-GO.png")
     bg_base64 = get_base64_img(bg_path)
     
     bg_style = "background: linear-gradient(135deg, #1a237e, #283593, #3949ab, #42a5f5);"
@@ -261,7 +261,7 @@ def display_ranking():
         タスク完了数ランキング（上位10位）
     </h3>
     ''', unsafe_allow_html=True)
-    st.caption("同じタスク数の場合は、最後のタスク完了が早かったユーザーが上位になります")
+    st.markdown('<p style="color: #1a237e; font-size: 0.8rem; margin-bottom: 1rem;">同じタスク数の場合は、最後のタスク完了が早かったユーザーが上位になります</p>', unsafe_allow_html=True)
     
     for i, rank_data in enumerate(ranking_data, 1):
         username = rank_data['username']

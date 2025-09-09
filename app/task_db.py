@@ -4,6 +4,11 @@ from psycopg2.extras import RealDictCursor
 from datetime import datetime
 import streamlit as st
 
+# グローバル初期化フラグ（プロセス全体で共有）
+_DB_INITIALIZED = False
+_TASKS_SYNCED = False
+_CONNECTION_POOL = None
+
 class TaskService:
     """タスクサービス"""
     def __init__(self):
@@ -36,10 +41,28 @@ class TaskService:
                 'connect_timeout': 10,
                 'application_name': 'snowvillage_go_app'
             }
+        # 初期化を一度だけ実行
+        self._ensure_db_initialized()
+        self._setup_connection_pool()
+
+    def _ensure_db_initialized(self):
+        """データベース初期化を一度だけ実行"""
+        global _DB_INITIALIZED
+        
+        if _DB_INITIALIZED:
+            return
+            
+        # Streamlitセッション状態でも確認
+        if hasattr(st.session_state, '_db_initialized') and st.session_state._db_initialized:
+            _DB_INITIALIZED = True
+            return
+        
         self._init_db()
+        _DB_INITIALIZED = True
+        st.session_state._db_initialized = True
 
     def _init_db(self):
-        """テーブル初期化"""
+        """テーブル初期化（内部メソッド）"""
         max_retries = 3
         for attempt in range(max_retries):
             try:
@@ -49,7 +72,7 @@ class TaskService:
                         CREATE TABLE IF NOT EXISTS tasks (
                             id SERIAL PRIMARY KEY,
                             title TEXT NOT NULL,
-                            task_type TEXT DEFAULT 'basic',
+                            task_type TEXT,
                             description TEXT,
                             content JSONB
                         )
@@ -65,7 +88,7 @@ class TaskService:
                         )
                         """)
                     conn.commit()
-                    print(f"Task database connection successful (attempt {attempt + 1})")
+                    print(f"Task database initialized successfully (attempt {attempt + 1})")
                     return
             except psycopg2.OperationalError as e:
                 print(f"Task database connection attempt {attempt + 1} failed: {e}")
@@ -76,8 +99,17 @@ class TaskService:
                 if attempt == max_retries - 1:
                     raise
 
-    def insert_task_if_not_exists(self, task_id: int, title: str, task_type: str = 'basic', description: str = None, content: dict = None):
-        """タスクがなければ追加"""
+    def _setup_connection_pool(self):
+        """接続プールの設定（シンプル版）"""
+        # Streamlit環境では複雑な接続プールは避け、接続の再利用を最小限に
+        pass
+
+    def get_connection(self):
+        """データベース接続を取得"""
+        return psycopg2.connect(**self.connection_params)
+
+    def insert_task_if_not_exists(self, task_id: int, title: str, task_type: str = None, description: str = None, content: dict = None):
+        """タスクがなければ追加（個別実行用）"""
         import json
         with psycopg2.connect(**self.connection_params) as conn:
             with conn.cursor() as cur:
@@ -88,6 +120,49 @@ class TaskService:
                         INSERT INTO tasks (id, title, task_type, description, content) 
                         VALUES (%s, %s, %s, %s, %s)
                     """, (task_id, title, task_type, description, content_json))
+            conn.commit()
+
+    def bulk_insert_tasks_if_not_exists(self, tasks_data):
+        """複数タスクの効率的な一括挿入"""
+        import json
+        
+        if not tasks_data:
+            return
+            
+        with psycopg2.connect(**self.connection_params) as conn:
+            with conn.cursor() as cur:
+                # 既存タスクIDを一括取得
+                task_ids = [task['id'] for task in tasks_data]
+                format_strings = ','.join(['%s'] * len(task_ids))
+                cur.execute(f"SELECT id FROM tasks WHERE id IN ({format_strings})", task_ids)
+                existing_ids = set(row[0] for row in cur.fetchall())
+                
+                # 新規タスクのみフィルタリング
+                new_tasks = [task for task in tasks_data if task['id'] not in existing_ids]
+                
+                if new_tasks:
+                    # 一括挿入用のデータ準備
+                    insert_data = []
+                    for task in new_tasks:
+                        content_json = json.dumps(task.get('content')) if task.get('content') else None
+                        insert_data.append((
+                            task['id'], 
+                            task['title'], 
+                            task.get('type'), 
+                            task.get('description'), 
+                            content_json
+                        ))
+                    
+                    # 一括挿入実行
+                    cur.executemany("""
+                        INSERT INTO tasks (id, title, task_type, description, content) 
+                        VALUES (%s, %s, %s, %s, %s)
+                    """, insert_data)
+                    
+                    print(f"Inserted {len(new_tasks)} new tasks")
+                else:
+                    print("No new tasks to insert")
+                    
             conn.commit()
 
     def mark_task_complete(self, task_id: int, user_id: int):

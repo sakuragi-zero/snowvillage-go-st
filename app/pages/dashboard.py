@@ -36,7 +36,7 @@ def main():
     
     # 背景設定
     base_dir = os.path.dirname(os.path.dirname(__file__))
-    bg_path = os.path.join(base_dir, "frontend", "public", "SnowVillageGO-white.png")
+    bg_path = os.path.join(base_dir, "frontend", "public", "SnowVillage-GO.png")
     bg_base64 = get_base64_img(bg_path)
     
     bg_style = "background: linear-gradient(135deg, #1a237e, #283593, #3949ab, #42a5f5);"
@@ -52,6 +52,18 @@ def main():
         /* 基本設定 */
         * {{
             box-sizing: border-box;
+        }}
+        
+        /* モバイル用の横スクロール防止 */
+        html, body {{
+            overflow-x: hidden;
+            max-width: 100vw;
+        }}
+        
+        /* 全ての要素が viewport を超えないように */
+        .stApp > div {{
+            max-width: 100vw;
+            overflow-x: hidden;
         }}
         
         /* 背景設定 */
@@ -816,6 +828,15 @@ def main():
 
         /* レスポンシブ対応 */
         @media (max-width: 768px) {{
+            /* メインコンテナのモバイル調整 */
+            .main-container {{
+                margin: 0.5rem;
+                padding: 1rem;
+                border-radius: 16px;
+                max-width: calc(100vw - 1rem);
+                box-sizing: border-box;
+            }}
+            
             .welcome-header {{
                 font-size: 2.2rem;
                 margin-bottom: 2rem;
@@ -823,7 +844,7 @@ def main():
             }}
             
             .welcome-header::before {{
-                width: 110%;
+                width: 100%;
             }}
             
             .section-header {{
@@ -866,6 +887,10 @@ def main():
             /* メインコンテナの調整 */
             .main .block-container {{
                 padding-bottom: 6rem !important;
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
             }}
             
             /* ジャンプナビゲーションのレスポンシブ対応 */
@@ -876,8 +901,10 @@ def main():
             }}
             
             .jump-button {{
-                width: 90%;
+                width: calc(100% - 1rem);
+                max-width: 280px;
                 justify-content: center;
+                margin: 0 auto;
             }}
         }}
         
@@ -959,8 +986,9 @@ def display_progress_overview():
     completed_tasks = len([task for task in tasks if task['completed']])
     completion_rate = (completed_tasks / total_tasks) * 100 if total_tasks > 0 else 0
     
-    # 報酬情報の計算
-    earned_rewards = [milestone for milestone in MILESTONE_REWARDS.keys() if milestone <= completed_tasks]
+    # 報酬情報の計算（最新3つまで表示）
+    all_earned_rewards = [milestone for milestone in MILESTONE_REWARDS.keys() if milestone <= completed_tasks]
+    earned_rewards = sorted(all_earned_rewards, reverse=True)[:3]  # 最新3つまで
     next_milestone = get_next_milestone(completed_tasks)
     
     # 進捗状況ヘッダー
@@ -971,6 +999,9 @@ def display_progress_overview():
     </div>
     ''', unsafe_allow_html=True)
     
+    # 獲得報酬のHTML生成（分離）
+    earned_rewards_html = generate_earned_rewards_html(earned_rewards)
+    
     # 進捗表示カード
     st.markdown(f'''
     <div class="progress-overview-card">
@@ -980,11 +1011,11 @@ def display_progress_overview():
                 <div class="stat-label">ミッション完了</div>
             </div>
             <div class="completion-rate">
-                <div class="rate-number">{completion_rate:.1f}%</div>
+                <div class="rate-number">{completion_rate:.0f}%</div>
                 <div class="rate-label">完了率</div>
             </div>
             <div class="stat-item-unified">
-                <div class="stat-number">{len(earned_rewards)}</div>
+                <div class="stat-number">{len(all_earned_rewards)}</div>
                 <div class="stat-label">獲得報酬</div>
             </div>
         </div>
@@ -998,7 +1029,7 @@ def display_progress_overview():
                 <span style="color: #10b981; font-weight: 600;">🎁 次の報酬まで: {next_milestone - completed_tasks if next_milestone != "最大" else 0}ミッション</span>
             </div>
             <div class="earned-rewards">
-                {generate_earned_rewards_html(earned_rewards)}
+                {earned_rewards_html}
             </div>
         </div>
     </div>
@@ -1011,16 +1042,10 @@ def generate_earned_rewards_html(earned_rewards):
         return '<span style="color: #9ca3af; font-size: 0.9rem;">まだ報酬はありません</span>'
     
     rewards_html = '<div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem;">'
-    for milestone in earned_rewards:
+    # 降順でソート（最新の報酬が左から表示される）
+    for milestone in sorted(earned_rewards, reverse=True):
         reward = MILESTONE_REWARDS[milestone]
-        rewards_html += f'''
-            <div style="display: flex; align-items: center; background: {reward['color']}22; 
-                        border: 1px solid {reward['color']}44; border-radius: 20px; 
-                        padding: 0.3rem 0.8rem; font-size: 0.8rem;">
-                <span style="margin-right: 0.3rem;">{reward['icon']}</span>
-                <span style="color: {reward['color']}; font-weight: 600;">{milestone}</span>
-            </div>
-        '''
+        rewards_html += f'<div style="display: flex; align-items: center; background: {reward["color"]}22; border: 1px solid {reward["color"]}44; border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.8rem;"><span style="margin-right: 0.3rem;">{reward["icon"]}</span><span style="color: {reward["color"]}; font-weight: 600;">{milestone}</span></div>'
     rewards_html += '</div>'
     return rewards_html
 
@@ -1032,7 +1057,7 @@ def display_task_filter_toggle():
     show_only_incomplete = st.session_state.get("show_only_incomplete", False)
     
     # フィルターToggle
-    col1, col2, col3 = st.columns([1, 2, 1])
+    _, col2, _ = st.columns([1, 2, 1])
     with col2:
         if show_only_incomplete:
             if st.button("すべてのミッションを表示", key="show_all_tasks", type="secondary", use_container_width=True):
@@ -1083,14 +1108,14 @@ def show_mission_clear_dialog():
     st.markdown(f"""
     <div style="text-align: center; padding: 1rem;">
         <h1 style="font-size: 4rem; margin: 1rem 0; color: #10b981;">🎉</h1>
-        <h3 style="font-size: 1.5rem; margin: 1rem 0; color: #374151; font-weight: 600;">
+        <h3 style="font-size: 1.5rem; margin: 1rem 0; color: #10b981; font-weight: 600;">
             『{task_title}』
         </h3>
-        <p style="font-size: 1.2rem; margin: 1.5rem 0; color: #6b7280;">
+        <p style="font-size: 1.2rem; margin: 1.5rem 0; color: #10b981;">
             おめでとうございます！<br>
             ミッションを完了しました！
         </p>
-        <p style="font-size: 1rem; margin: 1rem 0; color: #9ca3af;">
+        <p style="font-size: 1rem; margin: 1rem 0; color: #10b981;">
             未完了のミッションのみ表示に切り替えます
         </p>
     </div>
@@ -1100,12 +1125,16 @@ def show_mission_clear_dialog():
     st.balloons()
     
     # 確認ボタン
-    col1, col2, col3 = st.columns([1, 2, 1])
+    _, col2, _ = st.columns([1, 2, 1])
     with col2:
         if st.button("ミッション一覧に戻る", type="primary", use_container_width=True):
-            # フィルタリングモードに切り替えて状態をクリア
+            # ミッションクリアダイアログを閉じる
             st.session_state["mission_cleared"] = False
-            st.session_state["show_only_incomplete"] = True
+            
+            # 報酬ダイアログがある場合はそちらを表示、ない場合はフィルタリングモードに切り替え
+            if not st.session_state.get("reward_earned", False):
+                st.session_state["show_only_incomplete"] = True
+            
             st.rerun()
 
 
@@ -1125,7 +1154,7 @@ def show_reward_dialog():
         <h2 style="font-size: 2.5rem; margin: 1rem 0; color: {reward['color']}; font-weight: 800;">
             {reward['name']}
         </h2>
-        <p style="font-size: 1.3rem; margin: 1.5rem 0; color: #374151; font-weight: 600;">
+        <p style="font-size: 1.3rem; margin: 1.5rem 0; color: #ffffff; font-weight: 600;">
             {reward['description']}達成！
         </p>
         <div style="background: linear-gradient(135deg, {reward['color']}22, {reward['color']}11); 
@@ -1133,12 +1162,12 @@ def show_reward_dialog():
                     border-radius: 15px; 
                     padding: 1.5rem; 
                     margin: 2rem 0;">
-            <p style="font-size: 1.1rem; color: #374151; font-weight: 600; margin: 0;">
+            <p style="font-size: 1.1rem; color: #ffffff; font-weight: 600; margin: 0;">
                 🎉 おめでとうございます！<br>
                 マイルストーン報酬を獲得しました！
             </p>
         </div>
-        <p style="font-size: 0.9rem; margin: 1rem 0; color: #9ca3af;">
+        <p style="font-size: 0.9rem; margin: 1rem 0; color: #ffffff;">
             次のマイルストーン: {get_next_milestone(completed_count)}ミッション完了
         </p>
     </div>
@@ -1148,7 +1177,7 @@ def show_reward_dialog():
     st.balloons()
     
     # 確認ボタン
-    col1, col2, col3 = st.columns([1, 2, 1])
+    _, col2, _ = st.columns([1, 2, 1])
     with col2:
         if st.button("素晴らしい！", type="primary", use_container_width=True):
             # 報酬ダイアログを閉じる
@@ -1174,18 +1203,17 @@ def check_milestone_reward(completed_count):
 def display_mission_clear_notification():
     """ミッションクリア通知の管理"""
     
-    # 報酬獲得状態をチェック（優先して表示）
-    if st.session_state.get("reward_earned", False):
-        show_reward_dialog()
-    # ミッションクリア状態をチェック
-    elif st.session_state.get("mission_cleared", False):
+    # ミッションクリア状態を優先して表示
+    if st.session_state.get("mission_cleared", False):
         show_mission_clear_dialog()
+    # 報酬獲得状態をチェック（ミッションクリア後に表示）
+    elif st.session_state.get("reward_earned", False):
+        show_reward_dialog()
 
 
 def display_tasks():
     """タスクの表示と管理"""
     from task_db import TaskService
-    import json
     
     # ユーザー情報を取得
     user_info = st.session_state.user_info
@@ -1245,7 +1273,6 @@ def display_tasks():
 
 def display_enhanced_swt_tasks(tasks, task_service, user_id):
     """SWTエンジョイミッションの表示"""
-    import json
     
     # フィルタリング機能: 未完了のみ表示するかチェック
     show_only_incomplete = st.session_state.get("show_only_incomplete", False)
@@ -1264,6 +1291,11 @@ def display_enhanced_swt_tasks(tasks, task_service, user_id):
         status_class = "status-completed" if is_completed else "status-pending"
         status_icon = "check_circle" if is_completed else "radio_button_unchecked"
         
+        # descriptionを適切にHTMLエスケープして改行をbrタグに変換
+        description = task.get('description', '')
+        if description:
+            description = description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br>')
+        
         card_html = f"""
         <div class="mission-card {completed_class}">
             <div class="card-content">
@@ -1273,7 +1305,7 @@ def display_enhanced_swt_tasks(tasks, task_service, user_id):
                         {task['title']}
                     </div>
                     <div class="mission-description">
-                        {task.get('description', '')}
+                        {description}
                     </div>
                     <div class="mission-status {status_class}">
                         <span class="material-icons status-icon">{status_icon}</span>
@@ -1281,14 +1313,13 @@ def display_enhanced_swt_tasks(tasks, task_service, user_id):
                     </div>
                 </div>
             </div>
-        </div>
-        """
+        </div>"""
         
         st.markdown(card_html, unsafe_allow_html=True)
         
         # Streamlitボタン（カード外）
         if not is_completed:
-            col1, col2 = st.columns([3, 1])
+            _, col2 = st.columns([3, 1])
             with col2:
                 if st.button("参加", key=f"swt_btn_{task_id}", type="primary"):
                     st.session_state[f"show_swt_{task_id}"] = True
@@ -1302,7 +1333,6 @@ def display_enhanced_swt_tasks(tasks, task_service, user_id):
 
 def display_enhanced_quiz_tasks(tasks, task_service, user_id):
     """改善されたクイズタスクの表示"""
-    import json
     
     # フィルタリング機能: 未完了のみ表示するかチェック
     show_only_incomplete = st.session_state.get("show_only_incomplete", False)
@@ -1321,6 +1351,11 @@ def display_enhanced_quiz_tasks(tasks, task_service, user_id):
         status_class = "status-completed" if is_completed else "status-pending"
         status_icon = "check_circle" if is_completed else "radio_button_unchecked"
         
+        # descriptionを適切にHTMLエスケープして改行をbrタグに変換
+        description = task.get('description', '')
+        if description:
+            description = description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br>')
+        
         card_html = f"""
         <div class="mission-card {completed_class}">
             <div class="card-content">
@@ -1330,7 +1365,7 @@ def display_enhanced_quiz_tasks(tasks, task_service, user_id):
                         {task['title']}
                     </div>
                     <div class="mission-description">
-                        {task.get('description', '')}
+                        {description}
                     </div>
                     <div class="mission-status {status_class}">
                         <span class="material-icons status-icon">{status_icon}</span>
@@ -1338,14 +1373,13 @@ def display_enhanced_quiz_tasks(tasks, task_service, user_id):
                     </div>
                 </div>
             </div>
-        </div>
-        """
+        </div>"""
         
         st.markdown(card_html, unsafe_allow_html=True)
         
         # Streamlitボタン（カード外）
         if not is_completed:
-            col1, col2 = st.columns([3, 1])
+            _, col2 = st.columns([3, 1])
             with col2:
                 if st.button("挑戦", key=f"quiz_btn_{task_id}", type="primary"):
                     st.session_state[f"show_quiz_{task_id}"] = True
@@ -1359,7 +1393,6 @@ def display_enhanced_quiz_tasks(tasks, task_service, user_id):
 
 def display_enhanced_sns_tasks(tasks, task_service, user_id):
     """改善されたSNSタスクの表示"""
-    import json
     
     # フィルタリング機能: 未完了のみ表示するかチェック
     show_only_incomplete = st.session_state.get("show_only_incomplete", False)
@@ -1378,6 +1411,11 @@ def display_enhanced_sns_tasks(tasks, task_service, user_id):
         status_class = "status-completed" if is_completed else "status-pending"
         status_icon = "check_circle" if is_completed else "radio_button_unchecked"
         
+        # descriptionを適切にHTMLエスケープして改行をbrタグに変換
+        description = task.get('description', '')
+        if description:
+            description = description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br>')
+        
         card_html = f"""
         <div class="mission-card {completed_class}">
             <div class="card-content">
@@ -1387,7 +1425,7 @@ def display_enhanced_sns_tasks(tasks, task_service, user_id):
                         {task['title']}
                     </div>
                     <div class="mission-description">
-                        {task.get('description', '')}
+                        {description}
                     </div>
                     <div class="mission-status {status_class}">
                         <span class="material-icons status-icon">{status_icon}</span>
@@ -1395,14 +1433,13 @@ def display_enhanced_sns_tasks(tasks, task_service, user_id):
                     </div>
                 </div>
             </div>
-        </div>
-        """
+        </div>"""
         
         st.markdown(card_html, unsafe_allow_html=True)
         
         # Streamlitボタン（カード外）
         if not is_completed:
-            col1, col2 = st.columns([3, 1])
+            _, col2 = st.columns([3, 1])
             with col2:
                 if st.button("投稿", key=f"sns_btn_{task_id}", type="primary"):
                     st.session_state[f"show_sns_{task_id}"] = True
@@ -1434,7 +1471,13 @@ def display_quiz_content(task, task_service, user_id):
     options = content.get('options', [])
     correct_answer = content.get('correct_answer', 0)
     
-    st.markdown(f"**問題:** {question}")
+    # 複数行のテキストを適切に処理
+    if isinstance(question, str):
+        # 改行コードを<br>に変換してHTMLとして表示
+        question_html = question.replace('\n', '<br>')
+        st.markdown(f"**問題：**<br>{question_html}", unsafe_allow_html=True)
+    else:
+        st.markdown(f"**問題：** {question}")
     
     # 回答選択
     answer_key = f"quiz_answer_{task_id}"
@@ -1471,7 +1514,7 @@ def display_quiz_content(task, task_service, user_id):
                 st.session_state[f"show_quiz_{task_id}"] = False
                 st.rerun()
             else:
-                st.error(f"不正解です。正解は: {options[correct_answer]}")
+                st.error("不正解です。")
     
     with col2:
         if st.button("閉じる", key=f"close_quiz_content_{task_id}"):
@@ -1497,7 +1540,7 @@ def display_navigation_buttons():
     col1, col2, col3 = st.columns([1, 1, 1], gap="small")
     
     with col1:
-        mission_button = st.button(
+        st.button(
             "ミッションに挑戦", 
             key="top_nav_mission",
             disabled=True,
@@ -1539,8 +1582,9 @@ def display_swt_content(task, task_service, user_id):
     
     event_name = content.get('event_name', '')
     description = content.get('description', '')
-    requirements = content.get('requirements', [])
+    requirements = content.get('requirements', '')
     location = content.get('location', '')
+    hints = content.get('hints', '')
     
     if event_name:
         st.markdown(f"**イベント名:** {event_name}")
@@ -1550,9 +1594,24 @@ def display_swt_content(task, task_service, user_id):
         st.markdown(f"**内容:** {description}")
     
     if requirements:
-        st.markdown("**参加条件:**")
-        for req in requirements:
-            st.markdown(f"- {req}")
+        st.markdown("**クリア条件：**")
+        if isinstance(requirements, str):
+            # 複数行のテキストを<br>に変換してHTMLとして表示
+            requirements_html = requirements.replace('\n', '<br>')
+            st.markdown(requirements_html, unsafe_allow_html=True)
+        elif isinstance(requirements, list):
+            for req in requirements:
+                st.markdown(f"- {req}")
+        else:
+            st.markdown(str(requirements))
+    
+    if hints:
+        st.markdown("**ヒント：**")
+        if isinstance(hints, str):
+            hints_html = hints.replace('\n', '<br>')
+            st.markdown(hints_html, unsafe_allow_html=True)
+        else:
+            st.markdown(str(hints))
     
     st.info("上記のSWTエンジョイミッションに参加したら、下の「完了」ボタンを押してください！")
     
@@ -1601,19 +1660,36 @@ def display_sns_content(task, task_service, user_id):
         st.error("SNS投稿データが見つかりません")
         return
     
-    booth_name = content.get('booth_name', '')
-    sns_prompt = content.get('sns_prompt', '')
-    requirements = content.get('requirements', [])
+    # booth_name = content.get('booth_name', '')
+    # sns_prompt = content.get('sns_prompt', '')
+    requirements = content.get('requirements', '')
+    post_example = content.get('post_example', '')
     
-    st.markdown(f"**訪問先:** {booth_name}")
-    st.markdown(f"**推奨投稿内容:** {sns_prompt}")
+    # st.markdown(f"**訪問先:** {booth_name}")
+    # st.markdown(f"**推奨投稿内容:** {sns_prompt}")
     
     if requirements:
-        st.markdown("**要件:**")
-        for req in requirements:
-            st.markdown(f"- {req}")
+        st.markdown("**クリア条件：**")
+        if isinstance(requirements, str):
+            # 複数行のテキストを<br>に変換してHTMLとして表示
+            requirements_html = requirements.replace('\n', '<br>')
+            st.markdown(requirements_html, unsafe_allow_html=True)
+        elif isinstance(requirements, list):
+            for req in requirements:
+                st.markdown(f"- {req}")
+        else:
+            st.markdown(str(requirements))
     
-    st.info("上記の要件を満たしてSNSに投稿したら、下の「完了」ボタンを押してください！")
+    if post_example:
+        st.markdown("**投稿例：**")
+        if isinstance(post_example, str):
+            # 複数行のテキストを<br>に変換してHTMLとして表示
+            post_example_html = post_example.replace('\n', '<br>')
+            st.markdown(f'<div style="background-color: #f0f8ff; padding: 10px; border-left: 4px solid #1e90ff; font-style: italic;">{post_example_html}</div>', unsafe_allow_html=True)
+        else:
+            st.markdown(str(post_example))
+    
+    st.info("上記の要件を満たしたら、下の「完了」ボタンを押してください！")
     
     col1, col2 = st.columns([1, 1])
     
@@ -1650,4 +1726,3 @@ def display_sns_content(task, task_service, user_id):
 
 if __name__ == "__main__":
     main()
-

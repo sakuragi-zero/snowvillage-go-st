@@ -37,7 +37,7 @@ def main():
     
     # 背景設定
     base_dir = os.path.dirname(os.path.dirname(__file__))
-    bg_path = os.path.join(base_dir, "frontend", "public", "SnowVillageGo.png")
+    bg_path = os.path.join(base_dir, "frontend", "public", "SnowVillage-GO.png")
     bg_base64 = get_base64_img(bg_path)
     
     bg_style = "background: linear-gradient(135deg, #1a237e, #283593, #3949ab, #42a5f5);"
@@ -235,8 +235,44 @@ def main():
     # 投稿フォーム表示
     display_post_form(user)
     
+    # 成功ダイアログの表示
+    if st.session_state.get('show_success_dialog', False):
+        show_success_dialog()
+    
     # 下部ナビゲーションバー
     display_bottom_navigation()
+
+
+@st.dialog("✅ 送信完了！")
+def show_success_dialog():
+    """送信成功ダイアログ"""
+    st.markdown("""
+    <div style="text-align: center; padding: 2rem;">
+        <div style="font-size: 4rem; margin-bottom: 1.5rem;">
+            💬
+        </div>
+        <h2 style="color: #10b981; font-weight: 700; margin-bottom: 1rem;">
+            質問を送信しました！
+        </h2>
+        <p style="font-size: 1.2rem; line-height: 1.6; color: #10b981; font-weight: 600; margin-bottom: 1.5rem;">
+            質問の回答が来ているか<br>
+            SnowVillageのモヤモヤチャンネルを見に行こう！
+        </p>
+        <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 10px; padding: 1rem; margin: 1rem 0;">
+            <p style="color: #0369a1; font-weight: 600; margin: 0;">
+                💡 回答は匿名で投稿されるため、質問者の特定はできません
+            </p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # ダイアログを閉じるボタン
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("確認しました", use_container_width=True, type="primary"):
+            st.session_state.show_success_dialog = False
+            st.balloons()  # 成功時のバルーン効果
+            st.rerun()
 
 
 def display_bottom_navigation():
@@ -367,22 +403,9 @@ def handle_form_submission(message: str, slack_client, user):
     
     # 結果表示
     if success:
-        # 成功ポップアップ
-        st.markdown("""
-        <div class="success-box">
-            <strong><span class="material-icons" style="vertical-align: middle; margin-right: 0.25rem;">check_circle</span>送信完了！</strong><br>
-            メッセージが正常に送信されました。<br>
-            Slackチャンネルをご確認ください。
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # 成功時のバルーン効果
-        st.balloons()
-        
-        # セッション状態をクリア（フォームリセット用）
-        if 'form_submitted' not in st.session_state:
-            st.session_state.form_submitted = True
-            st.rerun()
+        # ダイアログ表示フラグを設定
+        st.session_state.show_success_dialog = True
+        st.rerun()
             
     else:
         # エラー表示
