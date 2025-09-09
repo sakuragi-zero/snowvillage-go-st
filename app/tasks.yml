@@ -29,7 +29,7 @@ tasks:
     type: "swt"
     description: "コミュニティブース「Snowflake Community Hub」を訪れよう"
     content:
-      requirements: "コミュニティブースで"
+      requirements: "コミュニティブースに遊びにくること。楽しむこと！"
       hints: "コミュニティブースはExpo（3F 北辰）にあるよ"
 
   - id: 5
@@ -78,7 +78,7 @@ tasks:
     description: "Snowflake社員による最新機能の紹介や、Deepな技術セッションのセッションに参加しよう"
     content:
       requirements: "Snowflake社員のセッションに１つ以上参加すること"
-      hints: ""
+      hints: "セッション一覧からSnowflakeの発表を探してみてね"
 
   - id: 11
     title: "スポンサーのデモを3つ見よう！"
@@ -109,7 +109,7 @@ tasks:
     type: "swt"
     description: "EXPOのフォトスポットで写真を撮ろう！"
     content:
-      requirements: ""
+      requirements: "EXPO会場内のフォトスポットで写真を撮ること！"
       hints: "EXPO会場の中央あたりにあるよ"
 
   - id: 15
@@ -170,7 +170,6 @@ tasks:
     content:
       requirements: |
         ハッシュタグ #SWTTokyo25 を付けて、セッションの感想をポストする
-        ※記入者注　公式ハッシュタグってありますか？あれば★★に入れていただけると。なければ、SWT か SnowflakeWorldTour でどうでしょう（公式ハッシュタグを記入済み
       post_example: |
         XX社さんのセッション、めっちゃ参考になった　#SWTTokyo25
         YY社さんのSnowflakeのAI活用、うちでもやってみたい！　#SWTTokyo25
@@ -182,7 +181,6 @@ tasks:
     content:
       requirements: |
         ハッシュタグ #SWTTokyo25 を付けて、会場の様子をポストする
-        ※記入者注　公式ハッシュタグってありますか？あれば★★に入れていただけると。なければ、SWT か SnowflakeWorldTour でどうでしょう（公式ハッシュタグを記入済み
       post_example: |
         現地到着！　#SWTTokyo25
         大盛況！（写真を付けて）　#SWTTokyo25
@@ -240,17 +238,17 @@ tasks:
   - id: 29
     title: "Slackで好きなChannelに参加しよう"
     type: "sns"
-    description: ""
+    description: "SnowVillageに参加したら、興味のあるChannelを探してみてね"
     content:
-      requirements: ""
+      requirements: "SnowVillageに参加したら、興味のあるChannelを探してみてね"
       post_example: ""
 
   - id: 30
     title: "Slackに参加してSnowVillageの歩き方を読もう"
     type: "sns"
-    description: ""
+    description: "SnowVillageのgeneralチャンネルではキャンパス機能を使って歩き方ガイドを掲載しています。ご一読を！"
     content:
-      requirements: "#generalのcanvasにあるよ"
+      requirements: "SnowVillageのgeneralチャンネルではキャンパス機能を使って歩き方ガイドを掲載しています。ご一読を！"
       post_example: ""
 
   # Quiz type missions (ID 31-41)
@@ -260,12 +258,12 @@ tasks:
     description: "集計SQLに関する問題に答えよう！"
     content:
       question: "SQL（SELECT文）で集計を行うためのコマンドは？"
-      choices:
+      options:
         - "WHERE"
         - "GROUP BY"
         - "ORDER BY"
         - "UNION ALL"
-      correct_answer: 2
+      correct_answer: 1
       explanation: "SQLで集計を表現する構文は「GROUP BY」です。"
 
   - id: 32
@@ -274,12 +272,12 @@ tasks:
     description: "Snowfflake創業者の出身企業はどこでしょう？"
     content:
       question: "Snowflake創業者の中で、ブノワ・ダージュヴィルさんとティエリー・クルアネスさんの2名はある有名IT企業の出身です。その企業はどこでしょう？"
-      choices:
+      options:
         - "Microsoft"
         - "Google"
         - "Oracle"
         - "IBM"
-      correct_answer: 3
+      correct_answer: 2
       explanation: "お2人はOracle社のアーキテクトでしたが、彼らの考えた「クラウドに実装することを前提としたた画期的なDB」を作るためにSnowflakeを起業しました。"
 
   - id: 33
@@ -288,12 +286,12 @@ tasks:
     description: "Snowfflake日本法人の現社長は誰でしょう？"
     content:
       question: "7月に退任された東條秀樹さんのあとを受けて、Snowflake日本法人の二代目社長に就任されたのはどなたでしょうか？"
-      choices:
+      options:
         - "浮田 竜路さん"
         - "浮田 雀路さん"
         - "浮田 虎路さん"
         - "浮田 亀路さん"
-      correct_answer: 1
+      correct_answer: 0
       explanation: "Snowflake日本法人の2代目社長は浮田 竜路さんです。"
 
   - id: 34
@@ -302,12 +300,12 @@ tasks:
     description: "データを保管する「データレイク」で最近注目されている技術はなんでしょう？"
     content:
       question: "データレイク用のオープンソースの分散型データテーブル形式 Apatch ○○○ が近年注目されており、Snowflakeをはじめ様々な製品が対応しています。さて、○○○に入る単語は何でしょう？"
-      choices:
+      options:
         - "Icecream"
         - "Hamburg"
         - "Iceberg"
         - "Snowberg"
-      correct_answer: 3
+      correct_answer: 2
       explanation: "Snowflakeも対応している最近話題のオープンソースの分散型データテーブル形式 は Apatch Iceberg です。"
 
   - id: 35
@@ -316,12 +314,12 @@ tasks:
     description: "Snowflakeの周年イベント「Snowflake Summit」の開催都市はどこでしょう？"
     content:
       question: "Snowflakeの周年イベント「Snowflake Summit」が、今年は6月2～5日にアメリカのある都市で開催されました。来年も同じ都市で6月1～4日に開催予定です。その都市とはどこでしょう？"
-      choices:
+      options:
         - "ニューヨーク"
         - "ラスベガス"
         - "サンフランシスコ"
         - "ナッシュビル"
-      correct_answer: 3
+      correct_answer: 2
       explanation: "2025年、2026年の Snowflake Summit の開催地は、サンフランシスコです。（2024年まではラスベガスでした）"
 
   - id: 36
@@ -330,12 +328,12 @@ tasks:
     description: "データベースを使って行う処理の種類はなんでしょう？"
     content:
       question: "データベースを使って行う処理には2種類あります。１つはOracleやPostgressSQLなどが得意とするトランザクション処理「OLTP」ですが、もう１つ、Snowflakeなどが得意とする分析（アナリティクス）の処理はなんと呼ばれるでしょう？"
-      choices:
+      options:
         - "OLAP"
         - "OLIP"
         - "OLUP"
         - "OLEP"
-      correct_answer: 1
+      correct_answer: 0
       explanation: "OnLine Analytical Processing（オンライン分析処理）の略で「OLAP」です。ちなみに、「OLTP」は OnLine Transaction Processing の略です。"
 
   - id: 37
@@ -344,12 +342,12 @@ tasks:
     description: "Snowflakeで、過去データにアクセスする機能の名前はなんでしょう？"
     content:
       question: "Snowflakeでは、日々更新されるデータに対して、最大90日前までの過去の任意の辞典のデータにアクセスすることができます。その機能の名前はなんでしょう？"
-      choices:
+      options:
         - "タイムマシン"
         - "タイムトラベル"
         - "タイムゾーン"
         - "タイムシェアリング"
-      correct_answer: 2
+      correct_answer: 1
       explanation: "過去データにアクセスする機能は「タイムトラベル」です。遡れる日数は最大90日まで設定できますが、変化の激しいデータだとその分ストレージ容量が大きくなるので注意が必要です。"
 
   - id: 38
@@ -360,12 +358,12 @@ tasks:
       question: |
         Snowflakeはクラウドプロバイダーの環境上で稼働しています。どのクラウドプロバイダー環境が使えるでしょうか？
         最も近いものを選択してください。
-      choices:
+      options:
         - "AWS"
         - "Azure"
         - "Google Cloud"
         - "上記全て"
-      correct_answer: 4
+      correct_answer: 3
       explanation: |
         AWS/Azure/Google Cloudから選択できます。
         「1:AWS、2:Azure、3.Google Cloud」を選択した方も誤りではありませんが、
@@ -377,12 +375,12 @@ tasks:
     description: "日本のSnowflakeコミュニティ（User Group）の名前は？"
     content:
       question: "日本のSnowflakeユーザーのコミュニティの名前はなんでしょうか？"
-      choices:
+      options:
         - "Snowpark"
         - "SnowAvenue"
         - "SnowVillage"
         - "SnowStreet"
-      correct_answer: 3
+      correct_answer: 2
       explanation: |
         SnowVillageです。
         https://usergroups.snowflake.com/snowvillage/
@@ -393,12 +391,12 @@ tasks:
     description: "スノーフレイクの正式な表記はどれでしょうか？"
     content:
       question: "スノーフレイクの正式な表記はどれでしょうか？この問題文ではあえてカタカナ表記しています。"
-      choices:
+      options:
         - "SNOWFLAKE"
         - "Snowflake"
         - "SnowFlake"
         - "snowflake"
-      correct_answer: 2
+      correct_answer: 1
       explanation: "Snowflakeです。"
 
   - id: 41
@@ -407,10 +405,10 @@ tasks:
     description: "日本法人のオフィスはどこでしょうか"
     content:
       question: "日本法人のオフィスはどこでしょうか"
-      choices:
+      options:
         - "丸の内"
         - "八重洲"
         - "渋谷"
         - "新宿"
-      correct_answer: 2
+      correct_answer: 1
       explanation: "正解は2の「八重洲」でした。イベントなどでぜひ来てください"

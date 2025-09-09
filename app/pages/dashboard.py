@@ -1057,7 +1057,7 @@ def display_task_filter_toggle():
     show_only_incomplete = st.session_state.get("show_only_incomplete", False)
     
     # フィルターToggle
-    col1, col2, col3 = st.columns([1, 2, 1])
+    _, col2, _ = st.columns([1, 2, 1])
     with col2:
         if show_only_incomplete:
             if st.button("すべてのミッションを表示", key="show_all_tasks", type="secondary", use_container_width=True):
@@ -1125,7 +1125,7 @@ def show_mission_clear_dialog():
     st.balloons()
     
     # 確認ボタン
-    col1, col2, col3 = st.columns([1, 2, 1])
+    _, col2, _ = st.columns([1, 2, 1])
     with col2:
         if st.button("ミッション一覧に戻る", type="primary", use_container_width=True):
             # ミッションクリアダイアログを閉じる
@@ -1177,7 +1177,7 @@ def show_reward_dialog():
     st.balloons()
     
     # 確認ボタン
-    col1, col2, col3 = st.columns([1, 2, 1])
+    _, col2, _ = st.columns([1, 2, 1])
     with col2:
         if st.button("素晴らしい！", type="primary", use_container_width=True):
             # 報酬ダイアログを閉じる
@@ -1214,7 +1214,6 @@ def display_mission_clear_notification():
 def display_tasks():
     """タスクの表示と管理"""
     from task_db import TaskService
-    import json
     
     # ユーザー情報を取得
     user_info = st.session_state.user_info
@@ -1274,7 +1273,6 @@ def display_tasks():
 
 def display_enhanced_swt_tasks(tasks, task_service, user_id):
     """SWTエンジョイミッションの表示"""
-    import json
     
     # フィルタリング機能: 未完了のみ表示するかチェック
     show_only_incomplete = st.session_state.get("show_only_incomplete", False)
@@ -1293,6 +1291,11 @@ def display_enhanced_swt_tasks(tasks, task_service, user_id):
         status_class = "status-completed" if is_completed else "status-pending"
         status_icon = "check_circle" if is_completed else "radio_button_unchecked"
         
+        # descriptionを適切にHTMLエスケープして改行をbrタグに変換
+        description = task.get('description', '')
+        if description:
+            description = description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br>')
+        
         card_html = f"""
         <div class="mission-card {completed_class}">
             <div class="card-content">
@@ -1302,7 +1305,7 @@ def display_enhanced_swt_tasks(tasks, task_service, user_id):
                         {task['title']}
                     </div>
                     <div class="mission-description">
-                        {task.get('description', '')}
+                        {description}
                     </div>
                     <div class="mission-status {status_class}">
                         <span class="material-icons status-icon">{status_icon}</span>
@@ -1310,14 +1313,13 @@ def display_enhanced_swt_tasks(tasks, task_service, user_id):
                     </div>
                 </div>
             </div>
-        </div>
-        """
+        </div>"""
         
         st.markdown(card_html, unsafe_allow_html=True)
         
         # Streamlitボタン（カード外）
         if not is_completed:
-            col1, col2 = st.columns([3, 1])
+            _, col2 = st.columns([3, 1])
             with col2:
                 if st.button("参加", key=f"swt_btn_{task_id}", type="primary"):
                     st.session_state[f"show_swt_{task_id}"] = True
@@ -1331,7 +1333,6 @@ def display_enhanced_swt_tasks(tasks, task_service, user_id):
 
 def display_enhanced_quiz_tasks(tasks, task_service, user_id):
     """改善されたクイズタスクの表示"""
-    import json
     
     # フィルタリング機能: 未完了のみ表示するかチェック
     show_only_incomplete = st.session_state.get("show_only_incomplete", False)
@@ -1350,6 +1351,11 @@ def display_enhanced_quiz_tasks(tasks, task_service, user_id):
         status_class = "status-completed" if is_completed else "status-pending"
         status_icon = "check_circle" if is_completed else "radio_button_unchecked"
         
+        # descriptionを適切にHTMLエスケープして改行をbrタグに変換
+        description = task.get('description', '')
+        if description:
+            description = description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br>')
+        
         card_html = f"""
         <div class="mission-card {completed_class}">
             <div class="card-content">
@@ -1359,7 +1365,7 @@ def display_enhanced_quiz_tasks(tasks, task_service, user_id):
                         {task['title']}
                     </div>
                     <div class="mission-description">
-                        {task.get('description', '')}
+                        {description}
                     </div>
                     <div class="mission-status {status_class}">
                         <span class="material-icons status-icon">{status_icon}</span>
@@ -1367,14 +1373,13 @@ def display_enhanced_quiz_tasks(tasks, task_service, user_id):
                     </div>
                 </div>
             </div>
-        </div>
-        """
+        </div>"""
         
         st.markdown(card_html, unsafe_allow_html=True)
         
         # Streamlitボタン（カード外）
         if not is_completed:
-            col1, col2 = st.columns([3, 1])
+            _, col2 = st.columns([3, 1])
             with col2:
                 if st.button("挑戦", key=f"quiz_btn_{task_id}", type="primary"):
                     st.session_state[f"show_quiz_{task_id}"] = True
@@ -1388,7 +1393,6 @@ def display_enhanced_quiz_tasks(tasks, task_service, user_id):
 
 def display_enhanced_sns_tasks(tasks, task_service, user_id):
     """改善されたSNSタスクの表示"""
-    import json
     
     # フィルタリング機能: 未完了のみ表示するかチェック
     show_only_incomplete = st.session_state.get("show_only_incomplete", False)
@@ -1407,6 +1411,11 @@ def display_enhanced_sns_tasks(tasks, task_service, user_id):
         status_class = "status-completed" if is_completed else "status-pending"
         status_icon = "check_circle" if is_completed else "radio_button_unchecked"
         
+        # descriptionを適切にHTMLエスケープして改行をbrタグに変換
+        description = task.get('description', '')
+        if description:
+            description = description.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br>')
+        
         card_html = f"""
         <div class="mission-card {completed_class}">
             <div class="card-content">
@@ -1416,7 +1425,7 @@ def display_enhanced_sns_tasks(tasks, task_service, user_id):
                         {task['title']}
                     </div>
                     <div class="mission-description">
-                        {task.get('description', '')}
+                        {description}
                     </div>
                     <div class="mission-status {status_class}">
                         <span class="material-icons status-icon">{status_icon}</span>
@@ -1424,14 +1433,13 @@ def display_enhanced_sns_tasks(tasks, task_service, user_id):
                     </div>
                 </div>
             </div>
-        </div>
-        """
+        </div>"""
         
         st.markdown(card_html, unsafe_allow_html=True)
         
         # Streamlitボタン（カード外）
         if not is_completed:
-            col1, col2 = st.columns([3, 1])
+            _, col2 = st.columns([3, 1])
             with col2:
                 if st.button("投稿", key=f"sns_btn_{task_id}", type="primary"):
                     st.session_state[f"show_sns_{task_id}"] = True
@@ -1463,7 +1471,13 @@ def display_quiz_content(task, task_service, user_id):
     options = content.get('options', [])
     correct_answer = content.get('correct_answer', 0)
     
-    st.markdown(f"**問題:** {question}")
+    # 複数行のテキストを適切に処理
+    if isinstance(question, str):
+        # 改行コードを<br>に変換してHTMLとして表示
+        question_html = question.replace('\n', '<br>')
+        st.markdown(f"**問題：**<br>{question_html}", unsafe_allow_html=True)
+    else:
+        st.markdown(f"**問題：** {question}")
     
     # 回答選択
     answer_key = f"quiz_answer_{task_id}"
@@ -1526,7 +1540,7 @@ def display_navigation_buttons():
     col1, col2, col3 = st.columns([1, 1, 1], gap="small")
     
     with col1:
-        mission_button = st.button(
+        st.button(
             "ミッションに挑戦", 
             key="top_nav_mission",
             disabled=True,
@@ -1568,8 +1582,9 @@ def display_swt_content(task, task_service, user_id):
     
     event_name = content.get('event_name', '')
     description = content.get('description', '')
-    requirements = content.get('requirements', [])
+    requirements = content.get('requirements', '')
     location = content.get('location', '')
+    hints = content.get('hints', '')
     
     if event_name:
         st.markdown(f"**イベント名:** {event_name}")
@@ -1579,9 +1594,24 @@ def display_swt_content(task, task_service, user_id):
         st.markdown(f"**内容:** {description}")
     
     if requirements:
-        st.markdown("**参加条件:**")
-        for req in requirements:
-            st.markdown(f"- {req}")
+        st.markdown("**クリア条件：**")
+        if isinstance(requirements, str):
+            # 複数行のテキストを<br>に変換してHTMLとして表示
+            requirements_html = requirements.replace('\n', '<br>')
+            st.markdown(requirements_html, unsafe_allow_html=True)
+        elif isinstance(requirements, list):
+            for req in requirements:
+                st.markdown(f"- {req}")
+        else:
+            st.markdown(str(requirements))
+    
+    if hints:
+        st.markdown("**ヒント：**")
+        if isinstance(hints, str):
+            hints_html = hints.replace('\n', '<br>')
+            st.markdown(hints_html, unsafe_allow_html=True)
+        else:
+            st.markdown(str(hints))
     
     st.info("上記のSWTエンジョイミッションに参加したら、下の「完了」ボタンを押してください！")
     
@@ -1632,15 +1662,22 @@ def display_sns_content(task, task_service, user_id):
     
     # booth_name = content.get('booth_name', '')
     # sns_prompt = content.get('sns_prompt', '')
-    requirements = content.get('requirements', [])
+    requirements = content.get('requirements', '')
     
     # st.markdown(f"**訪問先:** {booth_name}")
     # st.markdown(f"**推奨投稿内容:** {sns_prompt}")
     
     if requirements:
-        st.markdown("**クリア条件:**")
-        for req in requirements:
-            st.markdown(f"- {req}")
+        st.markdown("**クリア条件：**")
+        if isinstance(requirements, str):
+            # 複数行のテキストを<br>に変換してHTMLとして表示
+            requirements_html = requirements.replace('\n', '<br>')
+            st.markdown(requirements_html, unsafe_allow_html=True)
+        elif isinstance(requirements, list):
+            for req in requirements:
+                st.markdown(f"- {req}")
+        else:
+            st.markdown(str(requirements))
     
     st.info("上記の要件を満たしてSNSに投稿したら、下の「完了」ボタンを押してください！")
     
@@ -1679,4 +1716,3 @@ def display_sns_content(task, task_service, user_id):
 
 if __name__ == "__main__":
     main()
-
